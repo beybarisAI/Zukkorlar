@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Zukkorlar o'yini</title>
+    <style>
+        :root {
+            --bg-color: #0b1120; --card-bg: #1e293b; --primary: #3b82f6;
+            --accent: #10b981; --danger: #ef4444; --text-main: #f1f5f9;
+            --text-muted: #94a3b8; --border: #334155;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+        .app-wrapper { width: 100%; height: 100vh; background: var(--bg-color); position: relative; overflow: hidden; display: flex; flex-direction: column; }
+        @media (min-width: 768px) { .app-wrapper { width: 400px; height: 800px; border-radius: 20px; border: 1px solid var(--border); box-shadow: 0 20px 50px rgba(0,0,0,0.5); max-height: 90vh; } }
+        
+        .screen { display: none; flex-direction: column; padding: 20px; height: 100%; overflow-y: auto; }
+        .screen.active { display: flex; }
+
+        input { width: 100%; padding: 14px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; color: white; margin-bottom: 12px; outline: none; }
+        .btn { width: 100%; padding: 16px; border-radius: 12px; border: none; font-size: 1rem; font-weight: 600; cursor: pointer; transition: 0.2s; margin-top: 10px; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-secondary { background: var(--card-bg); color: var(--text-main); border: 1px solid var(--border); }
+        .btn-outline { background: transparent; border: 1px solid var(--primary); color: var(--primary); margin-top: 15px;}
+        
+        .user-card { background: var(--card-bg); padding: 15px; border-radius: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border); }
+        .timer-bar { width: 100%; height: 6px; background: var(--card-bg); margin: 15px 0; border-radius: 3px; overflow: hidden; }
+        .timer-fill { height: 100%; background: var(--danger); width: 100%; transition: width 1s linear; }
+        
+        .feedback-area { height: 40px; position: relative; display: flex; justify-content: center; align-items: center; }
+        .floating-points { position: absolute; font-weight: bold; font-size: 1.5rem; animation: floatUp 0.8s ease-out forwards; opacity: 0; }
+        @keyframes floatUp { 0% { transform: translateY(0); opacity: 0; } 50% { opacity: 1; } 100% { transform: translateY(-30px); opacity: 0; } }
+        
+        .big-text { font-size: 3rem; font-weight: bold; margin-bottom: 30px; text-align: center; }
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; }
+        
+        #loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); display: flex; justify-content: center; align-items: center; z-index: 100; }
+    </style>
+</head>
+<body>
+
+    <div id="loading-overlay"><h3>• • •</h3></div>
+
+    <div class="app-wrapper">
+        <div id="screen-login" class="screen">
+            <h1 style="text-align:center; color:var(--primary); margin-bottom:20px;">Zukkorlar</h1>
+            <input type="text" id="inp-name" placeholder="Ismingiz">
+            <input type="text" id="inp-surname" placeholder="Familiyangiz">
+            <input type="text" id="inp-class" placeholder="Sinfingiz (9А)">
+            <input type="password" id="inp-pass1" placeholder="Parol o'ylab toping">
+            <input type="password" id="inp-pass2" placeholder="Parolni takrorlang">
+            <button class="btn btn-primary" onclick="app.register()">Ro'xatdan o'tish</button>
+        </div>
+
+        <div id="screen-dashboard" class="screen">
+            <div class="user-card">
+                <div><h3 id="dash-user">...</h3><small id="dash-cls" style="color:var(--text-muted)"></small></div>
+                <div style="text-align:right">⚡ <span id="dash-energy">50</span>/50</div>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-bottom:20px;">
+                <div style="background:var(--card-bg); padding:15px; border-radius:12px; text-align:center">
+                    <div style="font-size:1.5rem; font-weight:bold; color:var(--accent)" id="dash-score">0</div><small>Ball</small>
+                </div>
+                <div style="background:var(--card-bg); padding:15px; border-radius:12px; text-align:center">
+                    <div style="font-size:1.5rem; font-weight:bold; color:var(--primary)" id="dash-rank">#?</div><small>O'rin</small>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="app.startGame()">▶ Boshlash</button>
+            <button class="btn btn-outline" onclick="app.nav('screen-rank')">🏆 Reyting</button>
+            <button class="btn btn-secondary" style="margin-top:auto; font-size: 0.8rem;" onclick="app.logout()">Chiqish</button>
+        </div>
+
+        <div id="screen-rank" class="screen">
+            <h2 style="margin-bottom:20px;">🏆 Zukkorlar</h2>
+            <div id="rank-list"></div>
+            <button class="btn btn-secondary" style="margin-top:auto" onclick="app.nav('screen-dashboard')">Orqaga</button>
+        </div>
+
+        <div id="screen-game" class="screen">
+            <div style="display:flex; justify-content:space-between">
+                <span>№ <span id="q-num">1</span></span>
+                <span style="color:var(--danger)">⏳ <span id="timer-text">10</span>s</span>
+            </div>
+            <div class="timer-bar"><div class="timer-fill" id="timer-fill"></div></div>
+            <div class="feedback-area" id="feedback-container"></div>
+            <div class="big-text" id="q-text">...</div>
+            <div class="options-grid" id="q-options"></div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, set, get, update, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBU7l_5l96HI1yxOOGLpz_iG0xW1gTAEpc",
+            authDomain: "myproject-7f06d.firebaseapp.com",
+            projectId: "myproject-7f06d",
+            storageBucket: "myproject-7f06d.firebasestorage.app",
+            messagingSenderId: "226172119038",
+            appId: "1:226172119038:web:f0cfc8271e7d4e208bc2af",
+            databaseURL: "https://myproject-7f06d-default-rtdb.firebaseio.com"
+        };
+
+        const fbApp = initializeApp(firebaseConfig);
+        const db = getDatabase(fbApp);
+
+        window.app = {
+            user: null,
+            game: { timer: null, time: 10, current: 0 },
+
+            nav: function(id) {
+                document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+                const target = document.getElementById(id);
+                if(target) target.classList.add('active');
+            },
+
+            init: async function() {
+                const savedUserId = localStorage.getItem('mathRankUserId');
+                if (savedUserId) {
+                    try {
+                        const snap = await get(ref(db, 'users/' + savedUserId));
+                        if (snap.exists()) {
+                            this.user = snap.val();
+                            
+                            // Авто-энергия логикасы
+                            const now = Date.now();
+                            const lastUpdate = this.user.lastEnergyUpdate || now;
+                            const waitTime = 5 * 60 * 60 * 1000; 
+
+                            if (this.user.energy < 50 && (now - lastUpdate) >= waitTime) {
+                                this.user.energy = 50;
+                                this.user.lastEnergyUpdate = now;
+                                await update(ref(db, 'users/' + savedUserId), { 
+                                    energy: 50, 
+                                    lastEnergyUpdate: now 
+                                });
+                            }
+
+                            this.updateUI();
+                            this.nav('screen-dashboard');
+                            this.listenRanking();
+                        } else {
+                            this.nav('screen-login');
+                        }
+                    } catch (e) { this.nav('screen-login'); }
+                } else {
+                    this.nav('screen-login');
+                }
+                document.getElementById('loading-overlay').style.display = 'none';
+            },
+
+            register: async function() {
+                const n = document.getElementById('inp-name').value.trim();
+                const s = document.getElementById('inp-surname').value.trim();
+                const c = document.getElementById('inp-class').value.trim();
+                const p1 = document.getElementById('inp-pass1').value;
+                const p2 = document.getElementById('inp-pass2').value;
+
+                if(!n || !s || !c || !p1) return alert("Hammsini to'ltiring");
+                if(p1 !== p2) return alert("Parollar mos emas!");
+
+                const userId = `${n}_${s}`.toLowerCase().replace(/\s/g, '');
+                const userRef = ref(db, 'users/' + userId);
+
+                try {
+                    const snap = await get(userRef);
+                    if(snap.exists()) {
+                        if(snap.val().password === p1) {
+                            this.user = snap.val();
+                        } else { return alert("Kiritilgan parol hato!"); }
+                    } else {
+                        this.user = { 
+                            name: n, surname: s, class: c, 
+                            password: p1, score: 0, energy: 50,
+                            lastEnergyUpdate: Date.now() 
+                        };
+                        await set(userRef, this.user);
+                    }
+                    
+                    localStorage.setItem('mathRankUserId', userId);
+                    this.updateUI();
+                    this.nav('screen-dashboard');
+                    this.listenRanking();
+                } catch(e) { alert("Hato: " + e.message); }
+            },
+
+            updateUI: function() {
+                if(!this.user) return;
+                document.getElementById('dash-user').innerText = (this.user.name || '') + " " + (this.user.surname || '');
+                document.getElementById('dash-cls').innerText = (this.user.class || '') + " SINF";
+                document.getElementById('dash-score').innerText = this.user.score || 0;
+                document.getElementById('dash-energy').innerText = this.user.energy || 0;
+            },
+
+            listenRanking: function() {
+                onValue(ref(db, 'users'), (snap) => {
+                    const data = snap.val();
+                    if(!data) return;
+                    let list = Object.values(data).sort((a,b) => (b.score || 0) - (a.score || 0));
+                    let html = "";
+                    list.forEach((u, i) => {
+                        const isMe = (this.user && u.name === this.user.name && u.surname === this.user.surname);
+                        if(isMe) document.getElementById('dash-rank').innerText = "#" + (i+1);
+                        
+                        // Қауіпсіздік: surname және class бос болса қате бермейді
+                        const safeSurname = u.surname ? u.surname.charAt(0) + "." : "";
+                        const safeClass = u.class || "?";
+                        
+                        html += `<div class="user-card" style="${isMe ? 'border-color:var(--primary); border-width:2px' : ''}">
+                            <span>${i+1}. ${u.name || 'Аноним'} ${safeSurname} (${safeClass})</span>
+                            <span style="color:var(--accent); font-weight:bold">${u.score || 0}</span>
+                        </div>`;
+                    });
+                    document.getElementById('rank-list').innerHTML = html;
+                });
+            },
+
+            startGame: function() {
+                if((this.user.energy || 0) <= 0) return alert("Energiyangiz tugadi! 5 soat kuting.");
+                this.nav('screen-game');
+                this.nextQuestion();
+            },
+
+            nextQuestion: function() {
+                if((this.user.energy || 0) <= 0) return this.stopGame();
+                this.game.current++;
+                document.getElementById('q-num').innerText = this.game.current;
+
+                let a, b, res, op;
+                let r = Math.random();
+                if(r < 0.25) { a = Math.floor(Math.random()*9)+2; b = Math.floor(Math.random()*9)+2; res = a*b; op = '×'; }
+                else if(r < 0.5) { b = Math.floor(Math.random()*8)+2; res = Math.floor(Math.random()*9)+1; a = res*b; op = '÷'; }
+                else if(r < 0.75) { a = Math.floor(Math.random()*60)+10; b = Math.floor(Math.random()*60)+10; res = a+b; op = '+'; }
+                else { a = Math.floor(Math.random()*70)+20; b = Math.floor(Math.random()*a); res = a-b; op = '-'; }
+
+                document.getElementById('q-text').innerText = `${a} ${op} ${b}`;
+                let opts = [res, res+2, res-3, res+10].sort(() => Math.random()-0.5);
+                document.getElementById('q-options').innerHTML = opts.map(o => `<button class="btn btn-secondary" onclick="app.check(${o}, ${res})">${o}</button>`).join('');
+                this.startTimer();
+            },
+
+            startTimer: function() {
+                clearInterval(this.game.timer);
+                this.game.time = 10;
+                const fill = document.getElementById('timer-fill');
+                const txt = document.getElementById('timer-text');
+                this.game.timer = setInterval(() => {
+                    this.game.time--;
+                    if(txt) txt.innerText = this.game.time;
+                    if(fill) fill.style.width = (this.game.time * 10) + '%';
+                    if(this.game.time <= 0) this.check(-999, 0);
+                }, 1000);
+            },
+
+            check: async function(val, cor) {
+                clearInterval(this.game.timer);
+                
+                let updates = {};
+                if (this.user.energy === 50) {
+                    this.user.lastEnergyUpdate = Date.now();
+                    updates.lastEnergyUpdate = this.user.lastEnergyUpdate;
+                }
+
+                this.user.energy--;
+                let p = (val === cor) ? 5 : -1;
+                this.user.score += p;
+                this.showFeedback(p);
+                this.updateUI();
+
+                const userId = `${this.user.name}_${this.user.surname}`.toLowerCase().replace(/\s/g, '');
+                updates.score = this.user.score;
+                updates.energy = this.user.energy;
+                
+                update(ref(db, 'users/' + userId), updates);
+                
+                setTimeout(() => this.nextQuestion(), 500);
+            },
+
+            showFeedback: function(pts) {
+                const container = document.getElementById('feedback-container');
+                if(!container) return;
+                const el = document.createElement('div');
+                el.className = 'floating-points';
+                el.innerText = pts > 0 ? `+${pts}` : pts;
+                el.style.color = pts > 0 ? 'var(--accent)' : 'var(--danger)';
+                container.appendChild(el);
+                setTimeout(() => el.remove(), 800);
+            },
+
+            logout: function() {
+                localStorage.removeItem('mathRankUserId');
+                location.reload();
+            },
+
+            stopGame: function() { clearInterval(this.game.timer); this.nav('screen-dashboard'); }
+        };
+
+        window.app.init();
+    </script>
+</body>
+</html>
