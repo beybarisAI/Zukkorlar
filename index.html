@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="kk">
+<html lang="uz">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -85,7 +85,7 @@
 
     <div class="app-wrapper">
         <div id="screen-login" class="screen">
-            <h1 style="text-align:center;  color:var(--primary); margin-bottom:40px; font-size: 30px;"><strong>LOGIN</strong></h1>
+            <h1 style="text-align:center; color:var(--primary); margin-bottom:40px; font-size: 30px;"><strong>LOGIN</strong></h1>
             <div style="flex-grow: 1;">
                 <input type="text" id="inp-name" placeholder="Ismingiz">
                 <input type="text" id="inp-surname" placeholder="Familiyangiz">
@@ -128,15 +128,11 @@
         </div>
 
         <div id="screen-agency" class="screen">
-            <h2 style="margin-bottom:10px;"></h2>
-            <p style="color:var(--text-muted); margin-bottom:20px; font-size:0.9rem;">
-            </p>
-            
+            <h2 style="margin-bottom:10px;">Xabar yuborish</h2>
             <div style="flex-grow: 1;">
                 <textarea id="agency-msg" placeholder="Xabaringizni shu yerga yozing..."></textarea>
             </div>
-            
-            <button class="btn btn-primary" id="btn-send-tg" onclick="app.sendToTelegram()"> Yuborish</button>
+            <button class="btn btn-primary" id="btn-send-tg" onclick="app.sendToTelegram()">📤 Yuborish</button>
             <div class="bottom-actions">
                 <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')">Orqaga</button>
             </div>
@@ -171,7 +167,6 @@
         const fbApp = initializeApp(firebaseConfig);
         const db = getDatabase(fbApp);
 
-        // TELEGRAM CONFIG
         const TG_BOT_TOKEN = "8356151933:AAFvhr6RQSRtkbf0maS3CMIDsjL3Y2Fy3Z0";
         const TG_CHAT_ID = "1934206536";
 
@@ -183,7 +178,6 @@
                 document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
                 const target = document.getElementById(id);
                 if(target) target.classList.add('active');
-                if(target) target.scrollTop = 0;
             },
 
             init: async function() {
@@ -210,13 +204,9 @@
                             this.updateUI();
                             this.nav('screen-dashboard');
                             this.listenRanking();
-                        } else {
-                            this.nav('screen-login');
-                        }
+                        } else { this.nav('screen-login'); }
                     } catch (e) { this.nav('screen-login'); }
-                } else {
-                    this.nav('screen-login');
-                }
+                } else { this.nav('screen-login'); }
                 document.getElementById('loading-overlay').style.display = 'none';
             },
 
@@ -243,6 +233,7 @@
                         this.user = { 
                             name: n, surname: s, class: c, 
                             password: p1, score: 0, energy: 50,
+                            correctAnswers: 0, wrongAnswers: 0,
                             lastEnergyUpdate: Date.now() 
                         };
                         await set(userRef, this.user);
@@ -274,10 +265,8 @@
                         if(isMe) document.getElementById('dash-rank').innerText = "#" + (i+1);
                         
                         const safeSurname = u.surname ? u.surname.charAt(0) + "." : "";
-                        const safeClass = u.class || "?";
-                        
                         html += `<div class="user-card" style="${isMe ? 'border-color:var(--primary); border-width:2px' : ''}">
-                            <span>${i+1}. ${u.name || 'Аноним'} ${safeSurname} (${safeClass})</span>
+                            <span>${i+1}. ${u.name || 'Аноним'} ${safeSurname} (${u.class || '?'})</span>
                             <span style="color:var(--accent); font-weight:bold">${u.score || 0}</span>
                         </div>`;
                     });
@@ -287,6 +276,7 @@
 
             startGame: function() {
                 if((this.user.energy || 0) <= 0) return alert("Energiyangiz tugadi! 5 soat kuting.");
+                this.game.current = 0;
                 this.nav('screen-game');
                 this.nextQuestion();
             },
@@ -325,30 +315,43 @@
             check: async function(val, cor) {
                 clearInterval(this.game.timer);
                 
-                let updates = {};
-                if (this.user.energy === 50) {
+                let isCorrect = (val === cor);
+                let p = isCorrect ? 5 : -1;
+                
+                let cCount = (this.user.correctAnswers || 0) + (isCorrect ? 1 : 0);
+                let wCount = (this.user.wrongAnswers || 0) + (isCorrect ? 0 : 1);
+
+                let oldEnergy = this.user.energy;
+                this.user.energy = Math.max(0, (this.user.energy || 0) - 1);
+                this.user.score += p;
+                
+                let updates = {
+                    score: this.user.score,
+                    energy: this.user.energy,
+                    correctAnswers: cCount,
+                    wrongAnswers: wCount
+                };
+
+                // Энергия толтыру таймерін сақтандырумен қосу
+                if (oldEnergy >= 50 && this.user.energy < 50) {
                     this.user.lastEnergyUpdate = Date.now();
                     updates.lastEnergyUpdate = this.user.lastEnergyUpdate;
                 }
 
-                this.user.energy--;
-                let p = (val === cor) ? 5 : -1;
-                this.user.score += p;
                 this.showFeedback(p);
                 this.updateUI();
 
                 const userId = `${this.user.name}_${this.user.surname}`.toLowerCase().replace(/\s/g, '');
-                updates.score = this.user.score;
-                updates.energy = this.user.energy;
-                
                 update(ref(db, 'users/' + userId), updates);
+
+                this.user.correctAnswers = cCount;
+                this.user.wrongAnswers = wCount;
                 
-                setTimeout(() => this.nextQuestion(), 500);
+                setTimeout(() => { if(this.user.energy > 0) this.nextQuestion(); else this.stopGame(); }, 500);
             },
 
             showFeedback: function(pts) {
                 const container = document.getElementById('feedback-container');
-                if(!container) return;
                 const el = document.createElement('div');
                 el.className = 'floating-points';
                 el.innerText = pts > 0 ? `+${pts}` : pts;
@@ -357,50 +360,30 @@
                 setTimeout(() => el.remove(), 800);
             },
 
-            // --- TELEGRAM SENDING FUNCTION ---
             sendToTelegram: async function() {
                 const msgInput = document.getElementById('agency-msg');
                 const msg = msgInput.value.trim();
                 const btn = document.getElementById('btn-send-tg');
 
-                if (!msg) {
-                    alert("Iltimos, avval xabar yozing!");
-                    return;
-                }
+                if (!msg) return alert("Iltimos, xabar yozing!");
 
                 btn.innerText = "Yuborilmoqda...";
                 btn.disabled = true;
 
-                // User details format
                 const userInfo = `👤 <b>${this.user.name} ${this.user.surname}</b>\n🏫 Sinf: ${this.user.class}`;
                 const finalMessage = `📩 <b>Yangi xabar:</b>\n\n${userInfo}\n\n📝 <b>Xabar:</b>\n${msg}`;
 
                 try {
-                    const url = `https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`;
-                    const response = await fetch(url, {
+                    await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
                         method: 'POST',
                         headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify({
-                            chat_id: TG_CHAT_ID,
-                            text: finalMessage,
-                            parse_mode: 'HTML'
-                        })
+                        body: JSON.stringify({ chat_id: TG_CHAT_ID, text: finalMessage, parse_mode: 'HTML' })
                     });
-
-                    if (response.ok) {
-                        alert("Xabaringiz muvaffaqiyatli yuborildi!");
-                        msgInput.value = ""; // Clear input
-                        this.nav('screen-dashboard');
-                    } else {
-                        alert("Xatolik yuz berdi. Keyinroq urinib ko'ring.");
-                    }
-                } catch (error) {
-                    console.error(error);
-                    alert("Internet bilan aloqa yo'q!");
-                } finally {
-                    btn.innerText = "📤 Yuborish";
-                    btn.disabled = false;
-                }
+                    alert("Xabaringiz muvaffaqiyatli yuborildi!");
+                    msgInput.value = ""; 
+                    this.nav('screen-dashboard');
+                } catch (error) { alert("Xatolik yuz berdi!"); } 
+                finally { btn.innerText = "📤 Yuborish"; btn.disabled = false; }
             },
 
             logout: function() {
@@ -408,7 +391,11 @@
                 location.reload();
             },
 
-            stopGame: function() { clearInterval(this.game.timer); this.nav('screen-dashboard'); }
+            stopGame: function() { 
+                clearInterval(this.game.timer); 
+                alert("O'yin tugadi!");
+                this.nav('screen-dashboard'); 
+            }
         };
 
         window.app.init();
