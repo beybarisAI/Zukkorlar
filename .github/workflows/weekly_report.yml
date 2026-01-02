@@ -1,1 +1,34 @@
+name: Weekly Math Ranking Report
+
+on:
+  schedule:
+    # Әр жексенбі күні сағат 15:00 UTC (Ташкент/Астана уақытымен 20:00)
+    - cron: '0 15 * * 0'
+  workflow_dispatch:
+    # Бұл бөлім GitHub-та "Run workflow" батырмасын қолмен басуға мүмкіндік береді
+
+jobs:
+  send-report:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Репозиторийдегі файлдарды жүктеу
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Node.js ортасын орнату
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # 3. Қажетті кітапханаларды (axios) орнату
+      - name: Install dependencies
+        run: |
+          npm init -y
+          npm install axios
+
+      # 4. report.js скриптін іске қосу
+      - name: Run reporting script
+        run: node report.js
 
