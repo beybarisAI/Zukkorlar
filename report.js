@@ -7,12 +7,12 @@ const TG_CHAT_ID = "1934206536";
 
 async function generateWeeklyReport() {
     try {
-        console.log("Деректер жиналуда...");
+        console.log("Malumotlar yig'ilmoqda...");
         const response = await axios.get(FIREBASE_URL);
         const users = response.data;
 
         if (!users) {
-            console.log("Ешқандай қолданушы табылмады.");
+            console.log("Hechqanday ishtirokchi topilmadi!");
             return;
         }
 
@@ -22,7 +22,7 @@ async function generateWeeklyReport() {
         // Рейтинг жалпы балл (score) бойынша жасалады
         userList.sort((a, b) => (b.score || 0) - (a.score || 0));
 
-        let reportMessage = "📊 <b>АПТАЛЫҚ ҚОРЫТЫНДЫ (РЕЙТИНГ)</b>\n";
+        let reportMessage = "📊 <b>HAFTALIK YAKUN</b>\n";
         reportMessage += "--------------------------------\n\n";
 
         userList.forEach((user, index) => {
@@ -44,12 +44,12 @@ async function generateWeeklyReport() {
             else medal = `${index + 1}. `;
 
             reportMessage += `${medal}<b>${name} ${surname}</b> (${className})\n`;
-            reportMessage += `   ├ Балл: <b>${score}</b>\n`;
-            reportMessage += `   └ Жауаптар: ${correct}✅ | ${wrong}❌ (${accuracy}%)\n\n`;
+            reportMessage += `   ├ Ball: <b>${score}</b>\n`;
+            reportMessage += `   └ Javoblar: ${correct}✅ | ${wrong}❌ (${accuracy}%)\n\n`;
         });
 
         reportMessage += "--------------------------------\n";
-        reportMessage += "🔥 <i>Барлық қатысушыларға рақмет! Жаңа апта - жаңа мүмкіндік!</i>";
+        reportMessage += "🔥 <i>Bu bugungi haftaning yakuniy statistikasi</i>";
 
         // Telegram-ға жіберу
         await axios.post(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
@@ -58,10 +58,10 @@ async function generateWeeklyReport() {
             parse_mode: 'HTML'
         });
 
-        console.log("Есеп сәтті жіберілді!");
+        console.log("Hisob muvoffiyaqatli yuborildi!");
 
     } catch (error) {
-        console.error("Қате орын алды:", error.message);
+        console.error("Xatolik yuz berdi:", error.message);
     }
 }
 
