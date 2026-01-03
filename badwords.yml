@@ -1,0 +1,145 @@
+# Zukkorlar O'yini - Extended Blacklist (600+ variations covered)
+# roots: сөздің ішінде кездессе блоктайды (мысалы: "pizd" -> "pizdec")
+# full_words: тек жеке сөз болса блоктайды (мысалы: "am" менің атым...)
+
+roots:
+  # --- Central Asian (KZ/UZ) Roots ---
+  - jalap
+  - jalab
+  - jallap
+  - jallab
+  - sikt
+  - siqt
+  - sikey
+  - siqay
+  - siktir
+  - siqtir
+  - fohish
+  - poxish
+  - qanjiq
+  - kanchiq
+  - manjalaq
+  - harom
+  - xarom
+  - dalbay
+  - dalbi
+  - qotaq
+  - kotak
+  - qotaqbash
+  - onang
+  - onas
+  - aming
+  - amini
+  - kotyala
+  - sska
+  - amshiq
+  - skat
+  - siqat
+  - koton
+  - xaromi
+  - gandon
+  - g'andon
+
+  # --- Russian Roots (Roots cover 1000+ forms) ---
+  - пизд
+  - хуе
+  - хуи
+  - ебат
+  - ебал
+  - ебан
+  - ебл
+  - бля
+  - сучк
+  - ганд
+  - манд
+  - говн
+  - гонд
+  - шлюх
+  - мраз
+  - падл
+  - выбл
+  - дрищ
+  - херн
+  - хуй
+  - пид
+  - ублюд
+  - мудак
+  - мудач
+  - дроч
+  - залуп
+  - сука
+  - сук
+  - pizd
+  - xuy
+  - huy
+  - ebat
+  - ebal
+  - eban
+  - blyat
+  - bliat
+  - bl9
+  - suka
+  - mraz
+  - shlyu
+  - mudak
+  - gavno
+  - heras
+
+  # --- English Roots ---
+  - fuck
+  - shit
+  - bitch
+  - dick
+  - pussy
+  - bastard
+  - asshole
+  - faggot
+  - slut
+  - whore
+  - dumb
+  - suck
+  - nigger
+  - nigga
+
+  # --- Slang & Insults ---
+  - lox
+  - loh
+  - daun
+  - tupa
+  - tupoy
+  - degan
+  - dibil
+  - debil
+  - korochen
+  - malades
+  - qanji
+
+full_words:
+  # --- Толық сөздер (Context Sensitive) ---
+  - am
+  - kut
+  - ko't
+  - kot
+  - кут
+  - ам
+  - гей
+  - gay
+  - лох
+  - лох
+  - чуш
+  - chush
+  - lox
+  - loxlar
+  - malades
+  - dibil
+  - daun
+  - mal
+  - mol
+  - qoy
+  - qo'y
+  - cho'chqa
+  - shoshqa
+  - it
+  - kalla
+  - kallaqo'y
+  - kallaqoy
