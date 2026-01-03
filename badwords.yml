@@ -5,6 +5,27 @@
 roots:
   # --- Central Asian (KZ/UZ) Roots ---
   - jalap
+  - qotoq
+  - om
+  - am
+  - sigil
+  - qo'toq
+  - onangni
+  - sigemin
+  - sig
+  - chort
+  - gey
+  - opangni
+  - buvingni
+  - bubingni
+  - bla
+  - blat
+  - zaybal
+  - zaynab
+  - anangdi
+  - anandi
+  - apangdi
+  - apandi
   - jalab
   - jallap
   - jallab
@@ -42,6 +63,24 @@ roots:
 
   # --- Russian Roots (Roots cover 1000+ forms) ---
   - пизд
+  - анаңды
+  - сігеиін
+  - сігемін
+  - қотақ
+  - котак
+  - зайбал
+  - чорт
+  - апаңды
+  - енеңді
+  - сіг
+  - сік
+  - кот
+  - көт
+  - шуметек
+  - шешеңді
+  - шешенді
+  - шеш
+  - ене
   - хуе
   - хуи
   - ебат
@@ -111,7 +150,7 @@ roots:
   - dibil
   - debil
   - korochen
-  - malades
+  - geyy
   - qanji
 
 full_words:
