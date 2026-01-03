@@ -1,0 +1,17 @@
+name: Clean Firebase Chat
+on:
+  schedule:
+    # Әр 24 сағат сайын автоматты түрде іске қосылады
+    - cron: '0 0 * * *'
+  workflow_dispatch: # Қолмен де іске қосуға мүмкіндік береді
+
+jobs:
+  clean-db:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clear Old Chat Messages
+        run: |
+          # Firebase-ке сұрау жіберу (curl арқылы 24 сағаттан ескілерін өшіру)
+          # Бұл жерде біз чатты толық тазалау немесе скрипт арқылы сүзуді жасаймыз.
+          # Ең оңайы - чатты әр 24 сағатта нөлдеп отыру:
+          curl -X DELETE "https://myproject-7f06d-default-rtdb.firebaseio.com/chat.json?access_token=${{ secrets.FIREBASE_SERVICE_ACCOUNT_TOKEN }}"
