@@ -13,50 +13,27 @@
             --accent: #10b981; --danger: #ef4444; --text-main: #f1f5f9;
             --text-muted: #94a3b8; --border: #334155;
         }
-        /* Барлық элементтерге Poppins шрифтін қолдану */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         
         body { 
             background-color: var(--bg-color); 
             color: var(--text-main); 
-            height: 100vh; 
-            height: 100dvh; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
+            height: 100vh; height: 100dvh; 
+            display: flex; justify-content: center; align-items: center; 
             overflow: hidden; 
         }
 
         .app-wrapper { 
-            width: 100%; 
-            height: 100%; 
+            width: 100%; height: 100%; 
             background: var(--bg-color); 
-            position: relative; 
-            display: flex; 
-            flex-direction: column; 
-            overflow: hidden;
+            position: relative; display: flex; flex-direction: column; overflow: hidden;
         }
 
         @media (min-width: 768px) { 
-            .app-wrapper { 
-                width: 400px; 
-                height: 90vh; 
-                border-radius: 24px; 
-                border: 1px solid var(--border); 
-                box-shadow: 0 20px 50px rgba(0,0,0,0.5); 
-            } 
+            .app-wrapper { width: 400px; height: 90vh; border-radius: 24px; border: 1px solid var(--border); box-shadow: 0 20px 50px rgba(0,0,0,0.5); } 
         }
         
-        .screen { 
-            display: none; 
-            flex-direction: column; 
-            padding: 20px; 
-            height: 100%; 
-            width: 100%;
-            overflow-y: auto; 
-            -webkit-overflow-scrolling: touch;
-        }
-        
+        .screen { display: none; flex-direction: column; padding: 20px; height: 100%; width: 100%; overflow-y: auto; -webkit-overflow-scrolling: touch; }
         .screen.active { display: flex; }
 
         .bottom-actions { margin-top: auto; padding-top: 20px; }
@@ -64,20 +41,14 @@
         input, textarea { width: 100%; padding: 14px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; color: white; margin-bottom: 12px; outline: none; font-size: 1rem; }
         textarea { height: 120px; resize: none; }
         
-        /* Батырмалардың негізгі стилі */
         .btn { width: 100%; padding: 16px; border-radius: 12px; border: none; font-size: 1rem; font-weight: 600; cursor: pointer; transition: 0.2s; margin-top: 10px; flex-shrink: 0; display: flex; justify-content: center; align-items: center; gap: 10px; }
         .btn:active { transform: scale(0.98); }
         .btn-primary { background: var(--primary); color: white; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); }
-        
-        /* Екінші деңгейлі батырмалар (Profil, Reyting) үшін біркелкі стиль */
         .btn-secondary { background: var(--card-bg); color: var(--text-main); border: 1px solid transparent; }
         .btn-secondary:hover { border-color: var(--border); }
-
-        /* Админ батырмасы үшін арнайы стиль */
         .btn-admin { background: var(--card-bg); color: var(--accent); border: 1px solid var(--accent); }
         
         .user-card { background: var(--card-bg); padding: 20px; border-radius: 16px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        
         .profile-item { display: flex; align-items: center; margin-bottom: 12px; font-size: 1.05rem; }
         .profile-item i { width: 30px; text-align: center; margin-right: 10px; font-size: 1.2rem; }
         
@@ -95,59 +66,29 @@
         .spinner { border: 4px solid var(--card-bg); border-top: 4px solid var(--primary); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* ================================================================= */
-        /* === ТЕК DASHBOARD ЭКРАНЫ ҮШІН 20% КІШІРЕЙТУ СТИЛЬДЕРІ === */
-        /* ================================================================= */
-        
-        #screen-dashboard {
-            padding: 15px !important; /* Экран шетін қысу */
-        }
-        
-        /* Пайдаланушы картасын жинақы ету */
-        #screen-dashboard .user-card {
-            padding: 12px 15px !important;
-            margin-bottom: 12px !important;
-            border-radius: 12px !important;
-        }
-        #screen-dashboard #dash-user {
-            font-size: 1.1rem !important;
-        }
-        #screen-dashboard #dash-cls {
-            font-size: 0.85rem !important;
-        }
-        #screen-dashboard i.fa-bolt {
-            font-size: 0.9rem !important;
-        }
-        #screen-dashboard #dash-energy {
-            font-size: 1rem !important;
-        }
+        /* --- DASHBOARD STYLES --- */
+        #screen-dashboard { padding: 15px !important; }
+        #screen-dashboard .user-card { padding: 12px 15px !important; margin-bottom: 12px !important; border-radius: 12px !important; }
+        #screen-dashboard #dash-user { font-size: 1.1rem !important; }
+        #screen-dashboard #dash-cls { font-size: 0.85rem !important; }
+        #screen-dashboard i.fa-bolt { font-size: 0.9rem !important; }
+        #screen-dashboard #dash-energy { font-size: 1rem !important; }
+        #screen-dashboard > div[style*="grid"] { gap: 10px !important; margin-bottom: 15px !important; }
+        #screen-dashboard > div[style*="grid"] > div { padding: 12px !important; border-radius: 12px !important; }
+        #screen-dashboard #dash-score, #screen-dashboard #dash-rank { font-size: 1.6rem !important; }
+        #screen-dashboard .btn { padding: 12px !important; font-size: 0.95rem !important; margin-top: 8px !important; border-radius: 10px !important; }
+        #screen-dashboard .bottom-actions { padding-top: 10px !important; }
 
-        /* Ұпай мен Рейтинг блоктарын кішірейту */
-        #screen-dashboard > div[style*="grid"] {
-            gap: 10px !important;
-            margin-bottom: 15px !important;
-        }
-        #screen-dashboard > div[style*="grid"] > div {
-            padding: 12px !important;
-            border-radius: 12px !important;
-        }
-        #screen-dashboard #dash-score, 
-        #screen-dashboard #dash-rank {
-            font-size: 1.6rem !important; /* Бұрын 2rem еді */
-        }
-        
-        /* Батырмаларды (Button) жинақы ету */
-        #screen-dashboard .btn {
-            padding: 12px !important; /* Бұрын 16px еді */
-            font-size: 0.95rem !important;
-            margin-top: 8px !important;
-            border-radius: 10px !important;
-        }
-        
-        /* Төменгі (Chiqish) бөлімін сәл көтеру */
-        #screen-dashboard .bottom-actions {
-            padding-top: 10px !important;
-        }
+        /* --- CHAT STYLES --- */
+        #chat-container { flex-grow: 1; background: #0f172a; border-radius: 16px; border: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; margin-bottom: 12px; }
+        #chat-messages { flex-grow: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; scroll-behavior: smooth; }
+        .msg-item { background: var(--card-bg); padding: 10px 14px; border-radius: 12px; max-width: 90%; animation: fadeIn 0.3s ease; border: 1px solid transparent; }
+        .msg-item.my-msg { align-self: flex-end; background: rgba(59, 130, 246, 0.2); border-color: rgba(59, 130, 246, 0.3); }
+        .msg-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+        .msg-user { font-weight: 700; color: var(--primary); font-size: 0.75rem; }
+        .msg-time { font-size: 0.65rem; color: var(--text-muted); }
+        .msg-text { font-size: 0.9rem; word-wrap: break-word; line-height: 1.4; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
     </style>
 </head>
@@ -190,6 +131,7 @@
             </div>
             
             <button class="btn btn-primary" onclick="app.startGame()"><i class="fa-solid fa-play"></i> Boshlash</button>
+            <button class="btn btn-secondary" style="border:0px solid var(--primary); color" onclick="app.nav('screen-chat')"><i class="fa-solid fa-comments"></i> Global Chat</button>
             
             <button class="btn btn-secondary" onclick="app.openProfile()"><i class="fa-solid fa-user-circle"></i> Profil</button>
             <button class="btn btn-secondary" onclick="app.nav('screen-rank')"><i class="fa-solid fa-trophy"></i> Reyting</button>
@@ -200,65 +142,45 @@
             </div>
         </div>
 
+        <div id="screen-chat" class="screen">
+            <h3 style="margin-bottom:15px; text-align:center; color:var(--primary)"><i class="fa-solid fa-comments"></i> Global Chat</h3>
+            <div id="chat-container">
+                <div id="chat-messages">
+                    <div style="text-align:center; color:gray; padding:20px;">Yuklanmoqda...</div>
+                </div>
+            </div>
+            <div style="display:flex; gap:10px;">
+                <input type="text" id="chat-inp" placeholder="Xabar yozing..." style="margin-bottom:0; flex-grow:1;">
+                <button class="btn btn-primary" onclick="app.sendMsg()" style="width:50px; margin-top:0; padding:0;"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+            <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')" style="margin-top:15px;"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
+        </div>
+
         <div id="screen-profile" class="screen">
-            <h2 style="margin-bottom:25px; text-align:center; font-size: 1.8rem;"><i class="fa-solid fa-id-badge" style="color:var(--primary)"></i> Profilim</h2>
+            <h4 style="margin-bottom:25px; text-align:center; font-size: 1.3rem;"><i class="fa-solid fa-id-badge" style="color:var(--primary)"></i> PROFILIM</h4>
             <div class="user-card" style="display:block; padding: 25px;">
-                
-                <div class="profile-item">
-                    <i class="fa-solid fa-user" style="color:var(--primary)"></i>
-                    <span>Ism: <strong id="prof-name" style="color:white; margin-left:8px;">...</strong></span>
-                </div>
-                
-                <div class="profile-item">
-                    <i class="fa-solid fa-graduation-cap" style="color:var(--text-muted)"></i>
-                    <span>Sinf: <strong id="prof-class" style="color:white; margin-left:8px;">...</strong></span>
-                </div>
-
+                <div class="profile-item"><i class="fa-solid fa-user" style="color:var(--primary)"></i><span>Ism: <strong id="prof-name" style="color:white; margin-left:8px;">...</strong></span></div>
+                <div class="profile-item"><i class="fa-solid fa-graduation-cap" style="color:var(--text-muted)"></i><span>Sinf: <strong id="prof-class" style="color:white; margin-left:8px;">...</strong></span></div>
                 <hr style="border:0; border-top:1px solid var(--border); margin:20px 0; opacity: 0.5;">
-                
-                <div class="profile-item">
-                    <i class="fa-solid fa-star" style="color:#fbbf24"></i>
-                    <span>Jami ball: <strong id="prof-score" style="color:#fbbf24; margin-left:8px; font-size: 1.2rem;">0</strong></span>
-                </div>
-
-                <div class="profile-item">
-                    <i class="fa-solid fa-circle-check" style="color:var(--accent)"></i>
-                    <span>To'g'ri javoblar: <strong id="prof-correct" style="color:var(--accent); margin-left:8px;">0</strong></span>
-                </div>
-
-                <div class="profile-item">
-                    <i class="fa-solid fa-circle-xmark" style="color:var(--danger)"></i>
-                    <span>Noto'g'ri javoblar: <strong id="prof-wrong" style="color:var(--danger); margin-left:8px;">0</strong></span>
-                </div>
-
-                <div class="profile-item" style="margin-top: 20px;">
-                    <i class="fa-solid fa-clock" style="color:var(--text-muted)"></i>
-                    <span>Energiya to'lishiga: <strong id="prof-energy-timer" style="color:var(--text-muted); font-size:0.95rem; margin-left:8px;">...</strong></span>
-                </div>
-
+                <div class="profile-item"><i class="fa-solid fa-star" style="color:#fbbf24"></i><span>Jami ball: <strong id="prof-score" style="color:#fbbf24; margin-left:8px; font-size: 1.2rem;">0</strong></span></div>
+                <div class="profile-item"><i class="fa-solid fa-circle-check" style="color:var(--accent)"></i><span>To'g'ri javoblar: <strong id="prof-correct" style="color:var(--accent); margin-left:8px;">0</strong></span></div>
+                <div class="profile-item"><i class="fa-solid fa-circle-xmark" style="color:var(--danger)"></i><span>Noto'g'ri javoblar: <strong id="prof-wrong" style="color:var(--danger); margin-left:8px;">0</strong></span></div>
+                <div class="profile-item" style="margin-top: 20px;"><i class="fa-solid fa-clock" style="color:var(--text-muted)"></i><span>Energiya to'lishiga: <strong id="prof-energy-timer" style="color:var(--text-muted); font-size:0.95rem; margin-left:8px;">...</strong></span></div>
             </div>
-            <div class="bottom-actions">
-                <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
-            </div>
+            <div class="bottom-actions"><button class="btn btn-secondary" onclick="app.nav('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i> Orqaga</button></div>
         </div>
 
         <div id="screen-rank" class="screen">
-            <h2 style="margin-bottom:25px; text-align: center; font-size: 1.8rem;"><i class="fa-solid fa-ranking-star" style="color: #fbbf24;"></i> Reyting</h2>
+            <h2 style="margin-bottom:25px; text-align: center; font-size: 1.4rem;"><i class="fa-solid fa-ranking-star" style="color: #fbbf24;"></i> REYTING</h2>
             <div id="rank-list" style="flex-grow: 1;"></div>
-            <div class="bottom-actions">
-                <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
-            </div>
+            <div class="bottom-actions"><button class="btn btn-secondary" onclick="app.nav('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i> Orqaga</button></div>
         </div>
 
         <div id="screen-agency" class="screen">
-            <h2 style="margin-bottom:20px; text-align: center;"><i class="fa-solid fa-paper-plane" style="color:var(--primary)"></i> Xabar yuborish</h2>
-            <div style="flex-grow: 1;">
-                <textarea id="agency-msg" placeholder="Xabaringizni shu yerga yozing..."></textarea>
-            </div>
+            <h3 style="margin-bottom:20px; text-align: center;"><i class="fa-solid fa-paper-plane" style="color:var(--primary)"></i> Xabar yuborish</h3>
+            <div style="flex-grow: 1;"><textarea id="agency-msg" placeholder="Xabaringizni shu yerga yozing..."></textarea></div>
             <button class="btn btn-primary" id="btn-send-tg" onclick="app.sendToTelegram()"><i class="fa-solid fa-share"></i> Yuborish</button>
-            <div class="bottom-actions">
-                <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
-            </div>
+            <div class="bottom-actions"><button class="btn btn-secondary" onclick="app.nav('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i> Orqaga</button></div>
         </div>
 
         <div id="screen-game" class="screen">
@@ -275,26 +197,27 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, set, get, update, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getDatabase, ref, set, get, update, onValue, push, serverTimestamp, query, limitToLast } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBU7l_5l96HI1yxOOGLpz_iG0xW1gTAEpc",
             authDomain: "myproject-7f06d.firebaseapp.com",
             projectId: "myproject-7f06d",
-            storageBucket: "myproject-7f06d.firebasestorage.app",
-            messagingSenderId: "226172119038",
-            appId: "1:226172119038:web:f0cfc8271e7d4e208bc2af",
             databaseURL: "https://myproject-7f06d-default-rtdb.firebaseio.com"
         };
 
         const fbApp = initializeApp(firebaseConfig);
         const db = getDatabase(fbApp);
 
+        // --- GITHUB RAW URL ---
+        const BADWORDS_URL = "https://raw.githubusercontent.com/beybarisAI/Zukkorlar/main/badwords.yml";
+
         const TG_BOT_TOKEN = "8356151933:AAFvhr6RQSRtkbf0maS3CMIDsjL3Y2Fy3Z0";
         const TG_CHAT_ID = "1934206536";
 
         window.app = {
             user: null,
+            blacklist: { roots: [], full_words: [] },
             game: { timer: null, time: 10, current: 0 },
 
             nav: function(id) {
@@ -304,6 +227,28 @@
             },
 
             init: async function() {
+                // 1. Blacklist (YAML) loading
+                try {
+                    const resp = await fetch(BADWORDS_URL);
+                    if(resp.ok) {
+                        const yamlText = await resp.text();
+                        let section = "";
+                        yamlText.split('\n').forEach(line => {
+                            const l = line.trim();
+                            if(l.startsWith('roots:')) section = "roots";
+                            else if(l.startsWith('full_words:')) section = "full_words";
+                            else if(l.startsWith('-')) {
+                                const word = l.replace('-', '').trim().toLowerCase();
+                                if(section && word) this.blacklist[section].push(word);
+                            }
+                        });
+                        console.log("Blacklist yuklandi: ", this.blacklist.roots.length + " ta roots");
+                    } else {
+                        console.warn("GitHub faylni o'qiy olmadi (Private repo?)");
+                    }
+                } catch(e) { console.warn("Badwords xatosi:", e); }
+
+                // 2. Auth Check
                 const savedUserId = localStorage.getItem('mathRankUserId');
                 if (savedUserId) {
                     try {
@@ -311,6 +256,7 @@
                         if (snap.exists()) {
                             this.user = snap.val();
                             
+                            // Energy Check
                             const now = Date.now();
                             const lastUpdate = this.user.lastEnergyUpdate || now;
                             const waitTime = 5 * 60 * 60 * 1000; 
@@ -327,41 +273,105 @@
                             this.updateUI();
                             this.nav('screen-dashboard');
                             this.listenRanking();
+                            this.listenChat(); 
                         } else { this.nav('screen-login'); }
                     } catch (e) { this.nav('screen-login'); }
                 } else { this.nav('screen-login'); }
                 document.getElementById('loading-overlay').style.display = 'none';
             },
 
-            openProfile: function() {
-                if(!this.user) return;
-                
-                document.getElementById('prof-name').innerText = (this.user.name || '') + ' ' + (this.user.surname || '');
-                document.getElementById('prof-class').innerText = this.user.class || '?';
-                document.getElementById('prof-score').innerText = this.user.score || 0;
-                document.getElementById('prof-correct').innerText = this.user.correctAnswers || 0;
-                document.getElementById('prof-wrong').innerText = this.user.wrongAnswers || 0;
+            // --- CHAT LOGIC ---
+            sendMsg: async function() {
+                const inp = document.getElementById('chat-inp');
+                const text = inp.value.trim();
+                if(!text) return;
 
-                const timerEl = document.getElementById('prof-energy-timer');
-                if(this.user.energy >= 50) {
-                    timerEl.innerText = "To'liq (50/50)";
-                    timerEl.style.color = "var(--accent)";
-                } else {
-                    const now = Date.now();
-                    const lastUpdate = this.user.lastEnergyUpdate || now;
-                    const waitTime = 5 * 60 * 60 * 1000; 
-                    const diff = waitTime - (now - lastUpdate);
+                // Filtering Logic
+                const lower = text.toLowerCase();
+                const clean = lower.replace(/[^a-zа-яёөүұіңғқа-я]/gi, ''); 
+                const words = lower.split(/\s+/);
 
-                    if (diff <= 0) {
-                        timerEl.innerText = "Yangilanmoqda...";
-                    } else {
-                        const hours = Math.floor(diff / (1000 * 60 * 60));
-                        const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                        timerEl.innerText = `${hours} soat ${mins} daqiqa qoldi`;
-                        timerEl.style.color = "var(--text-muted)";
-                    }
+                const isBad = this.blacklist.roots.some(r => clean.includes(r)) || 
+                              this.blacklist.full_words.some(f => words.includes(f));
+
+                if(isBad) {
+                    alert("Odob saqlang! (Taqiqlangan so'z)");
+                    inp.value = "";
+                    return;
                 }
 
+                await push(ref(db, 'chat'), {
+                    u: this.user.name,
+                    uid: localStorage.getItem('mathRankUserId'),
+                    t: text,
+                    ts: serverTimestamp()
+                });
+                inp.value = "";
+            },
+
+            listenChat: function() {
+                const q = query(ref(db, 'chat'), limitToLast(25));
+                onValue(q, (snap) => {
+                    const box = document.getElementById('chat-messages');
+                    if(!box) return;
+                    
+                    box.innerHTML = "";
+                    snap.forEach(child => {
+                        const m = child.val();
+                        const myId = localStorage.getItem('mathRankUserId');
+                        const isMe = (m.uid === myId);
+                        
+                        let timeStr = "";
+                        if(m.ts) {
+                            const d = new Date(m.ts);
+                            timeStr = d.getHours().toString().padStart(2,'0') + ":" + d.getMinutes().toString().padStart(2,'0');
+                        }
+
+                        box.innerHTML += `
+                            <div class="msg-item ${isMe ? 'my-msg' : ''}">
+                                <div class="msg-header">
+                                    <span class="msg-user">${m.u || 'User'}</span>
+                                    <span class="msg-time">${timeStr}</span>
+                                </div>
+                                <div class="msg-text">${m.t}</div>
+                            </div>
+                        `;
+                    });
+                    setTimeout(() => box.scrollTop = box.scrollHeight, 100);
+                });
+            },
+            // -------------------
+
+            openProfile: function() {
+                if(!this.user) return;
+                const set = (id, v) => { const e = document.getElementById(id); if(e) e.innerText = v; };
+                
+                set('prof-name', (this.user.name || '') + ' ' + (this.user.surname || ''));
+                set('prof-class', this.user.class || '?');
+                set('prof-score', this.user.score || 0);
+                set('prof-correct', this.user.correctAnswers || 0);
+                set('prof-wrong', this.user.wrongAnswers || 0);
+
+                const timerEl = document.getElementById('prof-energy-timer');
+                if(timerEl) {
+                    if(this.user.energy >= 50) {
+                        timerEl.innerText = "To'liq (50/50)";
+                        timerEl.style.color = "var(--accent)";
+                    } else {
+                        const now = Date.now();
+                        const lastUpdate = this.user.lastEnergyUpdate || now;
+                        const waitTime = 5 * 60 * 60 * 1000; 
+                        const diff = waitTime - (now - lastUpdate);
+                        if (diff <= 0) {
+                            timerEl.innerText = "Yangilanmoqda...";
+                        } else {
+                            const hours = Math.floor(diff / (1000 * 60 * 60));
+                            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                            timerEl.innerText = `${hours} soat ${mins} daqiqa qoldi`;
+                            timerEl.style.color = "var(--text-muted)";
+                        }
+                    }
+                }
                 this.nav('screen-profile');
             },
 
@@ -398,15 +408,18 @@
                     this.updateUI();
                     this.nav('screen-dashboard');
                     this.listenRanking();
+                    this.listenChat();
                 } catch(e) { alert("Hato: " + e.message); }
             },
 
             updateUI: function() {
                 if(!this.user) return;
-                document.getElementById('dash-user').innerText = (this.user.name || '') + " " + (this.user.surname || '');
-                document.getElementById('dash-cls').innerText = (this.user.class || '') + " SINF";
-                document.getElementById('dash-score').innerText = this.user.score || 0;
-                document.getElementById('dash-energy').innerText = this.user.energy || 0;
+                const set = (id, v) => { const e = document.getElementById(id); if(e) e.innerText = v; };
+                
+                set('dash-user', (this.user.name || '') + " " + (this.user.surname || ''));
+                set('dash-cls', (this.user.class || '') + " SINF");
+                set('dash-score', this.user.score || 0);
+                set('dash-energy', this.user.energy || 0);
             },
 
             listenRanking: function() {
@@ -418,26 +431,22 @@
                     list.forEach((u, i) => {
                         const isMe = (this.user && u.name === this.user.name && u.surname === this.user.surname);
                         let rankIcon = '';
-                        if (i === 0) rankIcon = '🥇';
-                        else if (i === 1) rankIcon = '🥈';
-                        else if (i === 2) rankIcon = '🥉';
-                        else rankIcon = `${i + 1}.`;
+                        if (i === 0) rankIcon = '🥇'; else if (i === 1) rankIcon = '🥈'; else if (i === 2) rankIcon = '🥉'; else rankIcon = `${i + 1}.`;
 
-                        if(isMe) document.getElementById('dash-rank').innerText = "#" + (i+1);
+                        const rEl = document.getElementById('dash-rank');
+                        if(isMe && rEl) rEl.innerText = "#" + (i+1);
                         
                         const safeSurname = u.surname ? u.surname.charAt(0) + "." : "";
                         html += `<div class="user-card" style="padding: 15px; ${isMe ? 'border: 2px solid var(--primary); background: rgba(59, 130, 246, 0.1);' : ''}">
                             <div style="display:flex; align-items:center;">
                                 <span style="font-weight:bold; margin-right:15px; font-size:1.2rem; width: 35px;">${rankIcon}</span>
-                                <div>
-                                    <span style="font-weight:600; font-size:1.1rem;">${u.name || 'Аноним'} ${safeSurname}</span>
-                                    <br><small style="color:var(--text-muted)">${u.class || '?'}-sinf</small>
-                                </div>
+                                <div><span style="font-weight:600; font-size:1.1rem;">${u.name || 'Аноним'} ${safeSurname}</span><br><small style="color:var(--text-muted)">${u.class || '?'}-sinf</small></div>
                             </div>
                             <span style="color:var(--accent); font-weight:bold; font-size:1.3rem;">${u.score || 0}</span>
                         </div>`;
                     });
-                    document.getElementById('rank-list').innerHTML = html;
+                    const rl = document.getElementById('rank-list');
+                    if(rl) rl.innerHTML = html;
                 });
             },
 
@@ -481,13 +490,10 @@
 
             check: async function(val, cor) {
                 clearInterval(this.game.timer);
-                
                 let isCorrect = (val === cor);
                 let p = isCorrect ? 5 : -1;
-                
                 let cCount = (this.user.correctAnswers || 0) + (isCorrect ? 1 : 0);
                 let wCount = (this.user.wrongAnswers || 0) + (isCorrect ? 0 : 1);
-
                 let oldEnergy = this.user.energy;
                 this.user.energy = Math.max(0, (this.user.energy || 0) - 1);
                 this.user.score += p;
@@ -498,21 +504,16 @@
                     correctAnswers: cCount,
                     wrongAnswers: wCount
                 };
-
                 if (oldEnergy >= 50 && this.user.energy < 50) {
                     this.user.lastEnergyUpdate = Date.now();
                     updates.lastEnergyUpdate = this.user.lastEnergyUpdate;
                 }
-
                 this.showFeedback(p);
                 this.updateUI();
-
                 const userId = `${this.user.name}_${this.user.surname}`.toLowerCase().replace(/\s/g, '');
                 update(ref(db, 'users/' + userId), updates);
-
                 this.user.correctAnswers = cCount;
                 this.user.wrongAnswers = wCount;
-                
                 setTimeout(() => { if(this.user.energy > 0) this.nextQuestion(); else this.stopGame(); }, 500);
             },
 
@@ -532,13 +533,11 @@
                 const btn = document.getElementById('btn-send-tg');
 
                 if (!msg) return alert("Iltimos, xabar yozing!");
-
                 btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Yuborilmoqda...';
                 btn.disabled = true;
 
                 const userInfo = `👤 <b>${this.user.name} ${this.user.surname}</b>\n🏫 Sinf: ${this.user.class}`;
                 const finalMessage = `📩 <b>Yangi xabar:</b>\n\n${userInfo}\n\n📝 <b>Xabar:</b>\n${msg}`;
-
                 try {
                     await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
                         method: 'POST',
@@ -552,16 +551,8 @@
                 finally { btn.innerHTML = '<i class="fa-solid fa-share"></i> Yuborish'; btn.disabled = false; }
             },
 
-            logout: function() {
-                localStorage.removeItem('mathRankUserId');
-                location.reload();
-            },
-
-            stopGame: function() { 
-                clearInterval(this.game.timer); 
-                alert("O'yin tugadi!");
-                this.nav('screen-dashboard'); 
-            }
+            logout: function() { localStorage.removeItem('mathRankUserId'); location.reload(); },
+            stopGame: function() { clearInterval(this.game.timer); alert("O'yin tugadi!"); this.nav('screen-dashboard'); }
         };
 
         window.app.init();
