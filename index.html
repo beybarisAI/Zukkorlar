@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="uz">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Zukkorlar o'yini</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&amp;display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
     <style>
-      :root {
+        :root {
             --bg-color: #0b1120; --card-bg: #1e293b; --primary: #3b82f6;
             --accent: #10b981; --danger: #ef4444; --text-main: #f1f5f9;
             --text-muted: #94a3b8; --border: #334155;
@@ -46,7 +47,6 @@
         .btn-secondary { background: var(--card-bg); color: var(--text-main); border: 1px solid transparent; }
         .btn-secondary:hover { border-color: var(--border); }
         .btn-admin { background: var(--card-bg); color: var(--accent); border: 1px solid var(--accent); }
-        .btn-google { background: white; color: #333; border: 1px solid #ddd; margin-bottom: 20px; }
         
         .user-card { background: var(--card-bg); padding: 20px; border-radius: 16px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .profile-item { display: flex; align-items: center; margin-bottom: 12px; font-size: 1.05rem; }
@@ -89,220 +89,129 @@
         .msg-time { font-size: 0.65rem; color: var(--text-muted); }
         .msg-text { font-size: 0.9rem; word-wrap: break-word; line-height: 1.4; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
     </style>
-  </head>
-  <body>
-    <div id="loading-overlay">
-      <div class="spinner"></div>
-    </div>
-    
+</head>
+<body>
+
+    <div id="loading-overlay"><div class="spinner"></div></div>
+
     <div class="app-wrapper">
-      
-      <!-- LOGIN SCREEN (Updated) -->
-      <div id="screen-login" class="screen">
-        <h1 style="text-align:center; color:var(--primary); margin-bottom:30px; font-size: 2.2rem;">
-          <strong>KIRISH</strong>
-        </h1>
-        
-        <!-- Google Button -->
-        <button class="btn btn-google" onclick="app.loginWithGoogle()">
-          <i class="fa-brands fa-google" style="color:#4285F4; font-size:1.2rem;"></i>
-          Google orqali kirish
-        </button>
+        <div id="screen-login" class="screen">
+            <h1 style="text-align:center; color:var(--primary); margin-bottom:40px; font-size: 2.2rem;"><strong>KIRISH</strong></h1>
+            <div style="flex-grow: 1;">
+                <input type="text" id="inp-name" placeholder="Ismingiz">
+                <input type="text" id="inp-surname" placeholder="Familiyangiz">
+                <input type="text" id="inp-class" placeholder="Sinfingiz (9А)">
+                <input type="password" id="inp-pass1" placeholder="Parol o'ylab toping">
+                <input type="password" id="inp-pass2" placeholder="Parolni takrorlang">
+            </div>
+            <button class="btn btn-primary" onclick="app.register()"><i class="fa-solid fa-user-plus"></i> Ro'yxatdan o'tish</button>
+        </div>
 
-        <div id="auth-form" style="display:none; flex-grow: 1; animation: fadeIn 0.5s;">
-            <p style="text-align:center; color:var(--text-muted); margin-bottom:15px; font-size:0.9rem;">
-                Iltimos, ma'lumotlaringizni to'ldiring:
-            </p>
-            <input type="text" id="inp-name" placeholder="Ismingiz" />
-            <input type="text" id="inp-surname" placeholder="Familiyangiz" />
-            <input type="text" id="inp-class" placeholder="Sinfingiz (9А)" />
+        <div id="screen-dashboard" class="screen">
+            <div class="user-card">
+                <div>
+                    <h2 id="dash-user">...</h2>
+                    <small id="dash-cls" style="color:var(--text-muted);"></small>
+                </div>
+                <div style="text-align:right;">
+                    <i class="fa-solid fa-bolt" style="color:#facc15;"></i> <span id="dash-energy">50</span>/50
+                </div>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-bottom:20px;">
+                <div style="background:var(--card-bg); padding:20px; border-radius:16px; text-align:center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                    <div id="dash-score" style="font-size:2rem; font-weight:bold; color:var(--accent)">0</div>
+                    <small style="font-size: 0.9rem;">Ball</small>
+                </div>
+                <div style="background:var(--card-bg); padding:20px; border-radius:16px; text-align:center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                    <div id="dash-rank" style="font-size:2rem; font-weight:bold; color:var(--primary)">#?</div>
+                    <small style="font-size: 0.9rem;">O'rin</small>
+                </div>
+            </div>
             
-            <button class="btn btn-primary" onclick="app.completeRegistration()">
-              <i class="fa-solid fa-check"></i>
-              Tasdiqlash
-            </button>
+            <button class="btn btn-primary" onclick="app.startGame()"><i class="fa-solid fa-play"></i> Boshlash</button>
+            <button class="btn btn-secondary" style="border:0px solid var(--primary); color" onclick="app.nav('screen-chat')"><i class="fa-solid fa-comments"></i> Global Chat</button>
+            
+            <button class="btn btn-secondary" onclick="app.openProfile()"><i class="fa-solid fa-user-circle"></i> Profil</button>
+            <button class="btn btn-secondary" onclick="app.nav('screen-rank')"><i class="fa-solid fa-trophy"></i> Reyting</button>
+            <button class="btn btn-admin" onclick="app.nav('screen-agency')"><i class="fa-solid fa-headset"></i> ADMIN BILAN ALOQA</button>
+            
+            <div class="bottom-actions">
+                <button class="btn btn-secondary" style="font-size: 0.85rem !important; opacity: 0.8;" onclick="app.logout()"><i class="fa-solid fa-right-from-bracket"></i> Chiqish</button>
+            </div>
         </div>
-      </div>
 
-      <!-- DASHBOARD (No styling changes) -->
-      <div id="screen-dashboard" class="screen">
-        <div class="user-card">
-          <div>
-            <h2 id="dash-user">...</h2>
-            <small id="dash-cls" style="color:var(--text-muted);"></small>
-          </div>
-          <div style="text-align:right;">
-            <i class="fa-solid fa-bolt" style="color:#facc15;"></i>
-            <span id="dash-energy">50</span>/50
-          </div>
+        <div id="screen-chat" class="screen">
+            <h3 style="margin-bottom:15px; text-align:center; color:var(--primary)"><i class="fa-solid fa-comments"></i> Global Chat</h3>
+            <div id="chat-container">
+                <div id="chat-messages">
+                    <div style="text-align:center; color:gray; padding:20px;">Yuklanmoqda...</div>
+                </div>
+            </div>
+            <div style="display:flex; gap:10px;">
+                <input type="text" id="chat-inp" placeholder="Xabar yozing..." style="margin-bottom:0; flex-grow:1;">
+                <button class="btn btn-primary" onclick="app.sendMsg()" style="width:50px; margin-top:0; padding:0;"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+            <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')" style="margin-top:15px;"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
         </div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-bottom:20px;">
-          <div style="background:var(--card-bg); padding:20px; border-radius:16px; text-align:center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-            <div id="dash-score" style="font-size:2rem; font-weight:bold; color:var(--accent)">0</div>
-            <small style="font-size: 0.9rem;">Ball</small>
-          </div>
-          <div style="background:var(--card-bg); padding:20px; border-radius:16px; text-align:center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-            <div id="dash-rank" style="font-size:2rem; font-weight:bold; color:var(--primary)">#?</div>
-            <small style="font-size: 0.9rem;">O'rin</small>
-          </div>
-        </div>
-        <button class="btn btn-primary" onclick="app.startGame()">
-          <i class="fa-solid fa-play"></i> Boshlash
-        </button>
-        <button class="btn btn-secondary" onclick="app.nav('screen-chat')">
-          <i class="fa-solid fa-comments"></i> Global Chat
-        </button>
-        <button class="btn btn-secondary" onclick="app.openProfile()">
-          <i class="fa-solid fa-user-circle"></i> Profil
-        </button>
-        <button class="btn btn-secondary" onclick="app.nav('screen-rank')">
-          <i class="fa-solid fa-trophy"></i> Reyting
-        </button>
-        <button class="btn btn-admin" onclick="app.nav('screen-agency')">
-          <i class="fa-solid fa-headset"></i> ADMIN BILAN ALOQA
-        </button>
-        <div class="bottom-actions">
-          <button class="btn btn-secondary" style="font-size: 0.85rem !important; opacity: 0.8;" onclick="app.logout()">
-            <i class="fa-solid fa-right-from-bracket"></i> Chiqish
-          </button>
-        </div>
-      </div>
 
-      <!-- CHAT SCREEN -->
-      <div id="screen-chat" class="screen">
-        <h3 style="margin-bottom:15px; text-align:center; color:var(--primary)">
-          <i class="fa-solid fa-comments"></i> Global Chat
-        </h3>
-        <div id="chat-container">
-          <div id="chat-messages">
-            <div style="text-align:center; color:gray; padding:20px;">Yuklanmoqda...</div>
-          </div>
+        <div id="screen-profile" class="screen">
+            <h4 style="margin-bottom:25px; text-align:center; font-size: 1.3rem;"><i class="fa-solid fa-id-badge" style="color:var(--primary)"></i> PROFILIM</h4>
+            <div class="user-card" style="display:block; padding: 25px;">
+                <div class="profile-item"><i class="fa-solid fa-user" style="color:var(--primary)"></i><span>Ism: <strong id="prof-name" style="color:white; margin-left:8px;">...</strong></span></div>
+                <div class="profile-item"><i class="fa-solid fa-graduation-cap" style="color:var(--text-muted)"></i><span>Sinf: <strong id="prof-class" style="color:white; margin-left:8px;">...</strong></span></div>
+                <hr style="border:0; border-top:1px solid var(--border); margin:20px 0; opacity: 0.5;">
+                <div class="profile-item"><i class="fa-solid fa-star" style="color:#fbbf24"></i><span>Jami ball: <strong id="prof-score" style="color:#fbbf24; margin-left:8px; font-size: 1.2rem;">0</strong></span></div>
+                <div class="profile-item"><i class="fa-solid fa-circle-check" style="color:var(--accent)"></i><span>To'g'ri javoblar: <strong id="prof-correct" style="color:var(--accent); margin-left:8px;">0</strong></span></div>
+                <div class="profile-item"><i class="fa-solid fa-circle-xmark" style="color:var(--danger)"></i><span>Noto'g'ri javoblar: <strong id="prof-wrong" style="color:var(--danger); margin-left:8px;">0</strong></span></div>
+                <div class="profile-item" style="margin-top: 20px;"><i class="fa-solid fa-clock" style="color:var(--text-muted)"></i><span>Energiya to'lishiga: <strong id="prof-energy-timer" style="color:var(--text-muted); font-size:0.95rem; margin-left:8px;">...</strong></span></div>
+            </div>
+            <div class="bottom-actions"><button class="btn btn-secondary" onclick="app.nav('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i> Orqaga</button></div>
         </div>
-        <div style="display:flex; gap:10px;">
-          <input type="text" id="chat-inp" placeholder="Xabar yozing..." style="margin-bottom:0; flex-grow:1;" />
-          <button class="btn btn-primary" onclick="app.sendMsg()" style="width:50px; margin-top:0; padding:0;">
-            <i class="fa-solid fa-paper-plane"></i>
-          </button>
-        </div>
-        <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')" style="margin-top:15px;">
-          <i class="fa-solid fa-arrow-left"></i> Orqaga
-        </button>
-      </div>
 
-      <!-- PROFILE SCREEN -->
-      <div id="screen-profile" class="screen">
-        <h4 style="margin-bottom:25px; text-align:center; font-size: 1.3rem;">
-          <i class="fa-solid fa-id-badge" style="color:var(--primary)"></i> PROFILIM
-        </h4>
-        <div class="user-card" style="display:block; padding: 25px;">
-          <div class="profile-item">
-            <i class="fa-solid fa-user" style="color:var(--primary)"></i>
-            <span>Ism: <strong id="prof-name" style="color:white; margin-left:8px;">...</strong></span>
-          </div>
-          <div class="profile-item">
-            <i class="fa-solid fa-graduation-cap" style="color:var(--text-muted)"></i>
-            <span>Sinf: <strong id="prof-class" style="color:white; margin-left:8px;">...</strong></span>
-          </div>
-          <hr style="border:0; border-top:1px solid var(--border); margin:20px 0; opacity: 0.5;" />
-          <div class="profile-item">
-            <i class="fa-solid fa-star" style="color:#fbbf24"></i>
-            <span>Jami ball: <strong id="prof-score" style="color:#fbbf24; margin-left:8px; font-size: 1.2rem;">0</strong></span>
-          </div>
-          <div class="profile-item">
-            <i class="fa-solid fa-circle-check" style="color:var(--accent)"></i>
-            <span>To'g'ri javoblar: <strong id="prof-correct" style="color:var(--accent); margin-left:8px;">0</strong></span>
-          </div>
-          <div class="profile-item">
-            <i class="fa-solid fa-circle-xmark" style="color:var(--danger)"></i>
-            <span>Noto'g'ri javoblar: <strong id="prof-wrong" style="color:var(--danger); margin-left:8px;">0</strong></span>
-          </div>
-          <div class="profile-item" style="margin-top: 20px;">
-            <i class="fa-solid fa-clock" style="color:var(--text-muted)"></i>
-            <span>Energiya to'lishiga: <strong id="prof-energy-timer" style="color:var(--text-muted); font-size:0.95rem; margin-left:8px;">...</strong></span>
-          </div>
+        <div id="screen-rank" class="screen">
+            <h2 style="margin-bottom:25px; text-align: center; font-size: 1.4rem;"><i class="fa-solid fa-ranking-star" style="color: #fbbf24;"></i> REYTING</h2>
+            <div id="rank-list" style="flex-grow: 1;"></div>
+            <div class="bottom-actions"><button class="btn btn-secondary" onclick="app.nav('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i> Orqaga</button></div>
         </div>
-        <div class="bottom-actions">
-          <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')">
-            <i class="fa-solid fa-arrow-left"></i> Orqaga
-          </button>
-        </div>
-      </div>
 
-      <!-- RANK SCREEN -->
-      <div id="screen-rank" class="screen">
-        <h2 style="margin-bottom:25px; text-align: center; font-size: 1.4rem;">
-          <i class="fa-solid fa-ranking-star" style="color: #fbbf24;"></i> REYTING
-        </h2>
-        <div id="rank-list" style="flex-grow: 1;"></div>
-        <div class="bottom-actions">
-          <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')">
-            <i class="fa-solid fa-arrow-left"></i> Orqaga
-          </button>
+        <div id="screen-agency" class="screen">
+            <h3 style="margin-bottom:20px; text-align: center;"><i class="fa-solid fa-paper-plane" style="color:var(--primary)"></i> Xabar yuborish</h3>
+            <div style="flex-grow: 1;"><textarea id="agency-msg" placeholder="Xabaringizni shu yerga yozing..."></textarea></div>
+            <button class="btn btn-primary" id="btn-send-tg" onclick="app.sendToTelegram()"><i class="fa-solid fa-share"></i> Yuborish</button>
+            <div class="bottom-actions"><button class="btn btn-secondary" onclick="app.nav('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i> Orqaga</button></div>
         </div>
-      </div>
 
-      <!-- AGENCY SCREEN -->
-      <div id="screen-agency" class="screen">
-        <h3 style="margin-bottom:20px; text-align: center;">
-          <i class="fa-solid fa-paper-plane" style="color:var(--primary)"></i> Xabar yuborish
-        </h3>
-        <div style="flex-grow: 1;">
-          <textarea id="agency-msg" placeholder="Xabaringizni shu yerga yozing..."></textarea>
+        <div id="screen-game" class="screen">
+            <div style="display:flex; justify-content:space-between; align-items: center; margin-bottom: 20px;">
+                <span style="font-size: 1.2rem; font-weight: 600;">Savol № <span id="q-num">1</span></span>
+                <span style="color:var(--danger); font-size: 1.2rem; font-weight: 600;"><i class="fa-regular fa-hourglass-half"></i> <span id="timer-text">10</span>s</span>
+            </div>
+            <div class="timer-bar"><div class="timer-fill" id="timer-fill"></div></div>
+            <div class="feedback-area" id="feedback-container"></div>
+            <div class="big-text" id="q-text">...</div>
+            <div class="options-grid" id="q-options"></div>
         </div>
-        <button class="btn btn-primary" id="btn-send-tg" onclick="app.sendToTelegram()">
-          <i class="fa-solid fa-share"></i> Yuborish
-        </button>
-        <div class="bottom-actions">
-          <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')">
-            <i class="fa-solid fa-arrow-left"></i> Orqaga
-          </button>
-        </div>
-      </div>
-
-      <!-- GAME SCREEN -->
-      <div id="screen-game" class="screen">
-        <div style="display:flex; justify-content:space-between; align-items: center; margin-bottom: 20px;">
-          <span style="font-size: 1.2rem; font-weight: 600;">Savol № <span id="q-num">1</span></span>
-          <span style="color:var(--danger); font-size: 1.2rem; font-weight: 600;">
-            <i class="fa-regular fa-hourglass-half"></i> <span id="timer-text">10</span>s
-          </span>
-        </div>
-        <div class="timer-bar"><div class="timer-fill" id="timer-fill"></div></div>
-        <div class="feedback-area" id="feedback-container"></div>
-        <div class="big-text" id="q-text">...</div>
-        <div class="options-grid" id="q-options"></div>
-      </div>
-
     </div>
 
-    <!-- SCRIPT (MODIFIED WITH AUTH & FIRESTORE) -->
     <script type="module">
-        // 1. BARLYQ KEREKLI IMPORTLAR
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, set, push, onValue, query, limitToLast, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, updateDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getDatabase, ref, set, get, update, onValue, push, serverTimestamp, query, limitToLast } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-        // 2. FIREBASE KONFIGURATSIYA (O'ZINGIZNIKINI QOYING!)
         const firebaseConfig = {
-            apiKey: "AIzaSyBU7l_5l96HI1yxOOGLpz_iG0xW1gTAEpc", // <-- O'zgartiring!
-            authDomain: "myproject-7f06d.firebaseapp.com",     // <-- O'zgartiring!
-            projectId: "myproject-7f06d",                      // <-- O'zgartiring!
-            databaseURL: "https://myproject-7f06d-default-rtdb.firebaseio.com",
-            storageBucket: "myproject-7f06d.appspot.com",
-            messagingSenderId: "...",
-            appId: "..."
+            apiKey: "AIzaSyBU7l_5l96HI1yxOOGLpz_iG0xW1gTAEpc",
+            authDomain: "myproject-7f06d.firebaseapp.com",
+            projectId: "myproject-7f06d",
+            databaseURL: "https://myproject-7f06d-default-rtdb.firebaseio.com"
         };
 
-        // 3. INIT SERVICES
         const fbApp = initializeApp(firebaseConfig);
-        const db = getDatabase(fbApp);     // Realtime Database (Chat uchun)
-        const auth = getAuth(fbApp);       // Auth (Google Login)
-        const fs = getFirestore(fbApp);    // Firestore (Users & Scores)
-        const provider = new GoogleAuthProvider();
+        const db = getDatabase(fbApp);
 
+        // --- GITHUB RAW URL ---
         const BADWORDS_URL = "https://raw.githubusercontent.com/beybarisAI/Zukkorlar/main/badwords.yml";
+
         const TG_BOT_TOKEN = "8356151933:AAFvhr6RQSRtkbf0maS3CMIDsjL3Y2Fy3Z0";
         const TG_CHAT_ID = "1934206536";
 
@@ -318,7 +227,7 @@
             },
 
             init: async function() {
-                // Blacklist yuklash
+                // 1. Blacklist (YAML) loading
                 try {
                     const resp = await fetch(BADWORDS_URL);
                     if(resp.ok) {
@@ -333,112 +242,67 @@
                                 if(section && word) this.blacklist[section].push(word);
                             }
                         });
+                        console.log("Blacklist yuklandi: ", this.blacklist.roots.length + " ta roots");
+                    } else {
+                        console.warn("GitHub faylni o'qiy olmadi (Private repo?)");
                     }
                 } catch(e) { console.warn("Badwords xatosi:", e); }
 
-                // AUTH LISTENER (Eng muhimi!)
-                onAuthStateChanged(auth, async (currentUser) => {
-                    document.getElementById('loading-overlay').style.display = 'none';
-                    
-                    if (currentUser) {
-                        // User tizimda bor, Firestore-dan ma'lumot olamiz
-                        const userDoc = await getDoc(doc(fs, "users", currentUser.uid));
-                        
-                        if (userDoc.exists()) {
-                            // User to'liq ro'yxatdan o'tgan
-                            this.user = userDoc.data();
-                            this.user.uid = currentUser.uid;
-                            this.checkEnergy();
+                // 2. Auth Check
+                const savedUserId = localStorage.getItem('mathRankUserId');
+                if (savedUserId) {
+                    try {
+                        const snap = await get(ref(db, 'users/' + savedUserId));
+                        if (snap.exists()) {
+                            this.user = snap.val();
+                            
+                            // Energy Check
+                            const now = Date.now();
+                            const lastUpdate = this.user.lastEnergyUpdate || now;
+                            const waitTime = 5 * 60 * 60 * 1000; 
+
+                            if (this.user.energy < 50 && (now - lastUpdate) >= waitTime) {
+                                this.user.energy = 50;
+                                this.user.lastEnergyUpdate = now;
+                                await update(ref(db, 'users/' + savedUserId), { 
+                                    energy: 50, 
+                                    lastEnergyUpdate: now 
+                                });
+                            }
+
                             this.updateUI();
                             this.nav('screen-dashboard');
                             this.listenRanking();
-                            this.listenChat();
-                        } else {
-                            // User Google bilan kirdi, lekin ism/sinf kiritmagan
-                            this.nav('screen-login');
-                            document.getElementById('auth-form').style.display = 'block';
-                            document.querySelector('.btn-google').style.display = 'none';
-                        }
-                    } else {
-                        // User tizimda yo'q
-                        this.nav('screen-login');
-                        document.getElementById('auth-form').style.display = 'none';
-                        document.querySelector('.btn-google').style.display = 'flex';
-                    }
-                });
+                            this.listenChat(); 
+                        } else { this.nav('screen-login'); }
+                    } catch (e) { this.nav('screen-login'); }
+                } else { this.nav('screen-login'); }
+                document.getElementById('loading-overlay').style.display = 'none';
             },
 
-            // GOOGLE LOGIN
-            loginWithGoogle: async function() {
-                try {
-                    await signInWithPopup(auth, provider);
-                } catch (e) {
-                    alert("Xatolik: " + e.message);
-                }
-            },
-
-            // REGISTRATION COMPLETE (FIRESTORE)
-            completeRegistration: async function() {
-                const n = document.getElementById('inp-name').value.trim();
-                const s = document.getElementById('inp-surname').value.trim();
-                const c = document.getElementById('inp-class').value.trim();
-                const currentUser = auth.currentUser;
-
-                if(!n || !s || !c) return alert("Iltimos, barcha maydonlarni to'ldiring!");
-                if(!currentUser) return alert("Xatolik: Google akkaunt topilmadi!");
-
-                const userData = { 
-                    name: n, 
-                    surname: s, 
-                    class: c, 
-                    score: 0, 
-                    energy: 50,
-                    correctAnswers: 0, 
-                    wrongAnswers: 0,
-                    lastEnergyUpdate: Date.now(),
-                    email: currentUser.email,
-                    role: 'student' // 'premium' bo'lishi mumkin
-                };
-
-                try {
-                    await setDoc(doc(fs, "users", currentUser.uid), userData);
-                    // Qayta yuklash shart emas, onAuthStateChanged o'zi ishlaydi
-                } catch(e) { alert("Xato: " + e.message); }
-            },
-
-            checkEnergy: async function() {
-                const now = Date.now();
-                const lastUpdate = this.user.lastEnergyUpdate || now;
-                const waitTime = 5 * 60 * 60 * 1000; 
-
-                if (this.user.energy < 50 && (now - lastUpdate) >= waitTime) {
-                    this.user.energy = 50;
-                    this.user.lastEnergyUpdate = now;
-                    await updateDoc(doc(fs, 'users', this.user.uid), { 
-                        energy: 50, 
-                        lastEnergyUpdate: now 
-                    });
-                    this.updateUI();
-                }
-            },
-
-            // CHAT LOGIC (Realtime DB ishlatamiz)
+            // --- CHAT LOGIC ---
             sendMsg: async function() {
                 const inp = document.getElementById('chat-inp');
                 const text = inp.value.trim();
                 if(!text) return;
 
+                // Filtering Logic
                 const lower = text.toLowerCase();
                 const clean = lower.replace(/[^a-zа-яёөүұіңғқа-я]/gi, ''); 
                 const words = lower.split(/\s+/);
+
                 const isBad = this.blacklist.roots.some(r => clean.includes(r)) || 
                               this.blacklist.full_words.some(f => words.includes(f));
 
-                if(isBad) { alert("Odob saqlang!"); inp.value = ""; return; }
+                if(isBad) {
+                    alert("Odob saqlang! (Taqiqlangan so'z)");
+                    inp.value = "";
+                    return;
+                }
 
                 await push(ref(db, 'chat'), {
-                    u: this.user.name, // Firestore-dan olingan ism
-                    uid: this.user.uid,
+                    u: this.user.name,
+                    uid: localStorage.getItem('mathRankUserId'),
                     t: text,
                     ts: serverTimestamp()
                 });
@@ -450,15 +314,19 @@
                 onValue(q, (snap) => {
                     const box = document.getElementById('chat-messages');
                     if(!box) return;
+                    
                     box.innerHTML = "";
                     snap.forEach(child => {
                         const m = child.val();
-                        const isMe = (m.uid === this.user.uid);
+                        const myId = localStorage.getItem('mathRankUserId');
+                        const isMe = (m.uid === myId);
+                        
                         let timeStr = "";
                         if(m.ts) {
                             const d = new Date(m.ts);
                             timeStr = d.getHours().toString().padStart(2,'0') + ":" + d.getMinutes().toString().padStart(2,'0');
                         }
+
                         box.innerHTML += `
                             <div class="msg-item ${isMe ? 'my-msg' : ''}">
                                 <div class="msg-header">
@@ -472,6 +340,77 @@
                     setTimeout(() => box.scrollTop = box.scrollHeight, 100);
                 });
             },
+            // -------------------
+
+            openProfile: function() {
+                if(!this.user) return;
+                const set = (id, v) => { const e = document.getElementById(id); if(e) e.innerText = v; };
+                
+                set('prof-name', (this.user.name || '') + ' ' + (this.user.surname || ''));
+                set('prof-class', this.user.class || '?');
+                set('prof-score', this.user.score || 0);
+                set('prof-correct', this.user.correctAnswers || 0);
+                set('prof-wrong', this.user.wrongAnswers || 0);
+
+                const timerEl = document.getElementById('prof-energy-timer');
+                if(timerEl) {
+                    if(this.user.energy >= 50) {
+                        timerEl.innerText = "To'liq (50/50)";
+                        timerEl.style.color = "var(--accent)";
+                    } else {
+                        const now = Date.now();
+                        const lastUpdate = this.user.lastEnergyUpdate || now;
+                        const waitTime = 5 * 60 * 60 * 1000; 
+                        const diff = waitTime - (now - lastUpdate);
+                        if (diff <= 0) {
+                            timerEl.innerText = "Yangilanmoqda...";
+                        } else {
+                            const hours = Math.floor(diff / (1000 * 60 * 60));
+                            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                            timerEl.innerText = `${hours} soat ${mins} daqiqa qoldi`;
+                            timerEl.style.color = "var(--text-muted)";
+                        }
+                    }
+                }
+                this.nav('screen-profile');
+            },
+
+            register: async function() {
+                const n = document.getElementById('inp-name').value.trim();
+                const s = document.getElementById('inp-surname').value.trim();
+                const c = document.getElementById('inp-class').value.trim();
+                const p1 = document.getElementById('inp-pass1').value;
+                const p2 = document.getElementById('inp-pass2').value;
+
+                if(!n || !s || !c || !p1) return alert("Iltimos, barcha maydonlarni to‘ldiring");
+                if(p1 !== p2) return alert("Parollar mos emas!");
+
+                const userId = `${n}_${s}`.toLowerCase().replace(/\s/g, '');
+                const userRef = ref(db, 'users/' + userId);
+
+                try {
+                    const snap = await get(userRef);
+                    if(snap.exists()) {
+                        if(snap.val().password === p1) {
+                            this.user = snap.val();
+                        } else { return alert("Kiritilgan parol noto'g'ri!");}
+                    } else {
+                        this.user = { 
+                            name: n, surname: s, class: c, 
+                            password: p1, score: 0, energy: 50,
+                            correctAnswers: 0, wrongAnswers: 0,
+                            lastEnergyUpdate: Date.now() 
+                        };
+                        await set(userRef, this.user);
+                    }
+                    
+                    localStorage.setItem('mathRankUserId', userId);
+                    this.updateUI();
+                    this.nav('screen-dashboard');
+                    this.listenRanking();
+                    this.listenChat();
+                } catch(e) { alert("Hato: " + e.message); }
+            },
 
             updateUI: function() {
                 if(!this.user) return;
@@ -483,31 +422,25 @@
                 set('dash-energy', this.user.energy || 0);
             },
 
-            // REYTING (FIRESTORE)
             listenRanking: function() {
-                // Firestore-dan barcha userlarni olib kelib, client-side sort qilamiz (oddiylar uchun)
-                onSnapshot(collection(fs, "users"), (snap) => {
-                    let list = [];
-                    snap.forEach(doc => list.push(doc.data()));
-                    list.sort((a,b) => (b.score || 0) - (a.score || 0)); // Sortirovka
-
+                onValue(ref(db, 'users'), (snap) => {
+                    const data = snap.val();
+                    if(!data) return;
+                    let list = Object.values(data).sort((a,b) => (b.score || 0) - (a.score || 0));
                     let html = "";
                     list.forEach((u, i) => {
-                        const isMe = (this.user && u.email === this.user.email);
+                        const isMe = (this.user && u.name === this.user.name && u.surname === this.user.surname);
                         let rankIcon = '';
                         if (i === 0) rankIcon = '🥇'; else if (i === 1) rankIcon = '🥈'; else if (i === 2) rankIcon = '🥉'; else rankIcon = `${i + 1}.`;
-                        
-                        // O'zimning o'rnimni topish
-                        if(isMe) {
-                            const rEl = document.getElementById('dash-rank');
-                            if(rEl) rEl.innerText = "#" + (i+1);
-                        }
 
+                        const rEl = document.getElementById('dash-rank');
+                        if(isMe && rEl) rEl.innerText = "#" + (i+1);
+                        
                         const safeSurname = u.surname ? u.surname.charAt(0) + "." : "";
                         html += `<div class="user-card" style="padding: 15px; ${isMe ? 'border: 2px solid var(--primary); background: rgba(59, 130, 246, 0.1);' : ''}">
                             <div style="display:flex; align-items:center;">
                                 <span style="font-weight:bold; margin-right:15px; font-size:1.2rem; width: 35px;">${rankIcon}</span>
-                                <div><span style="font-weight:600; font-size:1.1rem;">${u.name} ${safeSurname}</span><br><small style="color:var(--text-muted)">${u.class}-sinf</small></div>
+                                <div><span style="font-weight:600; font-size:1.1rem;">${u.name || 'Аноним'} ${safeSurname}</span><br><small style="color:var(--text-muted)">${u.class || '?'}-sinf</small></div>
                             </div>
                             <span style="color:var(--accent); font-weight:bold; font-size:1.3rem;">${u.score || 0}</span>
                         </div>`;
@@ -517,7 +450,6 @@
                 });
             },
 
-            // OYIN LOGIKASI
             startGame: function() {
                 if((this.user.energy || 0) <= 0) return alert("Energiyangiz tugadi! 5 soat kuting.");
                 this.game.current = 0;
@@ -560,30 +492,28 @@
                 clearInterval(this.game.timer);
                 let isCorrect = (val === cor);
                 let p = isCorrect ? 5 : -1;
-                
+                let cCount = (this.user.correctAnswers || 0) + (isCorrect ? 1 : 0);
+                let wCount = (this.user.wrongAnswers || 0) + (isCorrect ? 0 : 1);
                 let oldEnergy = this.user.energy;
                 this.user.energy = Math.max(0, (this.user.energy || 0) - 1);
                 this.user.score += p;
-                this.user.correctAnswers = (this.user.correctAnswers || 0) + (isCorrect ? 1 : 0);
-                this.user.wrongAnswers = (this.user.wrongAnswers || 0) + (isCorrect ? 0 : 1);
-
+                
                 let updates = {
                     score: this.user.score,
                     energy: this.user.energy,
-                    correctAnswers: this.user.correctAnswers,
-                    wrongAnswers: this.user.wrongAnswers
+                    correctAnswers: cCount,
+                    wrongAnswers: wCount
                 };
                 if (oldEnergy >= 50 && this.user.energy < 50) {
                     this.user.lastEnergyUpdate = Date.now();
                     updates.lastEnergyUpdate = this.user.lastEnergyUpdate;
                 }
-                
                 this.showFeedback(p);
                 this.updateUI();
-
-                // Firestore-ga saqlash
-                await updateDoc(doc(fs, "users", this.user.uid), updates);
-                
+                const userId = `${this.user.name}_${this.user.surname}`.toLowerCase().replace(/\s/g, '');
+                update(ref(db, 'users/' + userId), updates);
+                this.user.correctAnswers = cCount;
+                this.user.wrongAnswers = wCount;
                 setTimeout(() => { if(this.user.energy > 0) this.nextQuestion(); else this.stopGame(); }, 500);
             },
 
@@ -606,7 +536,7 @@
                 btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Yuborilmoqda...';
                 btn.disabled = true;
 
-                const userInfo = `👤 <b>${this.user.name} ${this.user.surname}</b>\n🏫 Sinf: ${this.user.class}\nID: ${this.user.uid}`;
+                const userInfo = `👤 <b>${this.user.name} ${this.user.surname}</b>\n🏫 Sinf: ${this.user.class}`;
                 const finalMessage = `📩 <b>Yangi xabar:</b>\n\n${userInfo}\n\n📝 <b>Xabar:</b>\n${msg}`;
                 try {
                     await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
@@ -621,48 +551,11 @@
                 finally { btn.innerHTML = '<i class="fa-solid fa-share"></i> Yuborish'; btn.disabled = false; }
             },
 
-            openProfile: function() {
-                if(!this.user) return;
-                const set = (id, v) => { const e = document.getElementById(id); if(e) e.innerText = v; };
-                
-                set('prof-name', (this.user.name || '') + ' ' + (this.user.surname || ''));
-                set('prof-class', this.user.class || '?');
-                set('prof-score', this.user.score || 0);
-                set('prof-correct', this.user.correctAnswers || 0);
-                set('prof-wrong', this.user.wrongAnswers || 0);
-
-                const timerEl = document.getElementById('prof-energy-timer');
-                if(timerEl) {
-                    if(this.user.energy >= 50) {
-                        timerEl.innerText = "To'liq (50/50)";
-                        timerEl.style.color = "var(--accent)";
-                    } else {
-                        const now = Date.now();
-                        const lastUpdate = this.user.lastEnergyUpdate || now;
-                        const waitTime = 5 * 60 * 60 * 1000; 
-                        const diff = waitTime - (now - lastUpdate);
-                        if (diff <= 0) {
-                            timerEl.innerText = "Yangilanmoqda...";
-                        } else {
-                            const hours = Math.floor(diff / (1000 * 60 * 60));
-                            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                            timerEl.innerText = `${hours} soat ${mins} daqiqa qoldi`;
-                            timerEl.style.color = "var(--text-muted)";
-                        }
-                    }
-                }
-                this.nav('screen-profile');
-            },
-
-            logout: async function() { 
-                await signOut(auth);
-                location.reload(); 
-            },
-            
+            logout: function() { localStorage.removeItem('mathRankUserId'); location.reload(); },
             stopGame: function() { clearInterval(this.game.timer); alert("O'yin tugadi!"); this.nav('screen-dashboard'); }
         };
 
         window.app.init();
     </script>
-  </body>
+</body>
 </html>
