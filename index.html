@@ -1,195 +1,221 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Zukkorlar o'yini</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Zukkorlar v2.0 - FINAL</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
     <style>
         :root {
             --bg-color: #0b1120; --card-bg: #1e293b; --primary: #3b82f6;
             --accent: #10b981; --danger: #ef4444; --text-main: #f1f5f9;
-            --text-muted: #94a3b8; --border: #334155;
+            --text-muted: #94a3b8; --border: #334155; --warning: #f59e0b;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        
-        body { 
-            background-color: var(--bg-color); 
-            color: var(--text-main); 
-            height: 100vh; height: 100dvh; 
-            display: flex; justify-content: center; align-items: center; 
-            overflow: hidden; 
-        }
-
-        .app-wrapper { 
-            width: 100%; height: 100%; 
-            background: var(--bg-color); 
-            position: relative; display: flex; flex-direction: column; overflow: hidden;
-        }
-
-        @media (min-width: 768px) { 
-            .app-wrapper { width: 400px; height: 90vh; border-radius: 24px; border: 1px solid var(--border); box-shadow: 0 20px 50px rgba(0,0,0,0.5); } 
-        }
-        
-        .screen { display: none; flex-direction: column; padding: 20px; height: 100%; width: 100%; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+        body { background-color: var(--bg-color); color: var(--text-main); height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+        .app-wrapper { width: 100%; height: 100%; background: var(--bg-color); position: relative; display: flex; flex-direction: column; overflow: hidden; }
+        @media (min-width: 768px) { .app-wrapper { width: 400px; height: 90vh; border-radius: 24px; border: 1px solid var(--border); box-shadow: 0 20px 50px rgba(0,0,0,0.5); } }
+        .app-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: var(--card-bg); border-bottom: 1px solid var(--border); }
+        .app-header h2 { font-size: 1.2rem; color: var(--primary); }
+        .notification-bell { position: relative; cursor: pointer; font-size: 1.5rem; color: var(--text-muted); transition: 0.2s; }
+        .notification-bell:hover { color: var(--primary); }
+        .notification-badge { position: absolute; top: -5px; right: -5px; background: var(--danger); color: white; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700; }
+        .screen { display: none; flex-direction: column; padding: 20px; height: 100%; width: 100%; overflow-y: auto; }
         .screen.active { display: flex; }
-
-        .bottom-actions { margin-top: auto; padding-top: 20px; }
-
         input, textarea { width: 100%; padding: 14px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; color: white; margin-bottom: 12px; outline: none; font-size: 1rem; }
         textarea { height: 120px; resize: none; }
-        
-        .btn { width: 100%; padding: 16px; border-radius: 12px; border: none; font-size: 1rem; font-weight: 600; cursor: pointer; transition: 0.2s; margin-top: 10px; flex-shrink: 0; display: flex; justify-content: center; align-items: center; gap: 10px; }
+        .btn { width: 100%; padding: 16px; border-radius: 12px; border: none; font-size: 1rem; font-weight: 600; cursor: pointer; transition: 0.2s; margin-top: 10px; display: flex; justify-content: center; align-items: center; gap: 10px; }
         .btn:active { transform: scale(0.98); }
-        .btn-primary { background: var(--primary); color: white; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); }
-        .btn-secondary { background: var(--card-bg); color: var(--text-main); border: 1px solid transparent; }
-        .btn-secondary:hover { border-color: var(--border); }
-        .btn-admin { background: var(--card-bg); color: var(--accent); border: 1px solid var(--accent); }
-        
-        .user-card { background: var(--card-bg); padding: 20px; border-radius: 16px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .profile-item { display: flex; align-items: center; margin-bottom: 12px; font-size: 1.05rem; }
-        .profile-item i { width: 30px; text-align: center; margin-right: 10px; font-size: 1.2rem; }
-        
-        .timer-bar { width: 100%; height: 8px; background: var(--card-bg); margin: 15px 0; border-radius: 4px; overflow: hidden; }
-        .timer-fill { height: 100%; background: var(--danger); width: 100%; transition: width 1s linear; }
-        
-        .feedback-area { height: 40px; position: relative; display: flex; justify-content: center; align-items: center; }
-        .floating-points { position: absolute; font-weight: 700; font-size: 1.8rem; animation: floatUp 0.8s ease-out forwards; opacity: 0; }
-        @keyframes floatUp { 0% { transform: translateY(0); opacity: 0; } 50% { opacity: 1; } 100% { transform: translateY(-40px); opacity: 0; } }
-        
-        .big-text { font-size: 3rem; font-weight: 700; margin: 20px 0; text-align: center; letter-spacing: 2px; }
-        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; }
-        
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-secondary { background: var(--card-bg); color: var(--text-main); border: 1px solid var(--border); }
+        .btn-success { background: var(--accent); color: white; }
+        .btn-danger { background: var(--danger); color: white; }
+        .user-card { background: var(--card-bg); padding: 20px; border-radius: 16px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border); }
+        .role-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .role-option { background: var(--card-bg); padding: 25px 15px; border-radius: 16px; border: 2px solid var(--border); cursor: pointer; text-align: center; transition: 0.3s; }
+        .role-option.selected { border-color: var(--primary); background: rgba(59, 130, 246, 0.1); }
+        .role-option i { font-size: 3rem; margin-bottom: 10px; }
+        .difficulty-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin: 20px 0; }
+        .difficulty-card { background: var(--card-bg); padding: 20px; border-radius: 14px; border: 2px solid var(--border); cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 15px; }
+        .difficulty-card.selected { border-color: var(--primary); background: rgba(59, 130, 246, 0.1); }
+        .friend-card { background: var(--card-bg); padding: 15px; border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border); }
+        .prefix-badge { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; margin-left: 8px; text-transform: uppercase; }
+        .prefix-matematik { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; }
+        .prefix-professor { background: linear-gradient(135deg, #ef4444, #dc2626); color: white; }
         #loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); display: flex; justify-content: center; align-items: center; z-index: 100; }
         .spinner { border: 4px solid var(--card-bg); border-top: 4px solid var(--primary); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        /* --- DASHBOARD STYLES --- */
-        #screen-dashboard { padding: 15px !important; }
-        #screen-dashboard .user-card { padding: 12px 15px !important; margin-bottom: 12px !important; border-radius: 12px !important; }
-        #screen-dashboard #dash-user { font-size: 1.1rem !important; }
-        #screen-dashboard #dash-cls { font-size: 0.85rem !important; }
-        #screen-dashboard i.fa-bolt { font-size: 0.9rem !important; }
-        #screen-dashboard #dash-energy { font-size: 1rem !important; }
-        #screen-dashboard > div[style*="grid"] { gap: 10px !important; margin-bottom: 15px !important; }
-        #screen-dashboard > div[style*="grid"] > div { padding: 12px !important; border-radius: 12px !important; }
-        #screen-dashboard #dash-score, #screen-dashboard #dash-rank { font-size: 1.6rem !important; }
-        #screen-dashboard .btn { padding: 12px !important; font-size: 0.95rem !important; margin-top: 8px !important; border-radius: 10px !important; }
-        #screen-dashboard .bottom-actions { padding-top: 10px !important; }
-
-        /* --- CHAT STYLES --- */
+        .notification-panel { position: fixed; top: 0; right: -100%; width: 100%; max-width: 400px; height: 100%; background: var(--card-bg); border-left: 1px solid var(--border); transition: 0.3s; z-index: 1000; overflow-y: auto; }
+        .notification-panel.open { right: 0; }
+        .profile-item { display: flex; align-items: center; margin-bottom: 12px; font-size: 1.05rem; }
+        .profile-item i { width: 30px; text-align: center; margin-right: 10px; font-size: 1.2rem; }
+        .timer-bar { width: 100%; height: 8px; background: var(--card-bg); margin: 15px 0; border-radius: 4px; overflow: hidden; }
+        .timer-fill { height: 100%; background: var(--danger); width: 100%; transition: width 1s linear; }
+        .big-text { font-size: 3rem; font-weight: 700; margin: 20px 0; text-align: center; letter-spacing: 2px; }
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; }
         #chat-container { flex-grow: 1; background: #0f172a; border-radius: 16px; border: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; margin-bottom: 12px; }
-        #chat-messages { flex-grow: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; scroll-behavior: smooth; }
-        .msg-item { background: var(--card-bg); padding: 10px 14px; border-radius: 12px; max-width: 90%; animation: fadeIn 0.3s ease; border: 1px solid transparent; }
-        .msg-item.my-msg { align-self: flex-end; background: rgba(59, 130, 246, 0.2); border-color: rgba(59, 130, 246, 0.3); }
-        .msg-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+        #chat-messages { flex-grow: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; }
+        .msg-item { background: var(--card-bg); padding: 10px 14px; border-radius: 12px; max-width: 90%; }
+        .msg-item.my-msg { align-self: flex-end; background: rgba(59, 130, 246, 0.2); }
+        .msg-header { display: flex; justify-content: space-between; margin-bottom: 4px; }
         .msg-user { font-weight: 700; color: var(--primary); font-size: 0.75rem; }
         .msg-time { font-size: 0.65rem; color: var(--text-muted); }
-        .msg-text { font-size: 0.9rem; word-wrap: break-word; line-height: 1.4; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
+        .msg-text { font-size: 0.9rem; word-wrap: break-word; }
     </style>
 </head>
 <body>
-
     <div id="loading-overlay"><div class="spinner"></div></div>
+    <div id="notification-panel" class="notification-panel">
+        <div style="padding: 20px; background: var(--bg-color); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between;">
+            <h3><i class="fa-solid fa-bell"></i> Bildirishnomalar</h3>
+            <i class="fa-solid fa-times" onclick="app.closeNotifications()" style="cursor: pointer; font-size: 1.5rem;"></i>
+        </div>
+        <div id="notification-list"></div>
+    </div>
 
     <div class="app-wrapper">
         <div id="screen-login" class="screen">
             <h1 style="text-align:center; color:var(--primary); margin-bottom:40px; font-size: 2.2rem;"><strong>KIRISH</strong></h1>
             <div style="flex-grow: 1;">
-                <input type="text" id="inp-name" placeholder="Ismingiz">
-                <input type="text" id="inp-surname" placeholder="Familiyangiz">
-                <input type="text" id="inp-class" placeholder="Sinfingiz (9А)">
-                <input type="password" id="inp-pass1" placeholder="Parol o'ylab toping">
-                <input type="password" id="inp-pass2" placeholder="Parolni takrorlang">
+                <input type="text" id="inp-name" placeholder="Ismingiz" />
+                <input type="text" id="inp-surname" placeholder="Familiyangiz" />
+                <div class="role-selector">
+                    <div class="role-option student selected" onclick="app.selectRole('student')">
+                        <i class="fa-solid fa-user-graduate" style="color: var(--accent);"></i>
+                        <div style="font-weight: 600;">Men o'quvchiman</div>
+                    </div>
+                    <div class="role-option teacher" onclick="app.selectRole('teacher')">
+                        <i class="fa-solid fa-chalkboard-user" style="color: var(--warning);"></i>
+                        <div style="font-weight: 600;">Men ustozman</div>
+                    </div>
+                </div>
+                <input type="text" id="inp-class" placeholder="Sinfingiz (9A)" />
+                <input type="password" id="inp-pass1" placeholder="Parol o'ylab toping" />
+                <input type="password" id="inp-pass2" placeholder="Parolni takrorlang" />
             </div>
             <button class="btn btn-primary" onclick="app.register()"><i class="fa-solid fa-user-plus"></i> Ro'yxatdan o'tish</button>
         </div>
 
-        <div id="screen-dashboard" class="screen">
-            <div class="user-card">
-                <div>
-                    <h2 id="dash-user">...</h2>
-                    <small id="dash-cls" style="color:var(--text-muted);"></small>
-                </div>
-                <div style="text-align:right;">
-                    <i class="fa-solid fa-bolt" style="color:#facc15;"></i> <span id="dash-energy">50</span>/50
+        <div id="screen-dashboard" class="screen" style="padding: 0 !important;">
+            <div class="app-header">
+                <h2>DASHBOARD</h2>
+                <div class="notification-bell" onclick="app.openNotifications()">
+                    <i class="fa-solid fa-bell"></i>
+                    <span id="notif-badge" class="notification-badge" style="display: none;">0</span>
                 </div>
             </div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-bottom:20px;">
-                <div style="background:var(--card-bg); padding:20px; border-radius:16px; text-align:center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-                    <div id="dash-score" style="font-size:2rem; font-weight:bold; color:var(--accent)">0</div>
-                    <small style="font-size: 0.9rem;">Ball</small>
+            <div style="padding: 0 15px;">
+                <div class="user-card" style="margin-top: 15px;">
+                    <div>
+                        <h2 id="dash-user" style="font-size: 1.1rem;">...</h2>
+                        <small id="dash-cls" style="color:var(--text-muted); font-size: 0.85rem;"></small>
+                        <div id="dash-prefix"></div>
+                    </div>
+                    <div style="text-align:right;">
+                        <i class="fa-solid fa-bolt" style="color:#facc15; font-size: 0.9rem;"></i>
+                        <span id="dash-energy">50</span>/50
+                    </div>
                 </div>
-                <div style="background:var(--card-bg); padding:20px; border-radius:16px; text-align:center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-                    <div id="dash-rank" style="font-size:2rem; font-weight:bold; color:var(--primary)">#?</div>
-                    <small style="font-size: 0.9rem;">O'rin</small>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:15px;">
+                    <div style="background:var(--card-bg); padding:12px; border-radius:12px; text-align:center;">
+                        <div id="dash-score" style="font-size:1.6rem; font-weight:bold; color:var(--accent)">0</div>
+                        <small>Ball</small>
+                    </div>
+                    <div style="background:var(--card-bg); padding:12px; border-radius:12px; text-align:center;">
+                        <div id="dash-rank" style="font-size:1.6rem; font-weight:bold; color:var(--primary)">#?</div>
+                        <small>O'rin</small>
+                    </div>
+                </div>
+                <div id="student-dashboard">
+                    <button class="btn btn-primary" style="padding: 12px; font-size: 0.95rem; margin: 8px 0;" onclick="app.showDifficulty()"><i class="fa-solid fa-play"></i> Boshlash</button>
+                    <button class="btn btn-secondary" style="padding: 12px; font-size: 0.95rem; margin: 8px 0;" onclick="app.nav('screen-friends')"><i class="fa-solid fa-user-friends"></i> Do'stlar</button>
+                    <button class="btn btn-secondary" style="padding: 12px; font-size: 0.95rem; margin: 8px 0;" onclick="app.nav('screen-achievements')"><i class="fa-solid fa-trophy"></i> Yutuqlar</button>
+                </div>
+                <div id="teacher-dashboard" style="display: none;">
+                    <button class="btn" style="background: var(--warning); color: white; padding: 12px; font-size: 0.95rem; margin: 8px 0;" onclick="app.nav('screen-manage')"><i class="fa-solid fa-users-gear"></i> O'quvchilarni boshqarish</button>
+                </div>
+                <button class="btn btn-secondary" style="padding: 12px; font-size: 0.95rem; margin: 8px 0;" onclick="app.nav('screen-chat')"><i class="fa-solid fa-comments"></i> Global Chat</button>
+                <button class="btn btn-secondary" style="padding: 12px; font-size: 0.95rem; margin: 8px 0;" onclick="app.openProfile()"><i class="fa-solid fa-user-circle"></i> Profil</button>
+                <button class="btn btn-secondary" style="padding: 12px; font-size: 0.95rem; margin: 8px 0;" onclick="app.nav('screen-rank')"><i class="fa-solid fa-ranking-star"></i> Reyting</button>
+                <div style="padding-top: 10px;">
+                    <button class="btn btn-secondary" style="font-size: 0.85rem; opacity: 0.8; padding: 12px;" onclick="app.logout()"><i class="fa-solid fa-right-from-bracket"></i> Chiqish</button>
                 </div>
             </div>
-            
+        </div>
+
+        <div id="screen-difficulty" class="screen">
+            <h3 style="margin-bottom:25px; text-align: center;"><i class="fa-solid fa-sliders" style="color: var(--primary);"></i> Qiyinlik darajasi</h3>
+            <div class="difficulty-grid">
+                <div class="difficulty-card selected" onclick="app.selectDifficulty('easy')"><div style="font-size: 2.5rem;">😊</div><div><h4>Oson</h4><small style="color: var(--text-muted);">1-10</small></div></div>
+                <div class="difficulty-card" onclick="app.selectDifficulty('medium')"><div style="font-size: 2.5rem;">🤔</div><div><h4>Qiyin</h4><small style="color: var(--text-muted);">1-50</small></div></div>
+                <div class="difficulty-card" onclick="app.selectDifficulty('hard')"><div style="font-size: 2.5rem;">😰</div><div><h4>Juda qiyin</h4><small style="color: var(--text-muted);">1-100</small></div></div>
+            </div>
             <button class="btn btn-primary" onclick="app.startGame()"><i class="fa-solid fa-play"></i> Boshlash</button>
-            <button class="btn btn-secondary" style="border:0px solid var(--primary); color" onclick="app.nav('screen-chat')"><i class="fa-solid fa-comments"></i> Global Chat</button>
-            
-            <button class="btn btn-secondary" onclick="app.openProfile()"><i class="fa-solid fa-user-circle"></i> Profil</button>
-            <button class="btn btn-secondary" onclick="app.nav('screen-rank')"><i class="fa-solid fa-trophy"></i> Reyting</button>
-            <button class="btn btn-admin" onclick="app.nav('screen-agency')"><i class="fa-solid fa-headset"></i> ADMIN BILAN ALOQA</button>
-            
-            <div class="bottom-actions">
-                <button class="btn btn-secondary" style="font-size: 0.85rem !important; opacity: 0.8;" onclick="app.logout()"><i class="fa-solid fa-right-from-bracket"></i> Chiqish</button>
+            <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
+        </div>
+
+        <div id="screen-friends" class="screen">
+            <h3 style="margin-bottom:20px; text-align: center;"><i class="fa-solid fa-user-friends" style="color:var(--primary)"></i> Do'stlar</h3>
+            <input type="text" id="friend-uid-input" placeholder="Do'st UID sini kiriting" />
+            <div id="friend-preview" style="display: none; background: var(--card-bg); padding: 12px; border-radius: 10px; margin-bottom: 10px;">
+                <div style="font-weight: 600;" id="preview-name">...</div>
+                <small style="color: var(--text-muted);" id="preview-class">...</small>
             </div>
+            <button class="btn btn-success" onclick="app.searchFriend()"><i class="fa-solid fa-search"></i> Qidirish</button>
+            <button class="btn btn-primary" id="btn-send-request" onclick="app.sendFriendRequest()" style="display: none;"><i class="fa-solid fa-user-plus"></i> Do'stlikka qo'shish</button>
+            <h4 style="margin: 20px 0 10px 0; color: var(--text-muted);">Mening do'stlarim:</h4>
+            <div id="friends-list"></div>
+            <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
+        </div>
+
+        <div id="screen-profile" class="screen">
+            <h4 style="margin-bottom:25px; text-align:center;"><i class="fa-solid fa-id-badge" style="color:var(--primary)"></i> PROFILIM</h4>
+            <div class="user-card" style="display:block; padding: 25px;">
+                <div class="profile-item"><i class="fa-solid fa-user" style="color:var(--primary)"></i><span>Ism: <strong id="prof-name" style="color:white; margin-left:8px;">...</strong></span></div>
+                <div class="profile-item"><i class="fa-solid fa-fingerprint" style="color:var(--accent)"></i><span>UID: <strong id="prof-uid" style="color:var(--accent); margin-left:8px; font-family: monospace;">...</strong></span></div>
+                <div class="profile-item" id="prof-class-item"><i class="fa-solid fa-graduation-cap" style="color:var(--text-muted)"></i><span>Sinf: <strong id="prof-class" style="color:white; margin-left:8px;">...</strong></span></div>
+                <hr style="border:0; border-top:1px solid var(--border); margin:20px 0;" />
+                <div class="profile-item"><i class="fa-solid fa-star" style="color:#fbbf24"></i><span>Ball: <strong id="prof-score" style="color:#fbbf24; margin-left:8px;">0</strong></span></div>
+                <div class="profile-item"><i class="fa-solid fa-circle-check" style="color:var(--accent)"></i><span>To'g'ri: <strong id="prof-correct" style="color:var(--accent); margin-left:8px;">0</strong></span></div>
+                <div class="profile-item"><i class="fa-solid fa-circle-xmark" style="color:var(--danger)"></i><span>Noto'g'ri: <strong id="prof-wrong" style="color:var(--danger); margin-left:8px;">0</strong></span></div>
+            </div>
+            <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
+        </div>
+
+        <div id="screen-achievements" class="screen">
+            <h3 style="margin-bottom:25px; text-align: center;"><i class="fa-solid fa-trophy" style="color: #fbbf24;"></i> Yutuqlar</h3>
+            <div style="background: var(--card-bg); padding: 20px; border-radius: 16px;">
+                <div style="margin-bottom: 20px;"><i class="fa-solid fa-medal" style="font-size: 2rem; color: #3b82f6;"></i><h4>Matematik (1000 ball)</h4><div id="ach-matematik" style="margin-top: 8px;">...</div></div>
+                <div style="margin-bottom: 20px;"><i class="fa-solid fa-crown" style="font-size: 2rem; color: #ef4444;"></i><h4>Professor (5000 ball)</h4><div id="ach-professor" style="margin-top: 8px;">...</div></div>
+                <div><i class="fa-solid fa-certificate" style="font-size: 2rem; color: #fbbf24;"></i><h4>Sertifikat (15000 ball)</h4><div id="ach-certificate" style="margin-top: 8px;">...</div></div>
+            </div>
+            <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
         </div>
 
         <div id="screen-chat" class="screen">
             <h3 style="margin-bottom:15px; text-align:center; color:var(--primary)"><i class="fa-solid fa-comments"></i> Global Chat</h3>
-            <div id="chat-container">
-                <div id="chat-messages">
-                    <div style="text-align:center; color:gray; padding:20px;">Yuklanmoqda...</div>
-                </div>
-            </div>
+            <div id="chat-container"><div id="chat-messages"><div style="text-align:center; color:gray; padding:20px;">Yuklanmoqda...</div></div></div>
             <div style="display:flex; gap:10px;">
-                <input type="text" id="chat-inp" placeholder="Xabar yozing..." style="margin-bottom:0; flex-grow:1;">
+                <input type="text" id="chat-inp" placeholder="Xabar yozing..." style="margin-bottom:0; flex-grow:1;" />
                 <button class="btn btn-primary" onclick="app.sendMsg()" style="width:50px; margin-top:0; padding:0;"><i class="fa-solid fa-paper-plane"></i></button>
             </div>
             <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')" style="margin-top:15px;"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
         </div>
 
-        <div id="screen-profile" class="screen">
-            <h4 style="margin-bottom:25px; text-align:center; font-size: 1.3rem;"><i class="fa-solid fa-id-badge" style="color:var(--primary)"></i> PROFILIM</h4>
-            <div class="user-card" style="display:block; padding: 25px;">
-                <div class="profile-item"><i class="fa-solid fa-user" style="color:var(--primary)"></i><span>Ism: <strong id="prof-name" style="color:white; margin-left:8px;">...</strong></span></div>
-                <div class="profile-item"><i class="fa-solid fa-graduation-cap" style="color:var(--text-muted)"></i><span>Sinf: <strong id="prof-class" style="color:white; margin-left:8px;">...</strong></span></div>
-                <hr style="border:0; border-top:1px solid var(--border); margin:20px 0; opacity: 0.5;">
-                <div class="profile-item"><i class="fa-solid fa-star" style="color:#fbbf24"></i><span>Jami ball: <strong id="prof-score" style="color:#fbbf24; margin-left:8px; font-size: 1.2rem;">0</strong></span></div>
-                <div class="profile-item"><i class="fa-solid fa-circle-check" style="color:var(--accent)"></i><span>To'g'ri javoblar: <strong id="prof-correct" style="color:var(--accent); margin-left:8px;">0</strong></span></div>
-                <div class="profile-item"><i class="fa-solid fa-circle-xmark" style="color:var(--danger)"></i><span>Noto'g'ri javoblar: <strong id="prof-wrong" style="color:var(--danger); margin-left:8px;">0</strong></span></div>
-                <div class="profile-item" style="margin-top: 20px;"><i class="fa-solid fa-clock" style="color:var(--text-muted)"></i><span>Energiya to'lishiga: <strong id="prof-energy-timer" style="color:var(--text-muted); font-size:0.95rem; margin-left:8px;">...</strong></span></div>
-            </div>
-            <div class="bottom-actions"><button class="btn btn-secondary" onclick="app.nav('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i> Orqaga</button></div>
-        </div>
-
         <div id="screen-rank" class="screen">
-            <h2 style="margin-bottom:25px; text-align: center; font-size: 1.4rem;"><i class="fa-solid fa-ranking-star" style="color: #fbbf24;"></i> REYTING</h2>
-            <div id="rank-list" style="flex-grow: 1;"></div>
-            <div class="bottom-actions"><button class="btn btn-secondary" onclick="app.nav('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i> Orqaga</button></div>
-        </div>
-
-        <div id="screen-agency" class="screen">
-            <h3 style="margin-bottom:20px; text-align: center;"><i class="fa-solid fa-paper-plane" style="color:var(--primary)"></i> Xabar yuborish</h3>
-            <div style="flex-grow: 1;"><textarea id="agency-msg" placeholder="Xabaringizni shu yerga yozing..."></textarea></div>
-            <button class="btn btn-primary" id="btn-send-tg" onclick="app.sendToTelegram()"><i class="fa-solid fa-share"></i> Yuborish</button>
-            <div class="bottom-actions"><button class="btn btn-secondary" onclick="app.nav('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i> Orqaga</button></div>
+            <h2 style="margin-bottom:25px; text-align: center;"><i class="fa-solid fa-ranking-star" style="color: #fbbf24;"></i> REYTING</h2>
+            <div id="rank-list" style="flex-grow: 1;"><div style="text-align:center; color:var(--text-muted); padding:20px;">Yuklanmoqda...</div></div>
+            <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
         </div>
 
         <div id="screen-game" class="screen">
-            <div style="display:flex; justify-content:space-between; align-items: center; margin-bottom: 20px;">
-                <span style="font-size: 1.2rem; font-weight: 600;">Savol № <span id="q-num">1</span></span>
+            <div style="display:flex; justify-content:space-between; margin-bottom: 20px;">
+                <span style="font-size: 1.2rem; font-weight: 600;">Savol №<span id="q-num">1</span></span>
                 <span style="color:var(--danger); font-size: 1.2rem; font-weight: 600;"><i class="fa-regular fa-hourglass-half"></i> <span id="timer-text">10</span>s</span>
             </div>
             <div class="timer-bar"><div class="timer-fill" id="timer-fill"></div></div>
-            <div class="feedback-area" id="feedback-container"></div>
+            <div style="height: 40px;"></div>
             <div class="big-text" id="q-text">...</div>
             <div class="options-grid" id="q-options"></div>
         </div>
@@ -197,7 +223,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, set, get, update, onValue, push, serverTimestamp, query, limitToLast } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getDatabase, ref, set, get, update, onValue, push, serverTimestamp, query, limitToLast, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBU7l_5l96HI1yxOOGLpz_iG0xW1gTAEpc",
@@ -209,180 +235,50 @@
         const fbApp = initializeApp(firebaseConfig);
         const db = getDatabase(fbApp);
 
-        // --- GITHUB RAW URL ---
-        const BADWORDS_URL = "https://raw.githubusercontent.com/beybarisAI/Zukkorlar/main/badwords.yml";
-
-        const TG_BOT_TOKEN = "8356151933:AAFvhr6RQSRtkbf0maS3CMIDsjL3Y2Fy3Z0";
-        const TG_CHAT_ID = "1934206536";
-
         window.app = {
             user: null,
-            blacklist: { roots: [], full_words: [] },
+            selectedRole: 'student',
+            selectedDifficulty: 'easy',
             game: { timer: null, time: 10, current: 0 },
+            rankingListener: null,
+
+            generateUID: () => Math.floor(1000000 + Math.random() * 9000000).toString(),
 
             nav: function(id) {
                 document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-                const target = document.getElementById(id);
-                if(target) target.classList.add('active');
-            },
-
-            init: async function() {
-                // 1. Blacklist (YAML) loading
-                try {
-                    const resp = await fetch(BADWORDS_URL);
-                    if(resp.ok) {
-                        const yamlText = await resp.text();
-                        let section = "";
-                        yamlText.split('\n').forEach(line => {
-                            const l = line.trim();
-                            if(l.startsWith('roots:')) section = "roots";
-                            else if(l.startsWith('full_words:')) section = "full_words";
-                            else if(l.startsWith('-')) {
-                                const word = l.replace('-', '').trim().toLowerCase();
-                                if(section && word) this.blacklist[section].push(word);
-                            }
-                        });
-                        console.log("Blacklist yuklandi: ", this.blacklist.roots.length + " ta roots");
-                    } else {
-                        console.warn("GitHub faylni o'qiy olmadi (Private repo?)");
-                    }
-                } catch(e) { console.warn("Badwords xatosi:", e); }
-
-                // 2. Auth Check
-                const savedUserId = localStorage.getItem('mathRankUserId');
-                if (savedUserId) {
-                    try {
-                        const snap = await get(ref(db, 'users/' + savedUserId));
-                        if (snap.exists()) {
-                            this.user = snap.val();
-                            
-                            // Energy Check
-                            const now = Date.now();
-                            const lastUpdate = this.user.lastEnergyUpdate || now;
-                            const waitTime = 5 * 60 * 60 * 1000; 
-
-                            if (this.user.energy < 50 && (now - lastUpdate) >= waitTime) {
-                                this.user.energy = 50;
-                                this.user.lastEnergyUpdate = now;
-                                await update(ref(db, 'users/' + savedUserId), { 
-                                    energy: 50, 
-                                    lastEnergyUpdate: now 
-                                });
-                            }
-
-                            this.updateUI();
-                            this.nav('screen-dashboard');
-                            this.listenRanking();
-                            this.listenChat(); 
-                        } else { this.nav('screen-login'); }
-                    } catch (e) { this.nav('screen-login'); }
-                } else { this.nav('screen-login'); }
-                document.getElementById('loading-overlay').style.display = 'none';
-            },
-
-            // --- CHAT LOGIC ---
-            sendMsg: async function() {
-                const inp = document.getElementById('chat-inp');
-                const text = inp.value.trim();
-                if(!text) return;
-
-                // Filtering Logic
-                const lower = text.toLowerCase();
-                const clean = lower.replace(/[^a-zа-яёөүұіңғқа-я]/gi, ''); 
-                const words = lower.split(/\s+/);
-
-                const isBad = this.blacklist.roots.some(r => clean.includes(r)) || 
-                              this.blacklist.full_words.some(f => words.includes(f));
-
-                if(isBad) {
-                    alert("Odob saqlang! (Taqiqlangan so'z)");
-                    inp.value = "";
-                    return;
-                }
-
-                await push(ref(db, 'chat'), {
-                    u: this.user.name,
-                    uid: localStorage.getItem('mathRankUserId'),
-                    t: text,
-                    ts: serverTimestamp()
-                });
-                inp.value = "";
-            },
-
-            listenChat: function() {
-                const q = query(ref(db, 'chat'), limitToLast(25));
-                onValue(q, (snap) => {
-                    const box = document.getElementById('chat-messages');
-                    if(!box) return;
-                    
-                    box.innerHTML = "";
-                    snap.forEach(child => {
-                        const m = child.val();
-                        const myId = localStorage.getItem('mathRankUserId');
-                        const isMe = (m.uid === myId);
-                        
-                        let timeStr = "";
-                        if(m.ts) {
-                            const d = new Date(m.ts);
-                            timeStr = d.getHours().toString().padStart(2,'0') + ":" + d.getMinutes().toString().padStart(2,'0');
-                        }
-
-                        box.innerHTML += `
-                            <div class="msg-item ${isMe ? 'my-msg' : ''}">
-                                <div class="msg-header">
-                                    <span class="msg-user">${m.u || 'User'}</span>
-                                    <span class="msg-time">${timeStr}</span>
-                                </div>
-                                <div class="msg-text">${m.t}</div>
-                            </div>
-                        `;
-                    });
-                    setTimeout(() => box.scrollTop = box.scrollHeight, 100);
-                });
-            },
-            // -------------------
-
-            openProfile: function() {
-                if(!this.user) return;
-                const set = (id, v) => { const e = document.getElementById(id); if(e) e.innerText = v; };
+                document.getElementById(id)?.classList.add('active');
                 
-                set('prof-name', (this.user.name || '') + ' ' + (this.user.surname || ''));
-                set('prof-class', this.user.class || '?');
-                set('prof-score', this.user.score || 0);
-                set('prof-correct', this.user.correctAnswers || 0);
-                set('prof-wrong', this.user.wrongAnswers || 0);
-
-                const timerEl = document.getElementById('prof-energy-timer');
-                if(timerEl) {
-                    if(this.user.energy >= 50) {
-                        timerEl.innerText = "To'liq (50/50)";
-                        timerEl.style.color = "var(--accent)";
-                    } else {
-                        const now = Date.now();
-                        const lastUpdate = this.user.lastEnergyUpdate || now;
-                        const waitTime = 5 * 60 * 60 * 1000; 
-                        const diff = waitTime - (now - lastUpdate);
-                        if (diff <= 0) {
-                            timerEl.innerText = "Yangilanmoqda...";
-                        } else {
-                            const hours = Math.floor(diff / (1000 * 60 * 60));
-                            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                            timerEl.innerText = `${hours} soat ${mins} daqiqa qoldi`;
-                            timerEl.style.color = "var(--text-muted)";
-                        }
-                    }
+                // IMPORTANT: Trigger data loading when navigating
+                if(id === 'screen-friends') this.loadFriends();
+                if(id === 'screen-achievements') this.updateAchievementsUI();
+                if(id === 'screen-rank') {
+                    console.log('Opening ranking screen...');
+                    this.loadRanking();
                 }
-                this.nav('screen-profile');
+            },
+
+            selectRole: function(role) {
+                this.selectedRole = role;
+                document.querySelectorAll('.role-option').forEach(r => r.classList.remove('selected'));
+                document.querySelector(`.role-option.${role}`).classList.add('selected');
+                document.getElementById('inp-class').style.display = role === 'teacher' ? 'none' : 'block';
+            },
+
+            selectDifficulty: function(diff) {
+                this.selectedDifficulty = diff;
+                document.querySelectorAll('.difficulty-card').forEach(d => d.classList.remove('selected'));
+                document.querySelectorAll('.difficulty-card')[diff === 'easy' ? 0 : diff === 'medium' ? 1 : 2].classList.add('selected');
             },
 
             register: async function() {
                 const n = document.getElementById('inp-name').value.trim();
                 const s = document.getElementById('inp-surname').value.trim();
-                const c = document.getElementById('inp-class').value.trim();
+                const c = this.selectedRole === 'teacher' ? '' : document.getElementById('inp-class').value.trim();
                 const p1 = document.getElementById('inp-pass1').value;
                 const p2 = document.getElementById('inp-pass2').value;
 
-                if(!n || !s || !c || !p1) return alert("Iltimos, barcha maydonlarni to‘ldiring");
+                if(!n || !s || !p1) return alert("Barcha maydonlarni to'ldiring");
+                if(this.selectedRole === 'student' && !c) return alert("Sinfingizni kiriting");
                 if(p1 !== p2) return alert("Parollar mos emas!");
 
                 const userId = `${n}_${s}`.toLowerCase().replace(/\s/g, '');
@@ -393,82 +289,358 @@
                     if(snap.exists()) {
                         if(snap.val().password === p1) {
                             this.user = snap.val();
-                        } else { return alert("Kiritilgan parol noto'g'ri!");}
+                            if (!this.user.uid) {
+                                this.user.uid = this.generateUID();
+                                await update(userRef, { uid: this.user.uid });
+                                console.log('Generated UID for existing user:', this.user.uid);
+                            }
+                        } else { return alert("Parol noto'g'ri!"); }
                     } else {
+                        const uid = this.generateUID();
                         this.user = { 
-                            name: n, surname: s, class: c, 
-                            password: p1, score: 0, energy: 50,
+                            name: n, surname: s, class: c, role: this.selectedRole,
+                            password: p1, score: 0, energy: 50, uid: uid,
                             correctAnswers: 0, wrongAnswers: 0,
-                            lastEnergyUpdate: Date.now() 
+                            lastEnergyUpdate: Date.now(),
+                            friends: {}, achievements: {}
                         };
                         await set(userRef, this.user);
+                        console.log('New user registered with UID:', uid);
                     }
                     
                     localStorage.setItem('mathRankUserId', userId);
                     this.updateUI();
                     this.nav('screen-dashboard');
-                    this.listenRanking();
+                    this.startRankingListener();
                     this.listenChat();
-                } catch(e) { alert("Hato: " + e.message); }
+                    this.listenNotifications();
+                } catch(e) { 
+                    console.error('Register error:', e);
+                    alert("Hato: " + e.message); 
+                }
             },
 
             updateUI: function() {
                 if(!this.user) return;
-                const set = (id, v) => { const e = document.getElementById(id); if(e) e.innerText = v; };
-                
-                set('dash-user', (this.user.name || '') + " " + (this.user.surname || ''));
-                set('dash-cls', (this.user.class || '') + " SINF");
-                set('dash-score', this.user.score || 0);
-                set('dash-energy', this.user.energy || 0);
+                document.getElementById('dash-user').innerText = `${this.user.name} ${this.user.surname}`;
+                document.getElementById('dash-cls').innerText = this.user.role === 'teacher' ? 'USTOZ' : `${this.user.class} SINF`;
+                document.getElementById('dash-score').innerText = this.user.score || 0;
+                document.getElementById('dash-energy').innerText = this.user.energy || 0;
+
+                if (this.user.role === 'teacher') {
+                    document.getElementById('student-dashboard').style.display = 'none';
+                    document.getElementById('teacher-dashboard').style.display = 'block';
+                } else {
+                    document.getElementById('student-dashboard').style.display = 'block';
+                    document.getElementById('teacher-dashboard').style.display = 'none';
+                }
+
+                let prefix = '';
+                if (this.user.achievements?.professor) {
+                    prefix = '<span class="prefix-badge prefix-professor">PROFESSOR</span>';
+                } else if (this.user.achievements?.matematik) {
+                    prefix = '<span class="prefix-badge prefix-matematik">MATEMATIK</span>';
+                }
+                document.getElementById('dash-prefix').innerHTML = prefix;
             },
 
-            listenRanking: function() {
-                onValue(ref(db, 'users'), (snap) => {
+            startRankingListener: function() {
+                console.log('Starting ranking listener...');
+                if (this.rankingListener) {
+                    console.log('Ranking listener already exists');
+                    return;
+                }
+                
+                this.rankingListener = onValue(ref(db, 'users'), (snap) => {
+                    console.log('Ranking data received:', snap.exists());
                     const data = snap.val();
-                    if(!data) return;
-                    let list = Object.values(data).sort((a,b) => (b.score || 0) - (a.score || 0));
-                    let html = "";
+                    if(!data) {
+                        console.log('No user data');
+                        return;
+                    }
+                    
+                    let list = Object.entries(data)
+                        .map(([id, user]) => ({...user, id}))
+                        .filter(u => u.role === 'student')
+                        .sort((a,b) => (b.score || 0) - (a.score || 0));
+                    
+                    console.log('Filtered students:', list.length);
+                    
+                    // Update dashboard rank
                     list.forEach((u, i) => {
-                        const isMe = (this.user && u.name === this.user.name && u.surname === this.user.surname);
-                        let rankIcon = '';
-                        if (i === 0) rankIcon = '🥇'; else if (i === 1) rankIcon = '🥈'; else if (i === 2) rankIcon = '🥉'; else rankIcon = `${i + 1}.`;
-
-                        const rEl = document.getElementById('dash-rank');
-                        if(isMe && rEl) rEl.innerText = "#" + (i+1);
-                        
-                        const safeSurname = u.surname ? u.surname.charAt(0) + "." : "";
-                        html += `<div class="user-card" style="padding: 15px; ${isMe ? 'border: 2px solid var(--primary); background: rgba(59, 130, 246, 0.1);' : ''}">
-                            <div style="display:flex; align-items:center;">
-                                <span style="font-weight:bold; margin-right:15px; font-size:1.2rem; width: 35px;">${rankIcon}</span>
-                                <div><span style="font-weight:600; font-size:1.1rem;">${u.name || 'Аноним'} ${safeSurname}</span><br><small style="color:var(--text-muted)">${u.class || '?'}-sinf</small></div>
-                            </div>
-                            <span style="color:var(--accent); font-weight:bold; font-size:1.3rem;">${u.score || 0}</span>
-                        </div>`;
+                        if (this.user && u.uid === this.user.uid) {
+                            console.log('Found current user at rank:', i+1);
+                            const rankEl = document.getElementById('dash-rank');
+                            if(rankEl) rankEl.innerText = "#" + (i+1);
+                        }
                     });
-                    const rl = document.getElementById('rank-list');
-                    if(rl) rl.innerHTML = html;
+                    
+                    // Update rank screen
+                    this.renderRanking(list);
                 });
             },
 
+            renderRanking: function(list) {
+                const rankList = document.getElementById('rank-list');
+                if (!rankList) return;
+                
+                let html = "";
+                list.forEach((u, i) => {
+                    const isMe = (this.user && u.uid === this.user.uid);
+                    let rankIcon = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `${i + 1}.`;
+                    const safeSurname = u.surname ? u.surname.charAt(0) + "." : "";
+                    html += `<div class="user-card" style="padding: 15px; ${isMe ? 'border: 2px solid var(--primary); background: rgba(59, 130, 246, 0.1);' : ''}">
+                        <div style="display:flex; align-items:center; gap: 15px;">
+                            <span style="font-weight:bold; font-size:1.2rem; min-width: 35px;">${rankIcon}</span>
+                            <div>
+                                <span style="font-weight:600; font-size:1.1rem;">${u.name || 'Anonim'} ${safeSurname}</span>
+                                <br><small style="color:var(--text-muted)">${u.class || '?'}-sinf</small>
+                            </div>
+                        </div>
+                        <span style="color:var(--accent); font-weight:bold; font-size:1.3rem;">${u.score || 0}</span>
+                    </div>`;
+                });
+                rankList.innerHTML = html || '<div style="text-align:center; color:var(--text-muted); padding:20px;">Hech kim yo\'q</div>';
+                console.log('Ranking rendered:', list.length, 'students');
+            },
+
+            loadRanking: async function() {
+                console.log('Loading ranking manually...');
+                try {
+                    const snap = await get(ref(db, 'users'));
+                    if (!snap.exists()) {
+                        console.log('No users found');
+                        document.getElementById('rank-list').innerHTML = '<div style="text-align:center; color:var(--text-muted); padding:20px;">Hech kim yo\'q</div>';
+                        return;
+                    }
+                    
+                    const data = snap.val();
+                    let list = Object.entries(data)
+                        .map(([id, user]) => ({...user, id}))
+                        .filter(u => u.role === 'student')
+                        .sort((a,b) => (b.score || 0) - (a.score || 0));
+                    
+                    console.log('Manual load - students found:', list.length);
+                    this.renderRanking(list);
+                } catch(e) {
+                    console.error('Load ranking error:', e);
+                    document.getElementById('rank-list').innerHTML = '<div style="text-align:center; color:var(--danger); padding:20px;">Xatolik yuz berdi</div>';
+                }
+            },
+
+            openProfile: function() {
+                if(!this.user) return;
+                document.getElementById('prof-name').innerText = `${this.user.name} ${this.user.surname}`;
+                document.getElementById('prof-uid').innerText = this.user.uid || '0000000';
+                document.getElementById('prof-class').innerText = this.user.class || '?';
+                document.getElementById('prof-score').innerText = this.user.score || 0;
+                document.getElementById('prof-correct').innerText = this.user.correctAnswers || 0;
+                document.getElementById('prof-wrong').innerText = this.user.wrongAnswers || 0;
+                if (this.user.role === 'teacher') {
+                    document.getElementById('prof-class-item').style.display = 'none';
+                }
+                this.nav('screen-profile');
+            },
+
+            searchFriend: async function() {
+                const uid = document.getElementById('friend-uid-input').value.trim();
+                if (!uid) return alert("UID kiriting!");
+
+                try {
+                    const usersSnap = await get(ref(db, 'users'));
+                    let found = null;
+                    usersSnap.forEach(child => {
+                        const userData = child.val();
+                        if (userData.uid && userData.uid.toString() === uid.toString()) {
+                            found = { id: child.key, data: userData };
+                        }
+                    });
+
+                    if (!found) return alert("Foydalanuvchi topilmadi!");
+                    if (found.id === localStorage.getItem('mathRankUserId')) return alert("O'zingizni qo'sha olmaysiz!");
+
+                    document.getElementById('preview-name').innerText = `${found.data.name} ${found.data.surname}`;
+                    document.getElementById('preview-class').innerText = found.data.class || 'Ustoz';
+                    document.getElementById('friend-preview').style.display = 'block';
+                    const btn = document.getElementById('btn-send-request');
+                    btn.style.display = 'block';
+                    btn.dataset.friendId = found.id;
+                } catch(e) { 
+                    console.error('Search error:', e);
+                    alert("Xatolik: " + e.message); 
+                }
+            },
+
+            sendFriendRequest: async function() {
+                const btn = document.getElementById('btn-send-request');
+                const friendId = btn.dataset.friendId;
+                try {
+                    const myId = localStorage.getItem('mathRankUserId');
+                    await push(ref(db, `notifications/${friendId}`), {
+                        type: 'friend_request',
+                        from: myId,
+                        fromName: `${this.user.name} ${this.user.surname}`,
+                        timestamp: serverTimestamp()
+                    });
+                    alert("✅ Do'stlikni qabul qilish uchun so'rov yuborildi!");
+                    document.getElementById('friend-preview').style.display = 'none';
+                    btn.style.display = 'none';
+                    document.getElementById('friend-uid-input').value = '';
+                } catch(e) { alert("Xatolik: " + e.message); }
+            },
+
+            listenNotifications: function() {
+                const myId = localStorage.getItem('mathRankUserId');
+                onValue(ref(db, `notifications/${myId}`), (snap) => {
+                    const badge = document.getElementById('notif-badge');
+                    const list = document.getElementById('notification-list');
+                    
+                    if (!snap.exists()) {
+                        badge.style.display = 'none';
+                        if (list) list.innerHTML = '<div style="padding: 20px; text-align: center; color: var(--text-muted);">Bildirishnomalar yo\'q</div>';
+                        return;
+                    }
+
+                    badge.innerText = snap.size;
+                    badge.style.display = 'flex';
+
+                    if (list) {
+                        list.innerHTML = '';
+                        snap.forEach(child => {
+                            const notif = child.val();
+                            list.innerHTML += `
+                                <div style="padding: 15px 20px; border-bottom: 1px solid var(--border);">
+                                    <div style="font-weight: 600;">${notif.fromName}</div>
+                                    <div style="font-size: 0.85rem; color: var(--text-muted); margin: 5px 0;">sizni do'stlikka taklif qildi</div>
+                                    <div style="display: flex; gap: 8px; margin-top: 10px;">
+                                        <button class="btn btn-success" style="padding: 8px 16px; font-size: 0.85rem; width: auto;" 
+                                                onclick="app.acceptFriend('${notif.from}', '${child.key}')">
+                                            <i class="fa-solid fa-check"></i> Qabul qilish
+                                        </button>
+                                        <button class="btn btn-danger" style="padding: 8px 16px; font-size: 0.85rem; width: auto;" 
+                                                onclick="app.rejectFriend('${child.key}')">
+                                            <i class="fa-solid fa-times"></i> Rad etish
+                                        </button>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    }
+                });
+            },
+
+            acceptFriend: async function(friendId, notifId) {
+                try {
+                    const myId = localStorage.getItem('mathRankUserId');
+                    await update(ref(db, `users/${myId}/friends/${friendId}`), { accepted: true });
+                    await update(ref(db, `users/${friendId}/friends/${myId}`), { accepted: true });
+                    await remove(ref(db, `notifications/${myId}/${notifId}`));
+                    alert("✅ Do'st qo'shildi!");
+                    this.loadFriends();
+                } catch(e) { alert("Xatolik: " + e.message); }
+            },
+
+            rejectFriend: async function(notifId) {
+                try {
+                    await remove(ref(db, `notifications/${localStorage.getItem('mathRankUserId')}/${notifId}`));
+                    alert("So'rov rad etildi");
+                } catch(e) { alert("Xatolik: " + e.message); }
+            },
+
+            openNotifications: function() { document.getElementById('notification-panel').classList.add('open'); },
+            closeNotifications: function() { document.getElementById('notification-panel').classList.remove('open'); },
+
+            loadFriends: async function() {
+                const list = document.getElementById('friends-list');
+                try {
+                    const myId = localStorage.getItem('mathRankUserId');
+                    const snap = await get(ref(db, `users/${myId}/friends`));
+                    if (!snap.exists()) {
+                        list.innerHTML = '<div style="text-align: center; color: var(--text-muted); padding: 20px;">Do\'stlar yo\'q</div>';
+                        return;
+                    }
+
+                    list.innerHTML = '';
+                    for (const [friendId, data] of Object.entries(snap.val())) {
+                        if (!data.accepted) continue;
+                        const friendSnap = await get(ref(db, `users/${friendId}`));
+                        if (!friendSnap.exists()) continue;
+                        const friend = friendSnap.val();
+                        list.innerHTML += `
+                            <div class="friend-card">
+                                <div>
+                                    <strong>${friend.name} ${friend.surname}</strong>
+                                    <div style="font-size: 0.85rem; color: var(--text-muted);">${friend.class || 'Ustoz'}</div>
+                                </div>
+                                <div style="font-weight: 700; color: var(--accent);">${friend.score || 0}</div>
+                            </div>
+                        `;
+                    }
+                } catch(e) { console.error(e); }
+            },
+
+            updateAchievementsUI: function() {
+                const score = this.user?.score || 0;
+                document.getElementById('ach-matematik').innerHTML = 
+                    this.user?.achievements?.matematik ? '<span style="color: var(--accent);">✅ Ochilgan!</span>' : `<span style="color: var(--text-muted);">${score}/1000 ball</span>`;
+                document.getElementById('ach-professor').innerHTML = 
+                    this.user?.achievements?.professor ? '<span style="color: var(--accent);">✅ Ochilgan!</span>' : `<span style="color: var(--text-muted);">${score}/5000 ball</span>`;
+                document.getElementById('ach-certificate').innerHTML = 
+                    this.user?.achievements?.certificate ? '<span style="color: var(--accent);">✅ Ochilgan!</span>' : `<span style="color: var(--text-muted);">${score}/15000 ball</span>`;
+            },
+
+            sendMsg: async function() {
+                const inp = document.getElementById('chat-inp');
+                const text = inp.value.trim();
+                if(!text) return;
+                await push(ref(db, 'chat'), { u: this.user.name, uid: localStorage.getItem('mathRankUserId'), t: text, ts: serverTimestamp() });
+                inp.value = "";
+            },
+
+            listenChat: function() {
+                const q = query(ref(db, 'chat'), limitToLast(25));
+                onValue(q, (snap) => {
+                    const box = document.getElementById('chat-messages');
+                    box.innerHTML = "";
+                    snap.forEach(child => {
+                        const m = child.val();
+                        const myId = localStorage.getItem('mathRankUserId');
+                        const isMe = (m.uid === myId);
+                        let timeStr = "";
+                        if(m.ts) {
+                            const d = new Date(m.ts);
+                            timeStr = d.getHours().toString().padStart(2,'0') + ":" + d.getMinutes().toString().padStart(2,'0');
+                        }
+                        box.innerHTML += `<div class="msg-item ${isMe ? 'my-msg' : ''}"><div class="msg-header"><span class="msg-user">${m.u || 'User'}</span><span class="msg-time">${timeStr}</span></div><div class="msg-text">${m.t}</div></div>`;
+                    });
+                    setTimeout(() => box.scrollTop = box.scrollHeight, 100);
+                });
+            },
+
+            showDifficulty: function() { this.nav('screen-difficulty'); },
+
             startGame: function() {
-                if((this.user.energy || 0) <= 0) return alert("Energiyangiz tugadi! 5 soat kuting.");
+                if((this.user.energy || 0) <= 0) return alert("Energiyangiz tugadi!");
                 this.game.current = 0;
                 this.nav('screen-game');
                 this.nextQuestion();
+            },
+
+            getDifficultyRange: function() {
+                return this.selectedDifficulty === 'easy' ? 10 : this.selectedDifficulty === 'medium' ? 50 : 100;
             },
 
             nextQuestion: function() {
                 if((this.user.energy || 0) <= 0) return this.stopGame();
                 this.game.current++;
                 document.getElementById('q-num').innerText = this.game.current;
-
+                const range = this.getDifficultyRange();
                 let a, b, res, op;
                 let r = Math.random();
-                if(r < 0.25) { a = Math.floor(Math.random()*9)+2; b = Math.floor(Math.random()*9)+2; res = a*b; op = '×'; }
-                else if(r < 0.5) { b = Math.floor(Math.random()*8)+2; res = Math.floor(Math.random()*9)+1; a = res*b; op = '÷'; }
-                else if(r < 0.75) { a = Math.floor(Math.random()*60)+10; b = Math.floor(Math.random()*60)+10; res = a+b; op = '+'; }
-                else { a = Math.floor(Math.random()*70)+20; b = Math.floor(Math.random()*a); res = a-b; op = '-'; }
-
+                if(r < 0.25) { a = Math.floor(Math.random()*range)+2; b = Math.floor(Math.random()*range)+2; res = a*b; op = '×'; }
+                else if(r < 0.5) { b = Math.floor(Math.random()*range)+2; res = Math.floor(Math.random()*range)+1; a = res*b; op = '÷'; }
+                else if(r < 0.75) { a = Math.floor(Math.random()*range)+10; b = Math.floor(Math.random()*range)+10; res = a+b; op = '+'; }
+                else { a = Math.floor(Math.random()*range)+20; b = Math.floor(Math.random()*a); res = a-b; op = '-'; }
                 document.getElementById('q-text').innerText = `${a} ${op} ${b}`;
                 let opts = [res, res+2, res-3, res+10].sort(() => Math.random()-0.5);
                 document.getElementById('q-options').innerHTML = opts.map(o => `<button class="btn btn-secondary" style="font-size: 1.5rem; padding: 20px;" onclick="app.check(${o}, ${res})">${o}</button>`).join('');
@@ -494,68 +666,73 @@
                 let p = isCorrect ? 5 : -1;
                 let cCount = (this.user.correctAnswers || 0) + (isCorrect ? 1 : 0);
                 let wCount = (this.user.wrongAnswers || 0) + (isCorrect ? 0 : 1);
-                let oldEnergy = this.user.energy;
                 this.user.energy = Math.max(0, (this.user.energy || 0) - 1);
-                this.user.score += p;
+                this.user.score = Math.max(0, (this.user.score || 0) + p);
                 
-                let updates = {
-                    score: this.user.score,
-                    energy: this.user.energy,
-                    correctAnswers: cCount,
-                    wrongAnswers: wCount
-                };
-                if (oldEnergy >= 50 && this.user.energy < 50) {
-                    this.user.lastEnergyUpdate = Date.now();
-                    updates.lastEnergyUpdate = this.user.lastEnergyUpdate;
-                }
-                this.showFeedback(p);
                 this.updateUI();
                 const userId = `${this.user.name}_${this.user.surname}`.toLowerCase().replace(/\s/g, '');
-                update(ref(db, 'users/' + userId), updates);
+                await update(ref(db, 'users/' + userId), { score: this.user.score, energy: this.user.energy, correctAnswers: cCount, wrongAnswers: wCount });
                 this.user.correctAnswers = cCount;
                 this.user.wrongAnswers = wCount;
+                
+                await this.checkAchievements();
                 setTimeout(() => { if(this.user.energy > 0) this.nextQuestion(); else this.stopGame(); }, 500);
             },
 
-            showFeedback: function(pts) {
-                const container = document.getElementById('feedback-container');
-                const el = document.createElement('div');
-                el.className = 'floating-points';
-                el.innerText = pts > 0 ? `+${pts}` : pts;
-                el.style.color = pts > 0 ? 'var(--accent)' : 'var(--danger)';
-                container.appendChild(el);
-                setTimeout(() => el.remove(), 800);
+            checkAchievements: async function() {
+                const userId = `${this.user.name}_${this.user.surname}`.toLowerCase().replace(/\s/g, '');
+                const score = this.user.score || 0;
+                let updated = false;
+                if (score >= 1000 && !this.user.achievements?.matematik) {
+                    this.user.achievements = this.user.achievements || {};
+                    this.user.achievements.matematik = true;
+                    updated = true;
+                    alert("🎉 Yangi yutuq: MATEMATIK!");
+                }
+                if (score >= 5000 && !this.user.achievements?.professor) {
+                    this.user.achievements = this.user.achievements || {};
+                    this.user.achievements.professor = true;
+                    updated = true;
+                    alert("🎉 Yangi yutuq: PROFESSOR!");
+                }
+                if (updated) {
+                    await update(ref(db, 'users/' + userId), { achievements: this.user.achievements });
+                    this.updateUI();
+                }
             },
 
-            sendToTelegram: async function() {
-                const msgInput = document.getElementById('agency-msg');
-                const msg = msgInput.value.trim();
-                const btn = document.getElementById('btn-send-tg');
-
-                if (!msg) return alert("Iltimos, xabar yozing!");
-                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Yuborilmoqda...';
-                btn.disabled = true;
-
-                const userInfo = `👤 <b>${this.user.name} ${this.user.surname}</b>\n🏫 Sinf: ${this.user.class}`;
-                const finalMessage = `📩 <b>Yangi xabar:</b>\n\n${userInfo}\n\n📝 <b>Xabar:</b>\n${msg}`;
-                try {
-                    await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify({ chat_id: TG_CHAT_ID, text: finalMessage, parse_mode: 'HTML' })
-                    });
-                    alert("Xabaringiz muvaffaqiyatli yuborildi!");
-                    msgInput.value = ""; 
-                    this.nav('screen-dashboard');
-                } catch (error) { alert("Xatolik yuz berdi!"); } 
-                finally { btn.innerHTML = '<i class="fa-solid fa-share"></i> Yuborish'; btn.disabled = false; }
-            },
-
+            stopGame: function() { clearInterval(this.game.timer); alert("O'yin tugadi!"); this.nav('screen-dashboard'); },
             logout: function() { localStorage.removeItem('mathRankUserId'); location.reload(); },
-            stopGame: function() { clearInterval(this.game.timer); alert("O'yin tugadi!"); this.nav('screen-dashboard'); }
+
+            init: async function() {
+                const savedUserId = localStorage.getItem('mathRankUserId');
+                if (savedUserId) {
+                    try {
+                        const snap = await get(ref(db, 'users/' + savedUserId));
+                        if (snap.exists()) {
+                            this.user = snap.val();
+                            if (!this.user.uid) {
+                                this.user.uid = this.generateUID();
+                                await update(ref(db, 'users/' + savedUserId), { uid: this.user.uid });
+                                console.log('Generated UID for existing user:', this.user.uid);
+                            }
+                            this.updateUI();
+                            this.nav('screen-dashboard');
+                            this.startRankingListener();
+                            this.listenChat();
+                            this.listenNotifications();
+                            console.log('App initialized successfully');
+                        } else { this.nav('screen-login'); }
+                    } catch (e) { 
+                        console.error('Init error:', e);
+                        this.nav('screen-login'); 
+                    }
+                } else { this.nav('screen-login'); }
+                document.getElementById('loading-overlay').style.display = 'none';
+            }
         };
 
-        window.app.init();
+        app.init();
     </script>
 </body>
 </html>
