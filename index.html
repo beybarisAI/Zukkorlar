@@ -3,15 +3,41 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Zukkorlar v2.0 - FINAL</title>
+    <title>Zukkorlar v2.0</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
     <style>
-        :root { --bg-color: #0b1120; --card-bg: #1e293b; --primary: #3b82f6; --accent: #10b981; --danger: #ef4444; --text-main: #f1f5f9; --text-muted: #94a3b8; --border: #334155; --warning: #f59e0b; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        :root { 
+            --bg-gradient-start: #f0f4ff;
+            --bg-gradient-end: #e8f1ff;
+            --card-bg: #ffffff;
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --accent: #22c55e;
+            --accent-dark: #16a34a;
+            --danger: #f43f5e;
+            --danger-dark: #e11d48;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --warning: #f59e0b;
+            --warning-dark: #d97706;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 30px rgba(0,0,0,0.15);
+            --blocked-bg: #fee2e2;
+            --blocked-text: #dc2626;
+        }
+        
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Inter', sans-serif; 
+        }
         
         body { 
-            background-color: var(--bg-color); 
+            background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
             color: var(--text-main); 
             min-height: 100vh; 
             display: flex; 
@@ -25,103 +51,785 @@
             width: 100%; 
             min-height: 100vh; 
             max-width: 100%; 
-            background: var(--bg-color); 
+            background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
             position: relative; 
             display: flex; 
             flex-direction: column;
         }
         
-        @media (min-width: 768px) { 
+        @media (min-width: 768px) and (max-width: 1024px) { 
             .app-wrapper { 
-                max-width: 400px; 
-                min-height: 600px; 
+                max-width: 600px; 
+                min-height: 700px; 
                 height: auto; 
                 margin: 20px auto;
-                border-radius: 24px; 
+                border-radius: 28px; 
                 border: 1px solid var(--border); 
-                box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+                box-shadow: var(--shadow-lg);
+                overflow: hidden;
             } 
         }
         
-        .app-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: var(--card-bg); border-bottom: 1px solid var(--border); }
-        .app-header h2 { font-size: 1.2rem; color: var(--primary); }
-        .notification-bell { position: relative; cursor: pointer; font-size: 1.5rem; color: var(--text-muted); transition: 0.2s; }
-        .notification-badge { position: absolute; top: -5px; right: -5px; background: var(--danger); color: white; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700; }
+        @media (min-width: 481px) and (max-width: 767px) { 
+            .app-wrapper { 
+                max-width: 420px; 
+                min-height: 650px; 
+                height: auto; 
+                margin: 20px auto;
+                border-radius: 28px; 
+                border: 1px solid var(--border); 
+                box-shadow: var(--shadow-lg);
+                overflow: hidden;
+            } 
+        }
+        
+        @media (min-width: 1025px) { 
+            .app-wrapper { 
+                max-width: 900px; 
+                min-height: 800px; 
+                height: auto; 
+                margin: 30px auto;
+                border-radius: 32px; 
+                border: 1px solid var(--border); 
+                box-shadow: var(--shadow-lg);
+                overflow: hidden;
+            } 
+        }
+        
+        @media (min-width: 1920px) { 
+            .app-wrapper { 
+                max-width: 1400px; 
+                min-height: 900px; 
+                height: auto; 
+                margin: 40px auto;
+                border-radius: 36px; 
+                border: 2px solid var(--border); 
+                box-shadow: var(--shadow-lg);
+                overflow: hidden;
+            }
+            html { font-size: 18px; }
+        }
+        
+        .app-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 12px 16px; 
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            position: relative;
+        }
+        
+        .app-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--warning));
+        }
+        
+        .app-header h2 { 
+            font-size: 0.95rem; 
+            font-weight: 700;
+            letter-spacing: 0.4px;
+        }
+        
+        .notification-bell { 
+            position: relative; 
+            cursor: pointer; 
+            font-size: 1.05rem; 
+            color: white;
+            transition: transform 0.2s; 
+            padding: 5px;
+            border-radius: 8px;
+        }
+        
+        .notification-bell:hover {
+            transform: scale(1.1);
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .notification-badge { 
+            position: absolute; 
+            top: -2px; 
+            right: -2px; 
+            background: var(--danger);
+            color: white; 
+            min-width: 16px;
+            height: 16px; 
+            border-radius: 8px;
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 0.55rem; 
+            font-weight: 700;
+            border: 2px solid var(--primary);
+        }
         
         .screen { 
             display: none; 
             flex-direction: column; 
-            padding: 20px; 
+            padding: 16px; 
             width: 100%; 
             min-height: calc(100vh - 60px);
             overflow-y: auto;
-            padding-bottom: 40px;
+            padding-bottom: 30px;
         }
         .screen.active { display: flex; }
         
-        input, textarea { width: 100%; padding: 14px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; color: white; margin-bottom: 12px; outline: none; font-size: 1rem; }
-        textarea { height: 120px; resize: none; }
-        .btn { width: 100%; padding: 16px; border-radius: 12px; border: none; font-size: 1rem; font-weight: 600; cursor: pointer; transition: 0.2s; margin-top: 10px; display: flex; justify-content: center; align-items: center; gap: 10px; }
-        .btn:active { transform: scale(0.98); }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-secondary { background: var(--card-bg); color: var(--text-main); border: 1px solid var(--border); }
-        .btn-success { background: var(--accent); color: white; }
-        .btn-danger { background: var(--danger); color: white; }
-        .btn-admin { background: var(--card-bg); color: var(--accent); border: 1px solid var(--accent); }
-        .user-card { background: var(--card-bg); padding: 20px; border-radius: 16px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border); }
-        .role-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        .role-option { background: var(--card-bg); padding: 25px 15px; border-radius: 16px; border: 2px solid var(--border); cursor: pointer; text-align: center; transition: 0.3s; }
-        .role-option.selected { border-color: var(--primary); background: rgba(59, 130, 246, 0.1); }
-        .role-option i { font-size: 3rem; margin-bottom: 10px; }
-        .difficulty-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin: 20px 0; }
-        .difficulty-card { background: var(--card-bg); padding: 20px; border-radius: 14px; border: 2px solid var(--border); cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 15px; }
-        .difficulty-card.selected { border-color: var(--primary); background: rgba(59, 130, 246, 0.1); }
-        .friend-card { background: var(--card-bg); padding: 15px; border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border); }
-        .friend-actions { display: flex; gap: 8px; }
-        .icon-btn { background: transparent; border: none; color: var(--text-muted); font-size: 1.2rem; cursor: pointer; padding: 8px; border-radius: 8px; transition: 0.2s; }
-        .icon-btn:hover { background: rgba(255,255,255,0.1); }
-        .icon-btn.duel { color: var(--danger); }
-        .icon-btn.chat { color: var(--primary); }
-        .prefix-badge { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; margin-left: 8px; text-transform: uppercase; }
-        .prefix-matematik { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; }
-        .prefix-professor { background: linear-gradient(135deg, #ef4444, #dc2626); color: white; }
-        #loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); display: flex; justify-content: center; align-items: center; z-index: 100; }
-        .spinner { border: 4px solid var(--card-bg); border-top: 4px solid var(--primary); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .notification-panel { position: fixed; top: 0; right: -100%; width: 100%; max-width: 400px; height: 100%; background: var(--card-bg); border-left: 1px solid var(--border); transition: 0.3s; z-index: 1000; overflow-y: auto; }
-        .notification-panel.open { right: 0; }
-        .profile-item { display: flex; align-items: center; margin-bottom: 12px; font-size: 1.05rem; }
-        .profile-item i { width: 30px; text-align: center; margin-right: 10px; font-size: 1.2rem; }
-        .timer-bar { width: 100%; height: 8px; background: var(--card-bg); margin: 15px 0; border-radius: 4px; overflow: hidden; }
-        .timer-fill { height: 100%; background: var(--danger); width: 100%; transition: width 1s linear; }
-        .big-text { font-size: 3rem; font-weight: 700; margin: 20px 0; text-align: center; letter-spacing: 2px; }
-        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; }
-        #chat-container, #private-chat-container { flex-grow: 1; min-height: 300px; background: #0f172a; border-radius: 16px; border: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; margin-bottom: 12px; }
-        #chat-messages, #private-chat-messages { flex-grow: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; }
-        .msg-item { background: var(--card-bg); padding: 10px 14px; border-radius: 12px; max-width: 90%; }
-        .msg-item.my-msg { align-self: flex-end; background: rgba(59, 130, 246, 0.2); }
-        .msg-header { display: flex; justify-content: space-between; margin-bottom: 4px; }
-        .msg-user { font-weight: 700; color: var(--primary); font-size: 0.75rem; }
-        .msg-time { font-size: 0.65rem; color: var(--text-muted); }
-        .msg-text { font-size: 0.9rem; word-wrap: break-word; }
-        .duel-scores { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
-        .duel-player { background: var(--card-bg); padding: 20px; border-radius: 16px; text-align: center; border: 2px solid var(--border); }
-        .duel-player.winner { border-color: var(--accent); }
+        input, textarea { 
+            width: 100%; 
+            padding: 10px 12px; 
+            background: var(--card-bg);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-main);
+            margin-bottom: 10px; 
+            outline: none; 
+            font-size: 0.85rem;
+            transition: all 0.3s;
+            box-shadow: var(--shadow-sm);
+        }
         
-        .student-card { background: var(--card-bg); padding: 15px; border-radius: 12px; margin-bottom: 12px; border: 1px solid var(--border); }
-        .student-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .grade-buttons { display: flex; gap: 5px; margin-top: 10px; }
-        .grade-btn { padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); color: white; cursor: pointer; font-weight: 600; transition: 0.2s; }
-        .grade-btn:hover { background: var(--primary); }
-        .grade-btn.active { background: var(--primary); border-color: var(--primary); }
+        input:focus, textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+        
+        textarea { 
+            height: 100px; 
+            resize: none; 
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .btn { 
+            width: 100%; 
+            padding: 11px; 
+            border-radius: 12px;
+            border: none; 
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer; 
+            transition: all 0.3s;
+            margin-top: 8px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 7px;
+            box-shadow: var(--shadow-sm);
+            letter-spacing: 0.3px;
+        }
+        
+        .btn:active { transform: translateY(2px); }
+        .btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        
+        .btn-primary { 
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
+        
+        .btn-secondary { 
+            background: #f8fafc;
+            color: var(--text-main);
+            border: 1.5px solid var(--border);
+            font-weight: 500;
+        }
+        
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: #ffffff;
+        }
+        
+        .btn-success { 
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: white;
+        }
+        
+        .btn-danger { 
+            background: linear-gradient(135deg, var(--danger), var(--danger-dark));
+            color: white;
+        }
+        
+        .btn-admin { 
+            background: linear-gradient(135deg, var(--warning), var(--warning-dark));
+            color: white;
+        }
+        
+        .btn-claim {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            color: white;
+            padding: 8px 16px;
+            font-size: 0.75rem;
+            width: auto;
+            margin-top: 10px;
+        }
+        
+        .user-card { 
+            background: var(--card-bg);
+            padding: 14px; 
+            border-radius: 14px;
+            margin-bottom: 12px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border: 2px solid var(--border);
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s;
+        }
+        
+        .user-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .user-card.blocked {
+            background: var(--blocked-bg);
+            border-color: var(--blocked-text);
+            opacity: 0.85;
+        }
+        
+        .blocked-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            background: var(--blocked-text);
+            color: white;
+            border-radius: 6px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            margin-left: 6px;
+        }
+        
+        .role-selector { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 12px; 
+            margin-bottom: 16px; 
+        }
+        
+        .role-option { 
+            background: var(--card-bg);
+            padding: 22px 14px; 
+            border-radius: 14px;
+            border: 3px solid var(--border);
+            cursor: pointer; 
+            text-align: center; 
+            transition: all 0.3s;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .role-option:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .role-option.selected { 
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(99, 102, 241, 0.1));
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+        
+        .role-option i { 
+            font-size: 2.5rem; 
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .difficulty-grid { 
+            display: grid; 
+            grid-template-columns: 1fr; 
+            gap: 10px; 
+            margin: 16px 0; 
+        }
+        
+        .difficulty-card { 
+            background: var(--card-bg);
+            padding: 16px; 
+            border-radius: 14px;
+            border: 3px solid var(--border);
+            cursor: pointer; 
+            transition: all 0.3s;
+            display: flex; 
+            align-items: center; 
+            gap: 12px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .difficulty-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .difficulty-card.selected { 
+            border-color: var(--accent);
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.05), rgba(34, 197, 94, 0.1));
+            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+        }
+        
+        .difficulty-card i {
+            font-size: 2.2rem;
+        }
+        
+        .friend-card { 
+            background: var(--card-bg);
+            padding: 12px; 
+            border-radius: 12px;
+            margin-bottom: 10px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border: 2px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s;
+        }
+        
+        .friend-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateX(2px);
+        }
+        
+        .friend-actions { 
+            display: flex; 
+            gap: 6px; 
+        }
+        
+        .icon-btn { 
+            background: linear-gradient(135deg, var(--card-bg), #f8fafc);
+            border: 2px solid var(--border);
+            color: var(--text-muted);
+            font-size: 1rem; 
+            cursor: pointer; 
+            padding: 8px;
+            border-radius: 8px;
+            transition: all 0.3s;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .icon-btn:hover { 
+            transform: scale(1.1);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .icon-btn.duel { 
+            color: var(--danger);
+            border-color: var(--danger);
+        }
+        
+        .icon-btn.duel:hover {
+            background: var(--danger);
+            color: white;
+        }
+        
+        .icon-btn.chat { 
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .icon-btn.chat:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .prefix-badge { 
+            display: inline-block; 
+            padding: 4px 10px; 
+            border-radius: 6px;
+            font-size: 0.65rem; 
+            font-weight: 700;
+            margin-left: 5px; 
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .prefix-matematik { 
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
+        
+        .prefix-professor { 
+            background: linear-gradient(135deg, var(--danger), var(--danger-dark));
+            color: white;
+        }
+        
+        #loading-overlay { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            display: flex; 
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center; 
+            z-index: 100;
+            gap: 15px;
+        }
+        
+        .spinner { 
+            border: 4px solid rgba(255,255,255,0.2);
+            border-top: 4px solid white;
+            border-radius: 50%; 
+            width: 45px; 
+            height: 45px; 
+            animation: spin 0.8s linear infinite;
+        }
+        
+        @keyframes spin { 
+            0% { transform: rotate(0deg); } 
+            100% { transform: rotate(360deg); } 
+        }
+        
+        .notification-panel { 
+            position: fixed; 
+            top: 0; 
+            right: -100%; 
+            width: 100%; 
+            max-width: 420px; 
+            height: 100%;
+            background: var(--card-bg);
+            border-left: 2px solid var(--border);
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000; 
+            overflow-y: auto;
+            box-shadow: -10px 0 40px rgba(0,0,0,0.2);
+        }
+        
+        .notification-panel.open { right: 0; }
+        
+        .profile-item { 
+            display: flex; 
+            align-items: center; 
+            margin-bottom: 11px; 
+            font-size: 0.85rem;
+            padding: 8px;
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border-radius: 8px;
+        }
+        
+        .profile-item i { 
+            width: 32px; 
+            text-align: center; 
+            margin-right: 10px; 
+            font-size: 1.05rem;
+        }
+        
+        .timer-bar { 
+            width: 100%; 
+            height: 7px;
+            background: var(--border);
+            margin: 12px 0; 
+            border-radius: 7px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .timer-fill { 
+            height: 100%;
+            background: linear-gradient(90deg, var(--danger), var(--warning));
+            width: 100%; 
+            transition: width 1s linear;
+            border-radius: 7px;
+        }
+        
+        .big-text { 
+            font-size: 2.5rem; 
+            font-weight: 800;
+            margin: 20px 0; 
+            text-align: center; 
+            letter-spacing: 1.2px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .options-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 11px; 
+            width: 100%; 
+        }
+        
+        #chat-container, #private-chat-container { 
+            flex-grow: 1; 
+            min-height: 280px;
+            background: var(--card-bg);
+            border-radius: 14px;
+            border: 2px solid var(--border);
+            display: flex; 
+            flex-direction: column; 
+            overflow: hidden; 
+            margin-bottom: 10px;
+            box-shadow: var(--shadow-md);
+        }
+        
+        #chat-messages, #private-chat-messages { 
+            flex-grow: 1; 
+            overflow-y: auto; 
+            padding: 14px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 8px;
+            background: linear-gradient(to bottom, #fafafa, #ffffff);
+        }
+        
+        .msg-item { 
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            padding: 10px 12px; 
+            border-radius: 12px;
+            max-width: 80%;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+        }
+        
+        .msg-item.my-msg { 
+            align-self: flex-end;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+        }
+        
+        .msg-header { 
+            display: flex; 
+            justify-content: space-between; 
+            margin-bottom: 4px; 
+        }
+        
+        .msg-user { 
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 0.7rem;
+        }
+        
+        .msg-item.my-msg .msg-user {
+            color: rgba(255,255,255,0.9);
+        }
+        
+        .msg-time { 
+            font-size: 0.6rem;
+            color: var(--text-muted);
+        }
+        
+        .msg-item.my-msg .msg-time {
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .msg-text { 
+            font-size: 0.8rem;
+            word-wrap: break-word;
+            line-height: 1.4;
+        }
+        
+        .duel-scores { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 12px; 
+            margin: 16px 0; 
+        }
+        
+        .duel-player { 
+            background: var(--card-bg);
+            padding: 20px; 
+            border-radius: 14px;
+            text-align: center; 
+            border: 3px solid var(--border);
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s;
+        }
+        
+        .duel-player.winner { 
+            border-color: var(--accent);
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.05));
+            transform: scale(1.05);
+            box-shadow: 0 0 0 5px rgba(34, 197, 94, 0.1);
+        }
+        
+        .student-card { 
+            background: var(--card-bg);
+            padding: 14px; 
+            border-radius: 13px;
+            margin-bottom: 11px; 
+            border: 2px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s;
+        }
+        
+        .student-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+        
+        .student-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 10px; 
+        }
+        
+        .grade-buttons { 
+            display: flex; 
+            gap: 5px; 
+            margin-top: 8px; 
+        }
+        
+        .grade-btn { 
+            padding: 7px 11px; 
+            border-radius: 8px;
+            border: 2px solid var(--border);
+            background: var(--card-bg);
+            color: var(--text-main);
+            cursor: pointer; 
+            font-weight: 700;
+            transition: all 0.3s;
+            box-shadow: var(--shadow-sm);
+            font-size: 0.8rem;
+        }
+        
+        .grade-btn:hover { 
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        .grade-btn.active { 
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: white;
+            border-color: var(--accent);
+        }
+        
+        h1, h2, h3, h4 {
+            font-weight: 700;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #fafafa, #ffffff);
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 2px;
+        }
+        
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        
+        .stats-panel {
+            background: var(--card-bg);
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border: 2px solid var(--border);
+            box-shadow: var(--shadow-md);
+            transform: scale(0.75);
+            transform-origin: top left;
+            width: 133.33%;
+        }
+        
+        .stats-panel h3 {
+            margin-bottom: 10px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .stat-box {
+            background: linear-gradient(135deg, #f8fafc, #ffffff);
+            padding: 10px;
+            border-radius: 8px;
+            border-left: 3px solid var(--primary);
+            text-align: center;
+        }
+        
+        .stat-box.accent {
+            border-left-color: var(--accent);
+        }
+        
+        .stat-box.warning {
+            border-left-color: var(--warning);
+        }
+        
+        .stat-box.danger {
+            border-left-color: var(--danger);
+        }
+        
+        .stat-box-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 3px;
+        }
+        
+        .stat-box-label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        
+        .agency-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .agency-buttons {
+            margin-top: auto;
+            padding-top: 16px;
+        }
+        
+        .rank-item {
+            padding: 12px !important;
+        }
+        
+        .rank-item * {
+            font-size: 0.9em !important;
+        }
     </style>
 </head>
 <body>
-    <div id="loading-overlay"><div class="spinner"></div></div>
+    <div id="loading-overlay">
+        <div class="spinner"></div>
+        <div style="color: white; font-size: 1rem; font-weight: 600;">Yuklanmoqda...</div>
+    </div>
+    
     <div id="notification-panel" class="notification-panel">
-        <div style="padding: 20px; background: var(--bg-color); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between;">
-            <h3><i class="fa-solid fa-bell"></i> Bildirishnomalar</h3>
-            <i class="fa-solid fa-times" onclick="app.closeNotifications()" style="cursor: pointer; font-size: 1.5rem;"></i>
+        <div style="padding: 16px; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; border-bottom: 2px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+            <h3 style="display: flex; align-items: center; gap: 8px; font-size: 1rem;"><i class="fa-solid fa-bell"></i> Bildirishnomalar</h3>
+            <i class="fa-solid fa-times" onclick="app.closeNotifications()" style="cursor: pointer; font-size: 1.2rem; padding: 5px; border-radius: 8px; transition: all 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='transparent'"></i>
         </div>
         <div id="notification-list"></div>
     </div>
@@ -129,222 +837,315 @@
     <div class="app-wrapper">
         <!-- LOGIN -->
         <div id="screen-login" class="screen">
-            <h1 style="text-align:center; color:var(--primary); margin-bottom:40px; font-size: 2.2rem;"><strong>KIRISH</strong></h1>
+            <div style="text-align: center; margin-bottom: 32px;">
+                <div style="font-size: 3rem; margin-bottom: 14px;"><i class="fa-solid fa-graduation-cap" style="color: var(--primary);"></i></div>
+                <h1 style="background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 1.9rem; margin-bottom: 5px;">ZUKKORLAR</h1>
+            </div>
             <div style="flex-grow: 1;">
                 <input type="text" id="inp-name" placeholder="Ismingiz" />
                 <input type="text" id="inp-surname" placeholder="Familiyangiz" />
                 <div class="role-selector">
                     <div class="role-option student selected" onclick="app.selectRole('student')">
                         <i class="fa-solid fa-user-graduate" style="color: var(--accent);"></i>
-                        <div style="font-weight: 600;">Men o'quvchiman</div>
+                        <div style="font-weight: 600; font-size: 0.85rem;">O'quvchi</div>
                     </div>
                     <div class="role-option teacher" onclick="app.selectRole('teacher')">
                         <i class="fa-solid fa-chalkboard-user" style="color: var(--warning);"></i>
-                        <div style="font-weight: 600;">Men ustozman</div>
+                        <div style="font-weight: 600; font-size: 0.85rem;">Ustoz</div>
                     </div>
                 </div>
                 <input type="text" id="inp-class" placeholder="Sinfingiz (9A)" />
                 <input type="password" id="inp-pass1" placeholder="Parol o'ylab toping" />
                 <input type="password" id="inp-pass2" placeholder="Parolni takrorlang" />
             </div>
-            <button class="btn btn-primary" onclick="app.register()"><i class="fa-solid fa-user-plus"></i> Ro'yxatdan o'tish</button>
+            <button class="btn btn-primary" onclick="app.register()"><i class="fa-solid fa-user-plus"></i>Ro'yxatdan o'tish</button>
         </div>
 
         <!-- DASHBOARD -->
         <div id="screen-dashboard" class="screen" style="padding: 0 !important;">
             <div class="app-header">
-                <h2>ASOSIY MENYU</h2>
+                <h2>BOSH SAHIFA</h2>
                 <div class="notification-bell" onclick="app.openNotifications()">
                     <i class="fa-solid fa-bell"></i>
                     <span id="notif-badge" class="notification-badge" style="display: none;">0</span>
                 </div>
             </div>
-            <div style="padding: 0 15px 40px 15px;">
-                <div class="user-card" style="margin-top: 15px;">
+            <div style="padding: 0 14px 30px 14px;">
+                <div class="user-card" style="margin-top: 14px;">
                     <div>
-                        <h2 id="dash-user" style="font-size: 1.1rem;">...</h2>
-                        <small id="dash-cls" style="color:var(--text-muted); font-size: 0.85rem;"></small>
-                        <div id="dash-prefix"></div>
+                        <h2 id="dash-user" style="font-size: 0.95rem; margin-bottom: 2px;">...</h2>
+                        <small id="dash-cls" style="color:var(--text-muted); font-size: 0.75rem; font-weight: 500;"></small>
+                        <div id="dash-prefix" style="margin-top: 5px;"></div>
                     </div>
                     <div style="text-align:right;">
-                        <i class="fa-solid fa-bolt" style="color:#facc15; font-size: 0.9rem;"></i>
-                        <span id="dash-energy">50</span>/50
+                        <div style="display: flex; align-items: center; gap: 4px; background: linear-gradient(135deg, #fef3c7, #fde68a); padding: 5px 10px; border-radius: 8px;">
+                            <i class="fa-solid fa-bolt" style="color:#d97706; font-size: 0.85rem;"></i>
+                            <span id="dash-energy" style="font-weight: 700; color: #92400e; font-size: 0.85rem;">50</span>
+                            <span style="color: #92400e; font-weight: 600; font-size: 0.75rem;">/50</span>
+                        </div>
                     </div>
                 </div>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:15px;">
-                    <div style="background:var(--card-bg); padding:12px; border-radius:12px; text-align:center;">
-                        <div id="dash-score" style="font-size:1.6rem; font-weight:bold; color:var(--accent)">0</div>
-                        <small>Ball</small>
+                <div class="stats-grid">
+                    <div class="stat-card" style="border-left: 4px solid var(--accent);">
+                        <div class="stat-value" id="dash-score" style="color:var(--accent)">0</div>
+                        <div class="stat-label">Ball</div>
                     </div>
-                    <div style="background:var(--card-bg); padding:12px; border-radius:12px; text-align:center;">
-                        <div id="dash-rank" style="font-size:1.6rem; font-weight:bold; color:var(--primary)">#?</div>
-                        <small>O'rin</small>
+                    <div class="stat-card" style="border-left: 4px solid var(--primary);">
+                        <div class="stat-value" id="dash-rank" style="color:var(--primary)">#?</div>
+                        <div class="stat-label">O'rin</div>
                     </div>
                 </div>
                 <div id="student-dashboard">
-                    <button class="btn btn-primary" style="padding: 12px; font-size: 0.95rem; margin: 8px 0;" onclick="app.showDifficulty()"><i class="fa-solid fa-play"></i> Boshlash</button>
-                    <button class="btn btn-secondary" style="padding: 12px; font-size: 0.95rem; margin: 8px 0;" onclick="app.nav('screen-friends')"><i class="fa-solid fa-user-friends"></i> Do'stlar</button>
-                    <button class="btn btn-secondary" style="padding: 12px; font-size: 0.95rem; margin: 8px 0;" onclick="app.nav('screen-achievements')"><i class="fa-solid fa-trophy"></i> Yutuqlar</button>
+                    <button class="btn btn-primary" style="padding: 11px; font-size: 0.85rem; margin: 7px 0;" onclick="app.showDifficulty()"><i class="fa-solid fa-play"></i> O'yinni boshlash</button>
+                    <button class="btn btn-secondary" style="padding: 10px; font-size: 0.8rem; margin: 6px 0;" onclick="app.nav('screen-friends')"><i class="fa-solid fa-user-friends"></i> Do'stlar</button>
+                    <button class="btn btn-secondary" style="padding: 10px; font-size: 0.8rem; margin: 6px 0;" onclick="app.nav('screen-achievements')"><i class="fa-solid fa-trophy"></i> Yutuqlar</button>
                 </div>
                 <div id="teacher-dashboard" style="display: none;">
-                    <button class="btn" style="background: var(--warning); color: white; padding: 12px; font-size: 0.95rem; margin: 8px 0;" onclick="app.nav('screen-manage')"><i class="fa-solid fa-users-gear"></i> O'quvchilarni boshqarish</button>
+                    <button class="btn" style="background: linear-gradient(135deg, var(--warning), var(--warning-dark)); color: white; padding: 10px; font-size: 0.8rem; margin: 6px 0;" onclick="app.nav('screen-manage')"><i class="fa-solid fa-users-gear"></i> O'quvchilarni boshqarish</button>
+                    <button class="btn" style="background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; padding: 10px; font-size: 0.8rem; margin: 6px 0;" onclick="app.nav('screen-stats')"><i class="fa-solid fa-chart-line"></i> Statistika</button>
                 </div>
-                <button class="btn btn-secondary" style="padding: 12px; font-size: 0.95rem; margin: 8px 0;" onclick="app.nav('screen-chat')"><i class="fa-solid fa-comments"></i> Global Chat</button>
-                <button class="btn btn-secondary" style="padding: 12px; font-size: 0.95rem; margin: 8px 0;" onclick="app.openProfile()"><i class="fa-solid fa-user-circle"></i> Profil</button>
-                <button class="btn btn-secondary" style="padding: 12px; font-size: 0.95rem; margin: 8px 0;" onclick="app.nav('screen-rank')"><i class="fa-solid fa-ranking-star"></i> Reyting</button>
-                <button class="btn btn-admin" style="padding: 12px; font-size: 0.95rem; margin: 8px 0;" onclick="app.nav('screen-agency')"><i class="fa-solid fa-headset"></i> ADMIN BILAN ALOQA</button>
-                <div style="padding-top: 10px;">
-                    <button class="btn btn-secondary" style="font-size: 0.85rem; opacity: 0.8; padding: 12px;" onclick="app.logout()"><i class="fa-solid fa-right-from-bracket"></i> Chiqish</button>
+                <button class="btn btn-secondary" style="padding: 10px; font-size: 0.8rem; margin: 6px 0;" onclick="app.nav('screen-chat')"><i class="fa-solid fa-comments"></i> Global Chat</button>
+                <button class="btn btn-secondary" style="padding: 10px; font-size: 0.8rem; margin: 6px 0;" onclick="app.openProfile()"><i class="fa-solid fa-user-circle"></i> Profilim</button>
+                <button class="btn btn-secondary" style="padding: 10px; font-size: 0.8rem; margin: 6px 0;" onclick="app.nav('screen-rank')"><i class="fa-solid fa-ranking-star"></i> Reyting jadvali</button>
+                <button class="btn btn-admin" style="padding: 10px; font-size: 0.8rem; margin: 6px 0;" onclick="app.nav('screen-agency')"><i class="fa-solid fa-headset"></i> Admin bilan aloqa</button>
+                <div style="padding-top: 8px;">
+                    <button class="btn btn-secondary" style="font-size: 0.75rem; opacity: 0.7; padding: 8px;" onclick="app.logout()"><i class="fa-solid fa-right-from-bracket"></i> Chiqish</button>
                 </div>
             </div>
         </div>
 
+        <!-- STATISTICS -->
+        <div id="screen-stats" class="screen">
+            <h3 style="margin-bottom:16px; text-align: center; font-size: 1.1rem;"><i class="fa-solid fa-chart-line" style="color:var(--primary)"></i> Statistika paneli</h3>
+            
+            <div class="stats-panel">
+                <h3><i class="fa-solid fa-users"></i> Umumiy statistika</h3>
+                <div class="stats-row">
+                    <div class="stat-box">
+                        <div class="stat-box-value" id="total-students">0</div>
+                        <div class="stat-box-label">Jami o'quvchilar</div>
+                    </div>
+                    <div class="stat-box accent">
+                        <div class="stat-box-value" id="avg-score">0</div>
+                        <div class="stat-box-label">O'rtacha ball</div>
+                    </div>
+                    <div class="stat-box warning">
+                        <div class="stat-box-value" id="active-students">0</div>
+                        <div class="stat-box-label">Faol o'quvchilar</div>
+                    </div>
+                    <div class="stat-box danger">
+                        <div class="stat-box-value" id="blocked-students">0</div>
+                        <div class="stat-box-label">Bloklangan</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stats-panel">
+                <h3><i class="fa-solid fa-trophy"></i> Eng yaxshi 5 o'quvchi</h3>
+                <div id="top-students-list"></div>
+            </div>
+            
+            <div class="stats-panel">
+                <h3><i class="fa-solid fa-chart-bar"></i> Javoblar statistikasi</h3>
+                <div class="stats-row">
+                    <div class="stat-box accent">
+                        <div class="stat-box-value" id="total-correct">0</div>
+                        <div class="stat-box-label">Jami to'g'ri</div>
+                    </div>
+                    <div class="stat-box danger">
+                        <div class="stat-box-value" id="total-wrong">0</div>
+                        <div class="stat-box-label">Jami noto'g'ri</div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
+        </div>
+
         <!-- MANAGE STUDENTS -->
         <div id="screen-manage" class="screen">
-            <h3 style="margin-bottom:20px; text-align: center;"><i class="fa-solid fa-users-gear" style="color:var(--warning)"></i> O'quvchilarni boshqarish</h3>
+            <h3 style="margin-bottom:16px; text-align: center; font-size: 1.1rem;"><i class="fa-solid fa-users-gear" style="color:var(--warning)"></i> O'quvchilar boshqaruvi</h3>
             <div id="students-list" style="flex-grow: 1;"><div style="text-align:center; color:var(--text-muted); padding:20px;">Yuklanmoqda...</div></div>
             <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
         </div>
 
         <!-- DIFFICULTY -->
         <div id="screen-difficulty" class="screen">
-            <h3 style="margin-bottom:25px; text-align: center;"><i class="fa-solid fa-sliders" style="color: var(--primary);"></i> Qiyinlik darajasi</h3>
+            <h3 style="margin-bottom:20px; text-align: center; font-size: 1.1rem;"><i class="fa-solid fa-sliders" style="color: var(--primary);"></i> Qiyinlik darajasi</h3>
             <div class="difficulty-grid">
-                <div class="difficulty-card selected" onclick="app.selectDifficulty('easy')"><div style="font-size: 2.5rem;">😊</div><div><h4>Oson</h4><small style="color: var(--text-muted);">1-10</small></div></div>
-                <div class="difficulty-card" onclick="app.selectDifficulty('medium')"><div style="font-size: 2.5rem;">🤔</div><div><h4>Qiyin</h4><small style="color: var(--text-muted);">1-50</small></div></div>
-                <div class="difficulty-card" onclick="app.selectDifficulty('hard')"><div style="font-size: 2.5rem;">😰</div><div><h4>Juda qiyin</h4><small style="color: var(--text-muted);">1-100</small></div></div>
+                <div class="difficulty-card selected" onclick="app.selectDifficulty('easy')">
+                    <div><i class="fa-solid fa-smile" style="color: var(--accent);"></i></div>
+                    <div style="flex-grow: 1;">
+                        <h4 style="font-size: 0.95rem; margin-bottom: 2px;">Oson daraja</h4>
+                        <small style="color: var(--text-muted); font-weight: 500;">Raqamlar: 1-10</small>
+                    </div>
+                </div>
+                <div class="difficulty-card" onclick="app.selectDifficulty('medium')">
+                    <div><i class="fa-solid fa-meh" style="color: var(--warning);"></i></div>
+                    <div style="flex-grow: 1;">
+                        <h4 style="font-size: 0.95rem; margin-bottom: 2px;">O'rta daraja</h4>
+                        <small style="color: var(--text-muted); font-weight: 500;">Raqamlar: 1-50</small>
+                    </div>
+                </div>
+                <div class="difficulty-card" onclick="app.selectDifficulty('hard')">
+                    <div><i class="fa-solid fa-face-frown" style="color: var(--danger);"></i></div>
+                    <div style="flex-grow: 1;">
+                        <h4 style="font-size: 0.95rem; margin-bottom: 2px;">Qiyin daraja</h4>
+                        <small style="color: var(--text-muted); font-weight: 500;">Raqamlar: 1-100</small>
+                    </div>
+                </div>
             </div>
-            <button class="btn btn-primary" onclick="app.startGame()"><i class="fa-solid fa-play"></i> Boshlash</button>
-            <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
+            <button class="btn btn-success" onclick="app.startGame()" style="margin-top: auto;"><i class="fa-solid fa-play"></i> O'yinni boshlash</button>
+            <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')" style="margin-top: 150px;"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
         </div>
 
         <!-- FRIENDS -->
         <div id="screen-friends" class="screen">
-            <h3 style="margin-bottom:20px; text-align: center;"><i class="fa-solid fa-user-friends" style="color:var(--primary)"></i> Do'stlar</h3>
+            <h3 style="margin-bottom:16px; text-align: center; font-size: 1.1rem;"><i class="fa-solid fa-user-friends" style="color:var(--primary)"></i> Do'stlar</h3>
             <input type="text" id="friend-uid-input" placeholder="Do'st UID sini kiriting" />
-            <div id="friend-preview" style="display: none; background: var(--card-bg); padding: 12px; border-radius: 10px; margin-bottom: 10px;">
-                <div style="font-weight: 600;" id="preview-name">...</div>
-                <small style="color: var(--text-muted);" id="preview-class">...</small>
+            <div id="friend-preview" style="display: none; background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 11px; border-radius: 10px; margin-bottom: 8px; border: 2px solid #bae6fd;">
+                <div style="font-weight: 600; font-size: 0.85rem;" id="preview-name">...</div>
+                <small style="color: var(--text-muted); font-weight: 500; font-size: 0.75rem;" id="preview-class">...</small>
             </div>
             <button class="btn btn-success" onclick="app.searchFriend()"><i class="fa-solid fa-search"></i> Qidirish</button>
             <button class="btn btn-primary" id="btn-send-request" onclick="app.sendFriendRequest()" style="display: none;"><i class="fa-solid fa-user-plus"></i> Do'stlikka qo'shish</button>
-            <h4 style="margin: 20px 0 10px 0; color: var(--text-muted);">Mening do'stlarim:</h4>
+            <h4 style="margin: 16px 0 10px 0; color: var(--text-muted); font-weight: 600; font-size: 0.85rem;">Mening do'stlarim:</h4>
             <div id="friends-list"></div>
-            <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
+            <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')" style="margin-top: 270px;"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
         </div>
 
         <!-- PRIVATE CHAT -->
         <div id="screen-private-chat" class="screen">
-            <h3 style="margin-bottom:15px; text-align:center; color:var(--primary)">
+            <h3 style="margin-bottom:12px; text-align:center; font-size: 1.05rem; color:var(--primary)">
                 <i class="fa-solid fa-comment"></i> <span id="private-chat-name">Chat</span>
             </h3>
             <div id="private-chat-container">
-                <div id="private-chat-messages"><div style="text-align:center; color:gray; padding:20px;">Yuklanmoqda...</div></div>
+                <div id="private-chat-messages"><div style="text-align:center; color:var(--text-muted); padding:20px;">Yuklanmoqda...</div></div>
             </div>
-            <div style="display:flex; gap:10px;">
+            <div style="display:flex; gap:8px;">
                 <input type="text" id="private-chat-inp" placeholder="Xabar yozing..." style="margin-bottom:0; flex-grow:1;" />
                 <button class="btn btn-primary" onclick="app.sendPrivateMsg()" style="width:50px; margin-top:0; padding:0;"><i class="fa-solid fa-paper-plane"></i></button>
             </div>
-            <button class="btn btn-secondary" onclick="app.nav('screen-friends')" style="margin-top:15px;"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
+            <button class="btn btn-secondary" onclick="app.nav('screen-friends')" style="margin-top:12px;"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
         </div>
 
         <!-- DUEL -->
         <div id="screen-duel" class="screen">
-            <h3 style="text-align: center; margin-bottom: 20px;"><i class="fa-solid fa-fire" style="color: var(--danger);"></i> DUEL</h3>
+            <h3 style="text-align: center; margin-bottom: 16px; font-size: 1.1rem;"><i class="fa-solid fa-fire" style="color: var(--danger);"></i> DUEL</h3>
             <div class="duel-scores">
                 <div class="duel-player" id="duel-player1">
-                    <h4 id="duel-p1-name">Siz</h4>
-                    <div style="font-size: 2rem; font-weight: 700; color: var(--accent);" id="duel-p1-score">0</div>
+                    <h4 id="duel-p1-name" style="margin-bottom: 8px; color: var(--text-muted); font-size: 0.85rem;">Siz</h4>
+                    <div style="font-size: 1.9rem; font-weight: 800; color: var(--accent);" id="duel-p1-score">0</div>
                 </div>
                 <div class="duel-player" id="duel-player2">
-                    <h4 id="duel-p2-name">Do'st</h4>
-                    <div style="font-size: 2rem; font-weight: 700; color: var(--danger);" id="duel-p2-score">0</div>
+                    <h4 id="duel-p2-name" style="margin-bottom: 8px; color: var(--text-muted); font-size: 0.85rem;">Do'st</h4>
+                    <div style="font-size: 1.9rem; font-weight: 800; color: var(--danger);" id="duel-p2-score">0</div>
                 </div>
             </div>
-            <div style="display:flex; justify-content:space-between; margin-bottom: 20px;">
-                <span style="font-size: 1.2rem; font-weight: 600;">Savol №<span id="duel-q-num">1</span></span>
-                <span style="color:var(--danger); font-size: 1.2rem; font-weight: 600;"><i class="fa-regular fa-hourglass-half"></i> <span id="duel-timer-text">10</span>s</span>
+            <div style="display:flex; justify-content:space-between; margin-bottom: 16px; background: linear-gradient(135deg, #f8fafc, #f1f5f9); padding: 11px; border-radius: 11px;">
+                <span style="font-size: 0.95rem; font-weight: 700;">Savol №<span id="duel-q-num">1</span></span>
+                <span style="color:var(--danger); font-size: 0.95rem; font-weight: 700;"><i class="fa-regular fa-hourglass-half"></i> <span id="duel-timer-text">10</span>s</span>
             </div>
             <div class="timer-bar"><div class="timer-fill" id="duel-timer-fill"></div></div>
-            <div style="height: 30px;"></div>
+            <div style="height: 12px;"></div>
             <div class="big-text" id="duel-q-text">...</div>
             <div class="options-grid" id="duel-q-options"></div>
         </div>
 
         <!-- PROFILE -->
         <div id="screen-profile" class="screen">
-            <h4 style="margin-bottom:25px; text-align:center;"><i class="fa-solid fa-id-badge" style="color:var(--primary)"></i> PROFILIM</h4>
-            <div class="user-card" style="display:block; padding: 25px;">
-                <div class="profile-item"><i class="fa-solid fa-user" style="color:var(--primary)"></i><span>Ism: <strong id="prof-name" style="color:white; margin-left:8px;">...</strong></span></div>
-                <div class="profile-item"><i class="fa-solid fa-fingerprint" style="color:var(--accent)"></i><span>UID: <strong id="prof-uid" style="color:var(--accent); margin-left:8px; font-family: monospace;">...</strong></span></div>
-                <div class="profile-item" id="prof-class-item"><i class="fa-solid fa-graduation-cap" style="color:var(--text-muted)"></i><span>Sinf: <strong id="prof-class" style="color:white; margin-left:8px;">...</strong></span></div>
-                <hr style="border:0; border-top:1px solid var(--border); margin:20px 0;" />
-                <div class="profile-item"><i class="fa-solid fa-star" style="color:#fbbf24"></i><span>Ball: <strong id="prof-score" style="color:#fbbf24; margin-left:8px;">0</strong></span></div>
-                <div class="profile-item"><i class="fa-solid fa-circle-check" style="color:var(--accent)"></i><span>To'g'ri: <strong id="prof-correct" style="color:var(--accent); margin-left:8px;">0</strong></span></div>
-                <div class="profile-item"><i class="fa-solid fa-circle-xmark" style="color:var(--danger)"></i><span>Noto'g'ri: <strong id="prof-wrong" style="color:var(--danger); margin-left:8px;">0</strong></span></div>
+            <h4 style="margin-bottom:20px; text-align:center; font-size: 1.1rem;"><i class="fa-solid fa-id-badge" style="color:var(--primary)"></i> PROFILIM</h4>
+            <div class="user-card" style="display:block; padding: 20px;">
+                <div class="profile-item"><i class="fa-solid fa-user" style="color:var(--primary)"></i><span>Ism: <strong id="prof-name" style="color:var(--text-main); margin-left:5px;">...</strong></span></div>
+                <div class="profile-item"><i class="fa-solid fa-fingerprint" style="color:var(--accent)"></i><span>UID: <strong id="prof-uid" style="color:var(--accent); margin-left:5px; font-family: monospace;">...</strong></span></div>
+                <div class="profile-item" id="prof-class-item"><i class="fa-solid fa-graduation-cap" style="color:var(--text-muted)"></i><span>Sinf: <strong id="prof-class" style="color:var(--text-main); margin-left:5px;">...</strong></span></div>
+                <hr style="border:0; border-top:2px solid var(--border); margin:16px 0;" />
+                <div class="profile-item"><i class="fa-solid fa-star" style="color:#f59e0b"></i><span>Ball: <strong id="prof-score" style="color:#f59e0b; margin-left:5px;">0</strong></span></div>
+                <div class="profile-item"><i class="fa-solid fa-circle-check" style="color:var(--accent)"></i><span>To'g'ri: <strong id="prof-correct" style="color:var(--accent); margin-left:5px;">0</strong></span></div>
+                <div class="profile-item"><i class="fa-solid fa-circle-xmark" style="color:var(--danger)"></i><span>Noto'g'ri: <strong id="prof-wrong" style="color:var(--danger); margin-left:5px;">0</strong></span></div>
             </div>
-            <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
+            <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')" style="margin-top: 140px;"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
         </div>
 
         <!-- ACHIEVEMENTS -->
         <div id="screen-achievements" class="screen">
-            <h3 style="margin-bottom:25px; text-align: center;"><i class="fa-solid fa-trophy" style="color: #fbbf24;"></i> Yutuqlar</h3>
-            <div style="background: var(--card-bg); padding: 20px; border-radius: 16px;">
-                <div style="margin-bottom: 20px;"><i class="fa-solid fa-medal" style="font-size: 2rem; color: #3b82f6;"></i><h4>Matematik (1000 ball)</h4><div id="ach-matematik" style="margin-top: 8px;">...</div></div>
-                <div style="margin-bottom: 20px;"><i class="fa-solid fa-crown" style="font-size: 2rem; color: #ef4444;"></i><h4>Professor (5000 ball)</h4><div id="ach-professor" style="margin-top: 8px;">...</div></div>
-                <div><i class="fa-solid fa-certificate" style="font-size: 2rem; color: #fbbf24;"></i><h4>Sertifikat (15000 ball)</h4><div id="ach-certificate" style="margin-top: 8px;">...</div></div>
+            <h3 style="margin-bottom:20px; text-align: center; font-size: 1.1rem;"><i class="fa-solid fa-trophy" style="color: #f59e0b;"></i> YUTUQLAR</h3>
+            <div style="background: var(--card-bg); padding: 16px; border-radius: 14px; border: 2px solid var(--border); box-shadow: var(--shadow-md);">
+                <div style="margin-bottom: 16px; padding: 14px; background: linear-gradient(135deg, #eff6ff, #dbeafe); border-radius: 11px; border-left: 4px solid var(--primary);">
+                    <i class="fa-solid fa-medal" style="font-size: 1.9rem; color: var(--primary); margin-bottom: 8px; display: block;"></i>
+                    <h4 style="font-size: 0.95rem; margin-bottom: 5px;">Matematik</h4>
+                    <div id="ach-matematik" style="margin-top: 6px; font-weight: 500; font-size: 0.8rem;">...</div>
+                </div>
+                <div style="margin-bottom: 16px; padding: 14px; background: linear-gradient(135deg, #fef2f2, #fee2e2); border-radius: 11px; border-left: 4px solid var(--danger);">
+                    <i class="fa-solid fa-crown" style="font-size: 1.9rem; color: var(--danger); margin-bottom: 8px; display: block;"></i>
+                    <h4 style="font-size: 0.95rem; margin-bottom: 5px;">Professor</h4>
+                    <div id="ach-professor" style="margin-top: 6px; font-weight: 500; font-size: 0.8rem;">...</div>
+                </div>
+                <div style="padding: 14px; background: linear-gradient(135deg, #fffbeb, #fef3c7); border-radius: 11px; border-left: 4px solid var(--warning);">
+                    <i class="fa-solid fa-certificate" style="font-size: 1.9rem; color: var(--warning); margin-bottom: 8px; display: block;"></i>
+                    <h4 style="font-size: 0.95rem; margin-bottom: 5px;">Sertifikat</h4>
+                    <div id="ach-certificate" style="margin-top: 6px; font-weight: 500; font-size: 0.8rem;">...</div>
+                </div>
             </div>
             <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
         </div>
 
         <!-- GLOBAL CHAT -->
         <div id="screen-chat" class="screen">
-            <h3 style="margin-bottom:15px; text-align:center; color:var(--primary)"><i class="fa-solid fa-comments"></i> Global Chat</h3>
-            <div id="chat-container"><div id="chat-messages"><div style="text-align:center; color:gray; padding:20px;">Yuklanmoqda...</div></div></div>
-            <div style="display:flex; gap:10px;">
+            <h3 style="margin-bottom:12px; text-align:center; font-size: 1.05rem; color:var(--primary)"><i class="fa-solid fa-comments"></i> Global Chat</h3>
+            <div id="chat-container"><div id="chat-messages"><div style="text-align:center; color:var(--text-muted); padding:20px;">Yuklanmoqda...</div></div></div>
+            <div style="display:flex; gap:8px;">
                 <input type="text" id="chat-inp" placeholder="Xabar yozing..." style="margin-bottom:0; flex-grow:1;" />
                 <button class="btn btn-primary" onclick="app.sendMsg()" style="width:50px; margin-top:0; padding:0;"><i class="fa-solid fa-paper-plane"></i></button>
             </div>
-            <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')" style="margin-top:15px;"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
+            <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')" style="margin-top:12px;"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
         </div>
 
         <!-- RANK -->
         <div id="screen-rank" class="screen">
-            <h2 style="margin-bottom:25px; text-align: center;"><i class="fa-solid fa-ranking-star" style="color: #fbbf24;"></i> REYTING</h2>
+            <h2 style="margin-bottom:20px; text-align: center; font-size: 1.2rem;"><i class="fa-solid fa-ranking-star" style="color: #f59e0b;"></i> REYTING</h2>
             <div id="rank-list" style="flex-grow: 1;"><div style="text-align:center; color:var(--text-muted); padding:20px;">Yuklanmoqda...</div></div>
-            <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
+            <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')" style="margin-top: 400px;"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
         </div>
 
         <!-- AGENCY -->
-        <div id="screen-agency" class="screen">
-            <h3 style="margin-bottom:20px; text-align: center;"><i class="fa-solid fa-paper-plane" style="color:var(--primary)"></i> Xabar yuborish</h3>
-            <div style="flex-grow: 1;"><textarea id="agency-msg" placeholder="Xabaringizni shu yerga yozing..."></textarea></div>
-            <button class="btn btn-primary" id="btn-send-tg" onclick="app.sendToTelegram()"><i class="fa-solid fa-share"></i> Yuborish</button>
-            <div class="bottom-actions"><button class="btn btn-secondary" onclick="app.nav('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i> Orqaga</button></div>
+        <div id="screen-agency" class="screen" style="padding-bottom: 16px;">
+            <h3 style="margin-bottom:16px; text-align: center; font-size: 1.1rem;"><i class="fa-solid fa-paper-plane" style="color:var(--primary)"></i> Admin bilan aloqa</h3>
+            <div class="agency-content">
+                <textarea id="agency-msg" placeholder="Xabaringizni shu yerga yozing..." style="height: 420px;"></textarea>
+            </div>
+            <div class="agency-buttons">
+                <button class="btn btn-success" id="btn-send-tg" onclick="app.sendToTelegram()"><i class="fa-solid fa-share"></i> Yuborish</button>
+                <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
+            </div>
         </div>
 
         <!-- GAME -->
         <div id="screen-game" class="screen">
-            <div style="display:flex; justify-content:space-between; margin-bottom: 20px;">
-                <span style="font-size: 1.2rem; font-weight: 600;">Savol №<span id="q-num">1</span></span>
-                <span style="color:var(--danger); font-size: 1.2rem; font-weight: 600;"><i class="fa-regular fa-hourglass-half"></i> <span id="timer-text">10</span>s</span>
+            <div style="display:flex; justify-content:space-between; margin-bottom: 16px; background: linear-gradient(135deg, #f8fafc, #f1f5f9); padding: 11px; border-radius: 11px;">
+                <span style="font-size: 0.95rem; font-weight: 700;">Savol №<span id="q-num">1</span></span>
+                <span style="color:var(--danger); font-size: 0.95rem; font-weight: 700;"><i class="fa-regular fa-hourglass-half"></i> <span id="timer-text">10</span>s</span>
             </div>
             <div class="timer-bar"><div class="timer-fill" id="timer-fill"></div></div>
-            <div style="height: 40px;"></div>
+            <div style="height: 20px;"></div>
             <div class="big-text" id="q-text">...</div>
             <div class="options-grid" id="q-options"></div>
         </div>
     </div>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, set, get, update, onValue, push, serverTimestamp, query, limitToLast, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+        import { getDatabase, ref, set, get, update, onValue, push, serverTimestamp, query, limitToLast, remove } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-database.js";
 
         const firebaseConfig = {
-            apiKey: "AIzaSyBU7l_5l96HI1yxOOGLpz_iG0xW1gTAEpc",
-            authDomain: "myproject-7f06d.firebaseapp.com",
-            projectId: "myproject-7f06d",
-            databaseURL: "https://myproject-7f06d-default-rtdb.firebaseio.com"
+            apiKey: "AIzaSyA7koBAvT-NoQLKUP2ZeJdSSUX8p-TfWEE",
+            authDomain: "zukkorlar.firebaseapp.com",
+            projectId: "zukkorlar",
+            storageBucket: "zukkorlar.firebasestorage.app",
+            messagingSenderId: "998356070705",
+            appId: "1:998356070705:web:8dfabee0d742c8b9210010",
+            measurementId: "G-BNYGBQK5C1",
+            databaseURL: "https://zukkorlar-default-rtdb.firebaseio.com"
         };
 
         const TG_BOT_TOKEN = "8356151933:AAFvhr6RQSRtkbf0maS3CMIDsjL3Y2Fy3Z0";
@@ -360,8 +1161,35 @@
             game: { timer: null, time: 10, current: 0, isDuel: false, myScore: 0, friendScore: 0, duelFriend: null },
             currentFriend: null,
             privateChatListener: null,
+            energyTimer: null,
 
             generateUID: () => Math.floor(1000000 + Math.random() * 9000000).toString(),
+
+            startEnergyRefill: function() {
+                if(this.energyTimer) clearInterval(this.energyTimer);
+                
+                this.energyTimer = setInterval(async () => {
+                    if(!this.user) return;
+                    
+                    const now = Date.now();
+                    const lastUpdate = this.user.lastEnergyUpdate || now;
+                    const hoursPassed = Math.floor((now - lastUpdate) / (60 * 60 * 1000));
+                    
+                    if(hoursPassed >= 1 && this.user.energy < 50) {
+                        const newEnergy = Math.min(50, this.user.energy + hoursPassed);
+                        this.user.energy = newEnergy;
+                        this.user.lastEnergyUpdate = now;
+                        
+                        const userId = `${this.user.name}_${this.user.surname}`.toLowerCase().replace(/\s/g, '');
+                        await update(ref(db, 'users/' + userId), { 
+                            energy: newEnergy,
+                            lastEnergyUpdate: now
+                        });
+                        
+                        this.updateUI();
+                    }
+                }, 60000);
+            },
 
             nav: function(id) {
                 document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -371,6 +1199,63 @@
                 if(id === 'screen-achievements') this.updateAchievementsUI();
                 if(id === 'screen-rank') this.loadRanking();
                 if(id === 'screen-manage') this.loadStudents();
+                if(id === 'screen-stats') this.loadStatistics();
+            },
+
+            loadStatistics: async function() {
+                try {
+                    const snap = await get(ref(db, 'users'));
+                    if (!snap.exists()) return;
+
+                    const students = [];
+                    snap.forEach(child => {
+                        const user = child.val();
+                        if (user.role === 'student') {
+                            students.push(user);
+                        }
+                    });
+
+                    const totalStudents = students.length;
+                    const blockedCount = students.filter(s => s.blocked).length;
+                    const activeCount = students.filter(s => !s.blocked && (s.score || 0) > 0).length;
+                    
+                    const totalScore = students.reduce((sum, s) => sum + (s.score || 0), 0);
+                    const avgScore = totalStudents > 0 ? Math.round(totalScore / totalStudents) : 0;
+                    
+                    const totalCorrect = students.reduce((sum, s) => sum + (s.correctAnswers || 0), 0);
+                    const totalWrong = students.reduce((sum, s) => sum + (s.wrongAnswers || 0), 0);
+
+                    document.getElementById('total-students').innerText = totalStudents;
+                    document.getElementById('avg-score').innerText = avgScore;
+                    document.getElementById('active-students').innerText = activeCount;
+                    document.getElementById('blocked-students').innerText = blockedCount;
+                    document.getElementById('total-correct').innerText = totalCorrect;
+                    document.getElementById('total-wrong').innerText = totalWrong;
+
+                    const topList = document.getElementById('top-students-list');
+                    const top5 = students.sort((a, b) => (b.score || 0) - (a.score || 0)).slice(0, 5);
+                    
+                    let topHtml = '';
+                    top5.forEach((s, i) => {
+                        const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `${i+1}.`;
+                        topHtml += `
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: linear-gradient(135deg, #fafafa, #ffffff); border-radius: 8px; margin-bottom: 6px;">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <span style="font-size: 1.1rem; font-weight: 800;">${medal}</span>
+                                    <div>
+                                        <strong style="font-size: 0.85rem;">${s.name} ${s.surname}</strong>
+                                        <div style="font-size: 0.7rem; color: var(--text-muted);">${s.class || '?'}</div>
+                                    </div>
+                                </div>
+                                <span style="font-weight: 800; font-size: 1rem; color: var(--accent);">${s.score || 0}</span>
+                            </div>
+                        `;
+                    });
+                    topList.innerHTML = topHtml || '<div style="text-align:center; color:var(--text-muted); padding:16px;">O\'quvchilar yo\'q</div>';
+                    
+                } catch(e) {
+                    console.error('Statistics error:', e);
+                }
             },
 
             loadStudents: async function() {
@@ -406,36 +1291,36 @@
                         const grade = student.teacherGrade || 0;
                         const blocked = student.blocked || false;
                         html += `
-                            <div class="student-card" style="${blocked ? 'opacity: 0.5; border-color: var(--danger);' : ''}">
+                            <div class="student-card" style="${blocked ? 'opacity: 0.6; border-color: var(--danger);' : ''}">
                                 <div class="student-header">
                                     <div>
-                                        <strong style="font-size: 1.1rem;">${student.name} ${student.surname}</strong>
-                                        <div style="font-size: 0.85rem; color: var(--text-muted);">${student.class}${blocked ? ' • <span style="color: var(--danger);">BLOKLANGAN</span>' : ''}</div>
+                                        <strong style="font-size: 0.9rem;">${student.name} ${student.surname}</strong>
+                                        <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 2px;">${student.class}${blocked ? ' • <span style="color: var(--danger); font-weight: 600;">BLOKLANGAN</span>' : ''}</div>
                                     </div>
                                     <div style="text-align: right;">
-                                        <div style="font-weight: 700; color: var(--accent);">${student.score || 0} ball</div>
-                                        <small style="color: var(--text-muted);">UID: ${student.uid}</small>
+                                        <div style="font-weight: 800; font-size: 1.05rem; color: var(--accent);">${student.score || 0}</div>
+                                        <small style="color: var(--text-muted); font-weight: 500; font-size: 0.7rem;">UID: ${student.uid}</small>
                                     </div>
                                 </div>
-                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
-                                    <div style="background: rgba(59, 130, 246, 0.1); padding: 10px; border-radius: 8px;">
-                                        <small style="color: var(--text-muted);">To'g'ri</small>
-                                        <div style="font-weight: 700; color: var(--accent);">${student.correctAnswers || 0}</div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px;">
+                                    <div style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); padding: 10px; border-radius: 8px; border-left: 3px solid var(--accent);">
+                                        <small style="color: var(--text-muted); font-weight: 500; font-size: 0.7rem;">To\'g\'ri</small>
+                                        <div style="font-weight: 700; font-size: 0.95rem; color: var(--accent); margin-top: 2px;">${student.correctAnswers || 0}</div>
                                     </div>
-                                    <div style="background: rgba(239, 68, 68, 0.1); padding: 10px; border-radius: 8px;">
-                                        <small style="color: var(--text-muted);">Noto'g'ri</small>
-                                        <div style="font-weight: 700; color: var(--danger);">${student.wrongAnswers || 0}</div>
+                                    <div style="background: linear-gradient(135deg, #fef2f2, #fee2e2); padding: 10px; border-radius: 8px; border-left: 3px solid var(--danger);">
+                                        <small style="color: var(--text-muted); font-weight: 500; font-size: 0.7rem;">Noto\'g\'ri</small>
+                                        <div style="font-weight: 700; font-size: 0.95rem; color: var(--danger); margin-top: 2px;">${student.wrongAnswers || 0}</div>
                                     </div>
                                 </div>
                                 <div style="margin-top: 10px;">
-                                    <small style="color: var(--text-muted);">Baho:</small>
+                                    <small style="color: var(--text-muted); font-weight: 600; font-size: 0.75rem;">Baho:</small>
                                     <div class="grade-buttons">
                                         ${[1,2,3,4,5].map(g => 
                                             `<button class="grade-btn ${grade === g ? 'active' : ''}" onclick="app.gradeStudent('${student.id}', ${g})" ${blocked ? 'disabled' : ''}>${g}</button>`
                                         ).join('')}
                                     </div>
                                 </div>
-                                <button class="btn ${blocked ? 'btn-success' : 'btn-danger'}" style="margin-top: 10px; padding: 10px; font-size: 0.85rem;" onclick="app.${blocked ? 'unblockStudent' : 'blockStudent'}('${student.id}')">
+                                <button class="btn ${blocked ? 'btn-success' : 'btn-danger'}" style="margin-top: 8px; padding: 8px; font-size: 0.75rem;" onclick="app.${blocked ? 'unblockStudent' : 'blockStudent'}('${student.id}')">
                                     <i class="fa-solid fa-${blocked ? 'unlock' : 'ban'}"></i> ${blocked ? 'Blokdan chiqarish' : 'Bloklash'}
                                 </button>
                             </div>
@@ -451,7 +1336,20 @@
 
             gradeStudent: async function(studentId, grade) {
                 try {
+                    const studentSnap = await get(ref(db, `users/${studentId}`));
+                    const student = studentSnap.val();
+                    
                     await update(ref(db, `users/${studentId}`), { teacherGrade: grade });
+                    
+                    await push(ref(db, `notifications/${studentId}`), {
+                        type: 'grade_notification',
+                        from: localStorage.getItem('mathRankUserId'),
+                        fromName: `${this.user.name} ${this.user.surname}`,
+                        grade: grade,
+                        message: `${this.user.name} ${this.user.surname} ustoz sizga ${grade} bahosini qo'ydi`,
+                        timestamp: serverTimestamp()
+                    });
+                    
                     alert(`✅ Baho qo'yildi: ${grade}`);
                     this.loadStudents();
                 } catch(e) {
@@ -538,6 +1436,7 @@
                     this.startRankingListener();
                     this.listenChat();
                     this.listenNotifications();
+                    this.startEnergyRefill();
                 } catch(e) { alert("Hato: " + e.message); }
             },
 
@@ -600,14 +1499,20 @@
                     let html = "";
                     list.forEach((u, i) => {
                         const isMe = (this.user && u.uid === this.user.uid);
+                        const isBlocked = u.blocked || false;
                         let rankIcon = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `${i + 1}.`;
                         const safeSurname = u.surname ? u.surname.charAt(0) + "." : "";
-                        html += `<div class="user-card" style="padding: 15px; ${isMe ? 'border: 2px solid var(--primary); background: rgba(59, 130, 246, 0.1);' : ''}">
-                            <div style="display:flex; align-items:center; gap: 15px;">
-                                <span style="font-weight:bold; font-size:1.2rem; min-width: 35px;">${rankIcon}</span>
-                                <div><span style="font-weight:600; font-size:1.1rem;">${u.name || 'Anonim'} ${safeSurname}</span><br><small style="color:var(--text-muted)">${u.class || '?'}</small></div>
+                        
+                        html += `<div class="user-card rank-item ${isBlocked ? 'blocked' : ''}" style="padding: 12px; ${isMe ? 'border: 3px solid var(--primary); background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(99, 102, 241, 0.1));' : ''}">
+                            <div style="display:flex; align-items:center; gap: 12px;">
+                                <span style="font-weight:800; font-size:1.1rem; min-width: 30px;">${rankIcon}</span>
+                                <div>
+                                    <span style="font-weight:700; font-size:0.9rem;">${u.name || 'Anonim'} ${safeSurname}</span>
+                                    ${isBlocked ? '<span class="blocked-badge">BLOKLANGAN</span>' : ''}
+                                    <br><small style="color:var(--text-muted); font-weight: 500; font-size: 0.7rem;">${u.class || '?'}</small>
+                                </div>
                             </div>
-                            <span style="color:var(--accent); font-weight:bold; font-size:1.3rem;">${u.score || 0}</span>
+                            <span style="color:var(--accent); font-weight:800; font-size:1.2rem;">${u.score || 0}</span>
                         </div>`;
                     });
                     document.getElementById('rank-list').innerHTML = html || '<div style="text-align:center; color:var(--text-muted); padding:20px;">Hech kim yo\'q</div>';
@@ -691,23 +1596,46 @@
                         list.innerHTML = '';
                         snap.forEach(child => {
                             const notif = child.val();
-                            list.innerHTML += `
-                                <div style="padding: 15px 20px; border-bottom: 1px solid var(--border);">
-                                    <div style="font-weight: 600;">${notif.fromName}</div>
-                                    <div style="font-size: 0.85rem; color: var(--text-muted); margin: 5px 0;">sizni do'stlikka taklif qildi</div>
-                                    <div style="display: flex; gap: 8px; margin-top: 10px;">
-                                        <button class="btn btn-success" style="padding: 8px 16px; font-size: 0.85rem; width: auto;" onclick="app.acceptFriend('${notif.from}', '${child.key}')">
-                                            <i class="fa-solid fa-check"></i> Qabul qilish
-                                        </button>
-                                        <button class="btn btn-danger" style="padding: 8px 16px; font-size: 0.85rem; width: auto;" onclick="app.rejectFriend('${child.key}')">
-                                            <i class="fa-solid fa-times"></i> Rad etish
+                            
+                            if(notif.type === 'grade_notification') {
+                                list.innerHTML += `
+                                    <div style="padding: 14px 16px; border-bottom: 2px solid var(--border); background: linear-gradient(135deg, #fefce8, #fef9c3);">
+                                        <div style="font-size: 0.75rem; color: var(--text-main); margin: 5px 0; font-weight: 500;">
+                                            ${notif.message}
+                                        </div>
+                                        <button class="btn btn-success" style="padding: 7px 14px; font-size: 0.7rem; width: auto; margin-top: 8px;" onclick="app.closeNotificationItem('${child.key}')">
+                                            <i class="fa-solid fa-check"></i> OK
                                         </button>
                                     </div>
-                                </div>
-                            `;
+                                `;
+                            }
+                            else if(notif.type === 'friend_request') {
+                                list.innerHTML += `
+                                    <div style="padding: 14px 16px; border-bottom: 2px solid var(--border); background: linear-gradient(135deg, #fafafa, #ffffff);">
+                                        <div style="font-weight: 700; font-size: 0.85rem; margin-bottom: 2px;">${notif.fromName}</div>
+                                        <div style="font-size: 0.75rem; color: var(--text-muted); margin: 5px 0; font-weight: 500;">sizni do'stlikka taklif qildi</div>
+                                        <div style="display: flex; gap: 6px; margin-top: 10px;">
+                                            <button class="btn btn-success" style="padding: 7px 14px; font-size: 0.7rem; width: auto; flex: 1;" onclick="app.acceptFriend('${notif.from}', '${child.key}')">
+                                                <i class="fa-solid fa-check"></i> Qabul qilish
+                                            </button>
+                                            <button class="btn btn-danger" style="padding: 7px 14px; font-size: 0.7rem; width: auto; flex: 1;" onclick="app.rejectFriend('${child.key}')">
+                                                <i class="fa-solid fa-times"></i> Rad etish
+                                            </button>
+                                        </div>
+                                    </div>
+                                `;
+                            }
                         });
                     }
                 });
+            },
+
+            closeNotificationItem: async function(notifId) {
+                try {
+                    await remove(ref(db, `notifications/${localStorage.getItem('mathRankUserId')}/${notifId}`));
+                } catch(e) {
+                    console.error('Error closing notification:', e);
+                }
             },
 
             acceptFriend: async function(friendId, notifId) {
@@ -750,8 +1678,8 @@
                         list.innerHTML += `
                             <div class="friend-card">
                                 <div>
-                                    <strong>${friend.name} ${friend.surname}</strong>
-                                    <div style="font-size: 0.85rem; color: var(--text-muted);">${friend.class || 'Ustoz'}</div>
+                                    <strong style="font-size: 0.85rem;">${friend.name} ${friend.surname}</strong>
+                                    <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; font-weight: 500;">${friend.class || 'Ustoz'}</div>
                                 </div>
                                 <div class="friend-actions">
                                     <button class="icon-btn duel" onclick="app.startDuel('${friendId}')" title="Duelga chaqirish">
@@ -790,7 +1718,7 @@
                     
                     box.innerHTML = "";
                     if (!snap.exists()) {
-                        box.innerHTML = '<div style="text-align:center; color:gray; padding:20px;">Xabarlar yo\'q</div>';
+                        box.innerHTML = '<div style="text-align:center; color:var(--text-muted); padding:20px;">Xabarlar yo\'q</div>';
                         return;
                     }
 
@@ -875,7 +1803,7 @@
                 document.getElementById('duel-q-text').innerText = `${a} ${op} ${b}`;
                 let opts = [res, res+2, res-3, res+10].sort(() => Math.random()-0.5);
                 document.getElementById('duel-q-options').innerHTML = opts.map(o => 
-                    `<button class="btn btn-secondary" style="font-size: 1.5rem; padding: 20px;" onclick="app.checkDuel(${o}, ${res})">${o}</button>`
+                    `<button class="btn btn-secondary" style="font-size: 1.3rem; padding: 17px; font-weight: 700;" onclick="app.checkDuel(${o}, ${res})">${o}</button>`
                 ).join('');
                 
                 this.startDuelTimer();
@@ -932,12 +1860,25 @@
 
             updateAchievementsUI: function() {
                 const score = this.user?.score || 0;
-                document.getElementById('ach-matematik').innerHTML = 
-                    this.user?.achievements?.matematik ? '<span style="color: var(--accent);">✅ Ochilgan!</span>' : `<span style="color: var(--text-muted);">${score}/1000 ball</span>`;
-                document.getElementById('ach-professor').innerHTML = 
-                    this.user?.achievements?.professor ? '<span style="color: var(--accent);">✅ Ochilgan!</span>' : `<span style="color: var(--text-muted);">${score}/5000 ball</span>`;
-                document.getElementById('ach-certificate').innerHTML = 
-                    this.user?.achievements?.certificate ? '<span style="color: var(--accent);">✅ Ochilgan!</span>' : `<span style="color: var(--text-muted);">${score}/15000 ball</span>`;
+                const matematik = this.user?.achievements?.matematik;
+                const professor = this.user?.achievements?.professor;
+                const certificate = this.user?.achievements?.certificate;
+                
+                document.getElementById('ach-matematik').innerHTML = matematik ? 
+                    '<span style="color: var(--accent); font-weight: 600;">Ochilgan!</span><button class="btn btn-claim" onclick="app.claimAchievement(\'matematik\')"><i class="fa-solid fa-gift"></i> OLISH</button>' : 
+                    `<span style="color: var(--text-muted); font-weight: 500;">${score}/1000 ball</span>`;
+                    
+                document.getElementById('ach-professor').innerHTML = professor ? 
+                    '<span style="color: var(--accent); font-weight: 600;">Ochilgan!</span><button class="btn btn-claim" onclick="app.claimAchievement(\'professor\')"><i class="fa-solid fa-gift"></i> OLISH</button>' : 
+                    `<span style="color: var(--text-muted); font-weight: 500;">${score}/5000 ball</span>`;
+                    
+                document.getElementById('ach-certificate').innerHTML = certificate ? 
+                    '<span style="color: var(--accent); font-weight: 600;">Ochilgan!</span><button class="btn btn-claim" onclick="app.claimAchievement(\'certificate\')"><i class="fa-solid fa-gift"></i> OLISH</button>' : 
+                    `<span style="color: var(--text-muted); font-weight: 500;">${score}/15000 ball</span>`;
+            },
+
+            claimAchievement: function(type) {
+                alert(`🎉 ${type.toUpperCase()} yutug'i olindi!`);
             },
 
             sendMsg: async function() {
@@ -977,7 +1918,8 @@
                 btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Yuborilmoqda...';
                 btn.disabled = true;
 
-                const userInfo = `👤 <b>${this.user.name} ${this.user.surname}</b>\n🏫 ${this.user.class || 'Ustoz'}`;
+                const userInfo = `<b>👤Ism: </b> <b>${this.user.name} ${this.user.surname}</b>
+                <b>\n🏫Rol/class: </b>${this.user.class || 'Ustoz'}`;
                 const finalMessage = `📩 <b>Yangi xabar:</b>\n\n${userInfo}\n\n📝 <b>Xabar:</b>\n${msg}`;
                 
                 try {
@@ -1003,7 +1945,7 @@
                 if (this.game.duelFriend) {
                     this.startDuelGame();
                 } else {
-                    if((this.user.energy || 0) <= 0) return alert("Energiyangiz tugadi!");
+                    if((this.user.energy || 0) <= 0) return alert("Sizning energiyangiz tugagan! 1 soat kuting.");
                     this.game.current = 0;
                     this.nav('screen-game');
                     this.nextQuestion();
@@ -1027,7 +1969,7 @@
                 else { a = Math.floor(Math.random()*range)+20; b = Math.floor(Math.random()*a); res = a-b; op = '-'; }
                 document.getElementById('q-text').innerText = `${a} ${op} ${b}`;
                 let opts = [res, res+2, res-3, res+10].sort(() => Math.random()-0.5);
-                document.getElementById('q-options').innerHTML = opts.map(o => `<button class="btn btn-secondary" style="font-size: 1.5rem; padding: 20px;" onclick="app.check(${o}, ${res})">${o}</button>`).join('');
+                document.getElementById('q-options').innerHTML = opts.map(o => `<button class="btn btn-secondary" style="font-size: 1.3rem; padding: 17px; font-weight: 700;" onclick="app.check(${o}, ${res})">${o}</button>`).join('');
                 this.startTimer();
             },
 
@@ -1110,6 +2052,7 @@
                             this.startRankingListener();
                             this.listenChat();
                             this.listenNotifications();
+                            this.startEnergyRefill();
                         } else { this.nav('screen-login'); }
                     } catch (e) { this.nav('screen-login'); }
                 } else { this.nav('screen-login'); }
