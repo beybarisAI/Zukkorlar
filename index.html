@@ -1035,7 +1035,7 @@
                     </div>
                 </div>
                 <div id="student-dashboard">
-                    <button class="btn btn-primary" style="padding: 11px; font-size: 0.85rem; margin: 7px 0;" onclick="app.showDifficulty()"><i class="fa-solid fa-play"></i> O'yinni boshlash</button>
+                    <button class="btn btn-primary" style="padding: 11px; font-size: 0.85rem; margin: 7px 0;" onclick="app.showSubjectSelect()"><i class="fa-solid fa-play"></i> O'yinni boshlash</button>
                     <button class="btn btn-secondary" style="padding: 10px; font-size: 0.8rem; margin: 6px 0;" onclick="app.nav('screen-friends')"><i class="fa-solid fa-user-friends"></i> Do'stlar</button>
                     <button class="btn btn-secondary" style="padding: 10px; font-size: 0.8rem; margin: 6px 0;" onclick="app.nav('screen-achievements')"><i class="fa-solid fa-trophy"></i> Yutuqlar</button>
                 </div>
@@ -1108,6 +1108,28 @@
             <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
         </div>
 
+        <!-- SUBJECT SELECT -->
+        <div id="screen-subject" class="screen">
+            <h3 style="margin-bottom:20px; text-align: center; font-size: 1.1rem;"><i class="fa-solid fa-book" style="color: var(--primary);"></i> Fanni tanlang</h3>
+            <div class="difficulty-grid">
+                <div class="difficulty-card" onclick="app.selectSubject('ana_tili')">
+                    <div><i class="fa-solid fa-book-open" style="color: var(--accent); font-size: 2rem;"></i></div>
+                    <div style="flex-grow: 1;">
+                        <h4 style="font-size: 0.95rem; margin-bottom: 2px;">Ana Tili</h4>
+                        <small style="color: var(--text-muted); font-weight: 500;">O'zbek tili savollari</small>
+                    </div>
+                </div>
+                <div class="difficulty-card" onclick="app.selectSubject('matematika')">
+                    <div><i class="fa-solid fa-calculator" style="color: var(--primary); font-size: 2rem;"></i></div>
+                    <div style="flex-grow: 1;">
+                        <h4 style="font-size: 0.95rem; margin-bottom: 2px;">Matematika</h4>
+                        <small style="color: var(--text-muted); font-weight: 500;">Arifmetik savol</small>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')" style="margin-top: 150px;"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
+        </div>
+
         <!-- DIFFICULTY -->
         <div id="screen-difficulty" class="screen">
             <h3 style="margin-bottom:20px; text-align: center; font-size: 1.1rem;"><i class="fa-solid fa-sliders" style="color: var(--primary);"></i> Qiyinlik darajasi</h3>
@@ -1135,7 +1157,7 @@
                 </div>
             </div>
             <button class="btn btn-success" onclick="app.startGame()" style="margin-top: auto;"><i class="fa-solid fa-play"></i> O'yinni boshlash</button>
-            <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')" style="margin-top: 150px;"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
+            <button class="btn btn-secondary" onclick="app.nav('screen-subject')" style="margin-top: 150px;"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
         </div>
 
         <!-- FRIENDS -->
@@ -1261,14 +1283,37 @@
 
         <!-- GAME -->
         <div id="screen-game" class="screen">
-            <div style="display:flex; justify-content:space-between; margin-bottom: 16px; background: linear-gradient(135deg, #f8fafc, #f1f5f9); padding: 11px; border-radius: 11px;">
-                <span style="font-size: 0.95rem; font-weight: 700;">Savol №<span id="q-num">1</span></span>
-                <span style="color:var(--danger); font-size: 0.95rem; font-weight: 700;"><i class="fa-regular fa-hourglass-half"></i> <span id="timer-text">10</span>s</span>
+            <div style="display:flex; justify-content:space-between; align-items: center; margin-bottom: 16px; background: linear-gradient(135deg, #f8fafc, #f1f5f9); padding: 11px; border-radius: 11px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span id="lives-display" style="font-size: 1.5rem;">❤️</span>
+                    <span style="font-size: 0.95rem; font-weight: 700;">Savol №<span id="q-num">1</span></span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <span style="color:var(--primary); font-size: 1rem; font-weight: 700;"><i class="fa-solid fa-star"></i> <span id="game-score">0</span></span>
+                    <span id="global-timer" style="color:var(--danger); font-size: 1.2rem; font-weight: 700; background: rgba(244, 63, 94, 0.1); padding: 4px 10px; border-radius: 8px;">30</span>
+                    <span style="color:var(--danger); font-size: 0.95rem; font-weight: 700;"><i class="fa-regular fa-hourglass-half"></i> <span id="timer-text">10</span>s</span>
+                </div>
             </div>
             <div class="timer-bar"><div class="timer-fill" id="timer-fill"></div></div>
             <div style="height: 20px;"></div>
             <div class="big-text" id="q-text">...</div>
             <div class="options-grid" id="q-options"></div>
+        </div>
+
+        <!-- GAME OVER MODAL -->
+        <div id="game-over-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10001; justify-content: center; align-items: center;">
+            <div style="background: var(--card-bg); padding: 40px; border-radius: 20px; text-align: center; max-width: 400px; width: 90%; box-shadow: var(--shadow-lg);">
+                <div style="font-size: 2.5rem; font-weight: 900; color: var(--danger); margin-bottom: 20px;">GAME OVER</div>
+                <div style="margin: 20px 0; font-size: 1.2rem;">
+                    <p style="font-size: 1.5rem; margin-bottom: 10px;">📊 Natijangiz:</p>
+                    <p style="font-size: 1.2rem; margin-bottom: 5px;"><strong>Ball:</strong> <span id="final-score">0</span></p>
+                    <p style="font-size: 1.2rem; margin-bottom: 5px;"><strong>To'g'ri javoblar:</strong> <span id="final-correct">0</span></p>
+                    <p style="font-size: 1.2rem;"><strong>Noto'g'ri javoblar:</strong> <span id="final-wrong">0</span></p>
+                </div>
+                <button class="btn btn-primary" style="width: 100%; margin-top: 20px;" onclick="app.closeGameOver()">
+                    <i class="fa-solid fa-home"></i> Bosh sahifaga
+                </button>
+            </div>
         </div>
     </div>
 
@@ -1432,7 +1477,9 @@
             user: null,
             selectedRole: 'student',
             selectedDifficulty: 'easy',
-            game: { timer: null, time: 10, current: 0, isDuel: false, myScore: 0, friendScore: 0, duelFriend: null },
+            selectedSubject: null,
+            anaTiliQuestions: [],
+            game: { timer: null, time: 10, current: 0, isDuel: false, myScore: 0, friendScore: 0, duelFriend: null, lives: 1, globalTimer: null, timeLeft: 30, gameScore: 0, correctCount: 0, wrongCount: 0, questions: [] },
             currentFriend: null,
             privateChatListener: null,
             chatListener: null,
@@ -2285,6 +2332,142 @@
             },
 
             showDifficulty: function() { this.nav('screen-difficulty'); },
+
+            showSubjectSelect: function() { this.nav('screen-subject'); },
+
+            selectSubject: function(subject) {
+                this.selectedSubject = subject;
+                if (subject === 'ana_tili') {
+                    this.loadAnaTiliQuestions();
+                } else if (subject === 'matematika') {
+                    this.nav('screen-difficulty');
+                }
+            },
+
+            loadAnaTiliQuestions: async function() {
+                try {
+                    const response = await fetch('questions_ana_tili.json');
+                    this.anaTiliQuestions = await response.json();
+                    this.startAnaTiliGame();
+                } catch (e) {
+                    alert('Ana tili savollari yuklanmadi! Iltimos, questions_ana_tili.json faylini tekshiring.');
+                    this.nav('screen-subject');
+                }
+            },
+
+            startAnaTiliGame: function() {
+                if (this.anaTiliQuestions.length < 5) {
+                    alert('Kamida 5 ta savol kerak!');
+                    return;
+                }
+
+                const shuffled = [...this.anaTiliQuestions].sort(() => Math.random() - 0.5);
+                this.game.questions = shuffled.slice(0, 5);
+                this.game.current = -1;
+                this.game.lives = 1;
+                this.game.gameScore = 0;
+                this.game.correctCount = 0;
+                this.game.wrongCount = 0;
+                this.game.timeLeft = 30;
+
+                this.nav('screen-game');
+                this.updateGameUI();
+                this.startGlobalTimer();
+                this.nextAnaTiliQuestion();
+            },
+
+            startGlobalTimer: function() {
+                clearInterval(this.game.globalTimer);
+                const timerDisplay = document.getElementById('global-timer');
+                
+                this.game.globalTimer = setInterval(() => {
+                    this.game.timeLeft--;
+                    if(timerDisplay) timerDisplay.innerText = this.game.timeLeft;
+                    
+                    if (this.game.timeLeft <= 0) {
+                        clearInterval(this.game.globalTimer);
+                        this.endAnaTiliGame('Vaqt tugadi!');
+                    }
+                }, 1000);
+            },
+
+            updateGameUI: function() {
+                const livesEl = document.getElementById('lives-display');
+                const timerEl = document.getElementById('global-timer');
+                const scoreEl = document.getElementById('game-score');
+                
+                if(livesEl) livesEl.innerText = '❤️'.repeat(this.game.lives);
+                if(timerEl) timerEl.innerText = this.game.timeLeft;
+                if(scoreEl) scoreEl.innerText = this.game.gameScore;
+            },
+
+            nextAnaTiliQuestion: function() {
+                this.game.current++;
+                
+                if (this.game.current >= 5) {
+                    this.endAnaTiliGame('O\'yin tugadi!');
+                    return;
+                }
+
+                const question = this.game.questions[this.game.current];
+                document.getElementById('q-num').innerText = this.game.current + 1;
+                document.getElementById('q-text').innerText = question.question;
+
+                const optionsHtml = question.options.map(option => 
+                    `<button class="btn btn-secondary" style="font-size: 1.1rem; padding: 17px; font-weight: 600;" onclick="app.checkAnaTiliAnswer('${option.replace(/'/g, "\\'")}', '${question.correctAnswer.replace(/'/g, "\\'")}')">${option}</button>`
+                ).join('');
+                
+                document.getElementById('q-options').innerHTML = optionsHtml;
+            },
+
+            checkAnaTiliAnswer: function(selected, correct) {
+                const isCorrect = selected === correct;
+                showAnswerFeedback(isCorrect);
+
+                if (isCorrect) {
+                    this.game.gameScore += 5;
+                    this.game.correctCount++;
+                } else {
+                    this.game.gameScore = Math.max(0, this.game.gameScore - 1);
+                    this.game.wrongCount++;
+                    this.game.lives--;
+                    
+                    if (this.game.lives <= 0) {
+                        clearInterval(this.game.globalTimer);
+                        this.endAnaTiliGame('Siz xato qildingiz!');
+                        return;
+                    }
+                }
+
+                this.updateGameUI();
+
+                setTimeout(() => {
+                    this.nextAnaTiliQuestion();
+                }, 600);
+            },
+
+            endAnaTiliGame: function(message) {
+                clearInterval(this.game.globalTimer);
+                
+                const finalScoreEl = document.getElementById('final-score');
+                const finalCorrectEl = document.getElementById('final-correct');
+                const finalWrongEl = document.getElementById('final-wrong');
+                
+                if(finalScoreEl) finalScoreEl.innerText = this.game.gameScore;
+                if(finalCorrectEl) finalCorrectEl.innerText = this.game.correctCount;
+                if(finalWrongEl) finalWrongEl.innerText = this.game.wrongCount;
+                
+                const modal = document.getElementById('game-over-modal');
+                if(modal) modal.style.display = 'flex';
+                
+                alert(message);
+            },
+
+            closeGameOver: function() {
+                const modal = document.getElementById('game-over-modal');
+                if(modal) modal.style.display = 'none';
+                this.nav('screen-dashboard');
+            },
 
             startGame: function() {
                 if (this.game.duelFriend) {
