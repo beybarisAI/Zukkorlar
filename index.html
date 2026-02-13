@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Zukkorlar v2.1 - Fixed</title>
+    <title>Daholar ligasi - Uzbekiston MVP Start-Up loyihasi. V3.0</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
     <style>
@@ -137,23 +137,23 @@
         
         .app-wrapper { 
             width: 100%; 
-            min-height: 100vh; 
+            height: 100vh; 
             max-width: 100%; 
             background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
             position: relative; 
             display: flex; 
             flex-direction: column;
+            overflow: hidden;
         }
         
         @media (min-width: 768px) and (max-width: 1024px) { 
             .app-wrapper { 
                 max-width: 600px; 
-                min-height: 700px; 
-                height: auto; 
-                margin: 20px auto;
-                border-radius: 28px; 
-                border: 1px solid var(--border); 
-                box-shadow: var(--shadow-lg);
+                height: 100vh; 
+                margin: 0 auto;
+                border-radius: 0; 
+                border: none; 
+                box-shadow: none;
                 overflow: hidden;
             } 
         }
@@ -161,12 +161,11 @@
         @media (min-width: 481px) and (max-width: 767px) { 
             .app-wrapper { 
                 max-width: 420px; 
-                min-height: 650px; 
-                height: auto; 
-                margin: 20px auto;
-                border-radius: 28px; 
-                border: 1px solid var(--border); 
-                box-shadow: var(--shadow-lg);
+                height: 100vh; 
+                margin: 0 auto;
+                border-radius: 0; 
+                border: none; 
+                box-shadow: none;
                 overflow: hidden;
             } 
         }
@@ -174,12 +173,11 @@
         @media (min-width: 1025px) { 
             .app-wrapper { 
                 max-width: 900px; 
-                min-height: 800px; 
-                height: auto; 
-                margin: 30px auto;
-                border-radius: 32px; 
-                border: 1px solid var(--border); 
-                box-shadow: var(--shadow-lg);
+                height: 100vh; 
+                margin: 0 auto;
+                border-radius: 0; 
+                border: none; 
+                box-shadow: none;
                 overflow: hidden;
             } 
         }
@@ -187,12 +185,11 @@
         @media (min-width: 1920px) { 
             .app-wrapper { 
                 max-width: 1400px; 
-                min-height: 900px; 
-                height: auto; 
-                margin: 40px auto;
-                border-radius: 36px; 
-                border: 2px solid var(--border); 
-                box-shadow: var(--shadow-lg);
+                height: 100vh; 
+                margin: 0 auto;
+                border-radius: 0; 
+                border: none; 
+                box-shadow: none;
                 overflow: hidden;
             }
             html { font-size: 18px; }
@@ -261,9 +258,9 @@
             flex-direction: column; 
             padding: 16px; 
             width: 100%; 
-            min-height: calc(100vh - 60px);
-            overflow-y: auto;
-            padding-bottom: 30px;
+            height: calc(100vh - 60px);
+            overflow: hidden;
+            position: relative;
         }
         .screen.active { display: flex; }
         
@@ -639,12 +636,24 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+
+        .big-text.qazoq-mode {
+            font-size: 1.4rem;
+            line-height: 1.5;
+            margin: 15px 0;
+        }
         
         .options-grid { 
             display: grid; 
             grid-template-columns: 1fr 1fr; 
             gap: 11px; 
             width: 100%; 
+        }
+
+        .options-grid.qazoq-mode button {
+            font-size: 0.85rem !important;
+            padding: 12px !important;
+            line-height: 1.3;
         }
         
         #chat-container, #private-chat-container { 
@@ -978,7 +987,7 @@
         <div id="screen-login" class="screen">
             <div style="text-align: center; margin-bottom: 32px;">
                 <div style="font-size: 3rem; margin-bottom: 14px;"><i class="fa-solid fa-graduation-cap" style="color: var(--primary);"></i></div>
-                <h1 style="background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 1.9rem; margin-bottom: 5px;">ZUKKORLAR</h1>
+                <h1 style="background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 1.9rem; margin-bottom: 5px;">DAHOLAR LIGASI</h1>
             </div>
             <div style="flex-grow: 1;">
                 <input type="text" id="inp-name" placeholder="Ismingiz" />
@@ -1110,54 +1119,60 @@
 
         <!-- SUBJECT SELECT -->
         <div id="screen-subject" class="screen">
-            <h3 style="margin-bottom:20px; text-align: center; font-size: 1.1rem;"><i class="fa-solid fa-book" style="color: var(--primary);"></i> Fanni tanlang</h3>
-            <div class="difficulty-grid">
-                <div class="difficulty-card" onclick="app.selectSubject('ana_tili')">
-                    <div><i class="fa-solid fa-book-open" style="color: var(--accent); font-size: 2rem;"></i></div>
-                    <div style="flex-grow: 1;">
-                        <h4 style="font-size: 0.95rem; margin-bottom: 2px;">Ana Tili</h4>
-                        <small style="color: var(--text-muted); font-weight: 500;">O'zbek tili savollari</small>
+            <div style="flex: 1; display: flex; flex-direction: column;">
+                <h3 style="margin-bottom:20px; text-align: center; font-size: 1.1rem;"><i class="fa-solid fa-book" style="color: var(--primary);"></i> Fanni tanlang</h3>
+                <div class="difficulty-grid">
+                    <div class="difficulty-card" onclick="app.selectSubject('ana_tili')">
+                        <div><i class="fa-solid fa-book-open" style="color: var(--accent); font-size: 2rem;"></i></div>
+                        <div style="flex-grow: 1;">
+                            <h4 style="font-size: 0.95rem; margin-bottom: 2px;">Qazoq tili</h4>
+                            <small style="color: var(--text-muted); font-weight: 500;">Қазақ тіліндегі сұрақтар</small>
+                        </div>
                     </div>
-                </div>
-                <div class="difficulty-card" onclick="app.selectSubject('matematika')">
-                    <div><i class="fa-solid fa-calculator" style="color: var(--primary); font-size: 2rem;"></i></div>
-                    <div style="flex-grow: 1;">
-                        <h4 style="font-size: 0.95rem; margin-bottom: 2px;">Matematika</h4>
-                        <small style="color: var(--text-muted); font-weight: 500;">Arifmetik savol</small>
+                    <div class="difficulty-card" onclick="app.selectSubject('matematika')">
+                        <div><i class="fa-solid fa-calculator" style="color: var(--primary); font-size: 2rem;"></i></div>
+                        <div style="flex-grow: 1;">
+                            <h4 style="font-size: 0.95rem; margin-bottom: 2px;">Matematika</h4>
+                            <small style="color: var(--text-muted); font-weight: 500;">Arifmetik savol</small>
+                        </div>
                     </div>
                 </div>
             </div>
-            <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')" style="margin-top: 150px;"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
+            <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')" style="margin-top: auto;"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
         </div>
 
         <!-- DIFFICULTY -->
         <div id="screen-difficulty" class="screen">
-            <h3 style="margin-bottom:20px; text-align: center; font-size: 1.1rem;"><i class="fa-solid fa-sliders" style="color: var(--primary);"></i> Qiyinlik darajasi</h3>
-            <div class="difficulty-grid">
-                <div class="difficulty-card selected" onclick="app.selectDifficulty('easy')">
-                    <div><i class="fa-solid fa-smile" style="color: var(--accent);"></i></div>
-                    <div style="flex-grow: 1;">
-                        <h4 style="font-size: 0.95rem; margin-bottom: 2px;">Oson daraja</h4>
-                        <small style="color: var(--text-muted); font-weight: 500;">Raqamlar: 1-10</small>
+            <div style="flex: 1; display: flex; flex-direction: column;">
+                <h3 style="margin-bottom:20px; text-align: center; font-size: 1.1rem;"><i class="fa-solid fa-sliders" style="color: var(--primary);"></i> Qiyinlik darajasi</h3>
+                <div class="difficulty-grid">
+                    <div class="difficulty-card selected" onclick="app.selectDifficulty('easy')">
+                        <div><i class="fa-solid fa-smile" style="color: var(--accent);"></i></div>
+                        <div style="flex-grow: 1;">
+                            <h4 style="font-size: 0.95rem; margin-bottom: 2px;">Oson daraja</h4>
+                            <small style="color: var(--text-muted); font-weight: 500;">Raqamlar: 1-10</small>
+                        </div>
                     </div>
-                </div>
-                <div class="difficulty-card" onclick="app.selectDifficulty('medium')">
-                    <div><i class="fa-solid fa-meh" style="color: var(--warning);"></i></div>
-                    <div style="flex-grow: 1;">
-                        <h4 style="font-size: 0.95rem; margin-bottom: 2px;">O'rta daraja</h4>
-                        <small style="color: var(--text-muted); font-weight: 500;">Raqamlar: 1-50</small>
+                    <div class="difficulty-card" onclick="app.selectDifficulty('medium')">
+                        <div><i class="fa-solid fa-meh" style="color: var(--warning);"></i></div>
+                        <div style="flex-grow: 1;">
+                            <h4 style="font-size: 0.95rem; margin-bottom: 2px;">O'rta daraja</h4>
+                            <small style="color: var(--text-muted); font-weight: 500;">Raqamlar: 1-50</small>
+                        </div>
                     </div>
-                </div>
-                <div class="difficulty-card" onclick="app.selectDifficulty('hard')">
-                    <div><i class="fa-solid fa-face-frown" style="color: var(--danger);"></i></div>
-                    <div style="flex-grow: 1;">
-                        <h4 style="font-size: 0.95rem; margin-bottom: 2px;">Qiyin daraja</h4>
-                        <small style="color: var(--text-muted); font-weight: 500;">Raqamlar: 1-100</small>
+                    <div class="difficulty-card" onclick="app.selectDifficulty('hard')">
+                        <div><i class="fa-solid fa-face-frown" style="color: var(--danger);"></i></div>
+                        <div style="flex-grow: 1;">
+                            <h4 style="font-size: 0.95rem; margin-bottom: 2px;">Qiyin daraja</h4>
+                            <small style="color: var(--text-muted); font-weight: 500;">Raqamlar: 1-100</small>
+                        </div>
                     </div>
                 </div>
             </div>
-            <button class="btn btn-success" onclick="app.startGame()" style="margin-top: auto;"><i class="fa-solid fa-play"></i> O'yinni boshlash</button>
-            <button class="btn btn-secondary" onclick="app.nav('screen-subject')" style="margin-top: 150px;"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
+            <div style="margin-top: auto; display: flex; flex-direction: column; gap: 10px;">
+                <button class="btn btn-success" onclick="app.startGame()"><i class="fa-solid fa-play"></i> O'yinni boshlash</button>
+                <button class="btn btn-secondary" onclick="app.nav('screen-subject')"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
+            </div>
         </div>
 
         <!-- FRIENDS -->
@@ -2356,24 +2371,28 @@
             },
 
             startAnaTiliGame: function() {
-                if (this.anaTiliQuestions.length < 5) {
-                    alert('Kamida 5 ta savol kerak!');
+                if (this.anaTiliQuestions.length < 8) {
+                    alert('Kamida 8 ta savol kerak!');
                     return;
                 }
 
                 const shuffled = [...this.anaTiliQuestions].sort(() => Math.random() - 0.5);
-                this.game.questions = shuffled.slice(0, 5);
+                this.game.questions = shuffled.slice(0, 8);
                 this.game.current = -1;
-                this.game.lives = 1;
+                this.game.lives = 999;
                 this.game.gameScore = 0;
                 this.game.correctCount = 0;
                 this.game.wrongCount = 0;
-                this.game.timeLeft = 30;
+                this.game.timeLeft = 60;
+                this.game.initialEnergy = this.user.energy || 0;
 
                 this.nav('screen-game');
                 this.updateGameUI();
                 this.startGlobalTimer();
                 this.nextAnaTiliQuestion();
+                
+                document.getElementById('q-text').classList.add('qazoq-mode');
+                document.getElementById('q-options').classList.add('qazoq-mode');
             },
 
             startGlobalTimer: function() {
@@ -2396,7 +2415,14 @@
                 const timerEl = document.getElementById('global-timer');
                 const scoreEl = document.getElementById('game-score');
                 
-                if(livesEl) livesEl.innerText = '❤️'.repeat(this.game.lives);
+                if(livesEl) {
+                    if(this.game.lives >= 999) {
+                        livesEl.style.display = 'none';
+                    } else {
+                        livesEl.style.display = 'inline';
+                        livesEl.innerText = '❤️'.repeat(this.game.lives);
+                    }
+                }
                 if(timerEl) timerEl.innerText = this.game.timeLeft;
                 if(scoreEl) scoreEl.innerText = this.game.gameScore;
             },
@@ -2404,41 +2430,51 @@
             nextAnaTiliQuestion: function() {
                 this.game.current++;
                 
-                if (this.game.current >= 5) {
+                if (this.game.current >= 8) {
                     this.endAnaTiliGame('O\'yin tugadi!');
                     return;
                 }
 
                 const question = this.game.questions[this.game.current];
                 document.getElementById('q-num').innerText = this.game.current + 1;
-                document.getElementById('q-text').innerText = question.question;
+                const qTextEl = document.getElementById('q-text');
+                qTextEl.innerText = question.question;
+                qTextEl.classList.add('qazoq-mode');
 
                 const optionsHtml = question.options.map(option => 
-                    `<button class="btn btn-secondary" style="font-size: 1.1rem; padding: 17px; font-weight: 600;" onclick="app.checkAnaTiliAnswer('${option.replace(/'/g, "\\'")}', '${question.correctAnswer.replace(/'/g, "\\'")}')">${option}</button>`
+                    `<button class="btn btn-secondary" onclick="app.checkAnaTiliAnswer('${option.replace(/'/g, "\\'")}', '${question.correctAnswer.replace(/'/g, "\\'")}')">${option}</button>`
                 ).join('');
                 
-                document.getElementById('q-options').innerHTML = optionsHtml;
+                const optionsEl = document.getElementById('q-options');
+                optionsEl.innerHTML = optionsHtml;
+                optionsEl.classList.add('qazoq-mode');
             },
 
-            checkAnaTiliAnswer: function(selected, correct) {
+            checkAnaTiliAnswer: async function(selected, correct) {
                 const isCorrect = selected === correct;
                 showAnswerFeedback(isCorrect);
 
                 if (isCorrect) {
-                    this.game.gameScore += 5;
+                    this.game.gameScore += 8;
                     this.game.correctCount++;
                 } else {
                     this.game.gameScore = Math.max(0, this.game.gameScore - 1);
                     this.game.wrongCount++;
-                    this.game.lives--;
-                    
-                    if (this.game.lives <= 0) {
-                        clearInterval(this.game.globalTimer);
-                        this.endAnaTiliGame('Siz xato qildingiz!');
-                        return;
-                    }
                 }
 
+                const energyPerQuestion = Math.ceil(this.game.initialEnergy / 8);
+                this.user.energy = Math.max(0, this.user.energy - energyPerQuestion);
+                
+                const userId = `${this.user.name}_${this.user.surname}`.toLowerCase().replace(/\s/g, '');
+                try {
+                    await update(ref(db, 'users/' + userId), { 
+                        energy: this.user.energy
+                    });
+                } catch(e) {
+                    console.error('Energy update error:', e);
+                }
+
+                this.updateUI();
                 this.updateGameUI();
 
                 setTimeout(() => {
@@ -2466,6 +2502,12 @@
             closeGameOver: function() {
                 const modal = document.getElementById('game-over-modal');
                 if(modal) modal.style.display = 'none';
+                
+                const qTextEl = document.getElementById('q-text');
+                const qOptionsEl = document.getElementById('q-options');
+                if(qTextEl) qTextEl.classList.remove('qazoq-mode');
+                if(qOptionsEl) qOptionsEl.classList.remove('qazoq-mode');
+                
                 this.nav('screen-dashboard');
             },
 
