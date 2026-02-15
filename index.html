@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Daholar ligasi - Uzbekiston MVP Start-Up loyihasi. V3.0</title>
+    <title>Zukkorlar - Uzbekiston MVP Start-Up loyihasi. V3.0</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
     <style>
@@ -35,11 +35,18 @@
             box-sizing: border-box; 
             font-family: 'Inter', sans-serif; 
         }
+
+        html, body {
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
         
         body { 
             background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
             color: var(--text-main); 
             min-height: 100vh; 
+            height: 100vh;
             display: flex; 
             justify-content: center; 
             align-items: flex-start;
@@ -47,9 +54,9 @@
             margin: 0;
             position: relative;
             transition: background 0.5s ease;
+            overflow: hidden;
         }
 
-        /* Жаңбырлы режим стильдері */
         body.rainy-mode {
             background: linear-gradient(135deg, #1e293b, #334155);
         }
@@ -67,7 +74,6 @@
             --bg-gradient-end: #334155;
         }
 
-        /* Жаңбыр анимациясы */
         #rain-container {
             position: fixed;
             top: 0;
@@ -98,7 +104,6 @@
             }
         }
 
-        /* Жауап анимациялары */
         .answer-feedback {
             position: fixed;
             top: 50%;
@@ -926,7 +931,6 @@
             font-size: 0.9em !important;
         }
 
-        /* Weather indicator */
         .weather-indicator {
             position: fixed;
             bottom: 20px;
@@ -952,19 +956,27 @@
         .weather-indicator i {
             font-size: 1.2rem;
         }
+
+        .verification-info {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            padding: 16px;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+            margin-bottom: 16px;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: var(--text-main);
+        }
     </style>
 </head>
 <body>
-    <!-- Жаңбыр контейнері -->
     <div id="rain-container"></div>
 
-    <!-- Ауа райы индикаторы -->
     <div class="weather-indicator" id="weather-indicator" style="display: none;">
         <i class="fa-solid fa-cloud-rain"></i>
         <span>Жаңбыр жауып тұр</span>
     </div>
 
-    <!-- Дыбыс элементі -->
     <audio id="rain-sound" loop>
         <source src="https://assets.mixkit.co/active_storage/sfx/2393/2393-preview.mp3" type="audio/mpeg">
     </audio>
@@ -983,11 +995,10 @@
     </div>
 
     <div class="app-wrapper">
-        <!-- LOGIN -->
         <div id="screen-login" class="screen">
             <div style="text-align: center; margin-bottom: 32px;">
                 <div style="font-size: 3rem; margin-bottom: 14px;"><i class="fa-solid fa-graduation-cap" style="color: var(--primary);"></i></div>
-                <h1 style="background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 1.9rem; margin-bottom: 5px;">DAHOLAR LIGASI</h1>
+                <h1 style="background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 1.9rem; margin-bottom: 5px;">ZUKKORLAR</h1>
             </div>
             <div style="flex-grow: 1;">
                 <input type="text" id="inp-name" placeholder="Ismingiz" />
@@ -1009,7 +1020,22 @@
             <button class="btn btn-primary" onclick="app.register()"><i class="fa-solid fa-user-plus"></i>Ro'yxatdan o'tish</button>
         </div>
 
-        <!-- DASHBOARD -->
+        <div id="screen-teacher-verify" class="screen">
+            <h3 style="margin-bottom: 20px; text-align: center; font-size: 1.1rem; color: var(--primary);">
+                <i class="fa-solid fa-user-check"></i> O'qituvchi tasdiqlash
+            </h3>
+            <div class="verification-info">
+                Ushbu bo'lim faqat o'qituvchilar uchun mo'ljallangan. Iltimos, lavozimingizni tasdiqlovchi ma'lumotlarni (F.I.Sh., ish joyi, telefon raqam) kiriting.
+            </div>
+            <textarea id="teacher-verify-data" placeholder="F.I.Sh., ish joyi, telefon raqam..." style="height: 200px; margin-bottom: 12px;"></textarea>
+            <button class="btn btn-primary" onclick="app.submitTeacherVerification()">
+                <i class="fa-solid fa-check-circle"></i> Tasdiqlash
+            </button>
+            <button class="btn btn-secondary" onclick="app.nav('screen-login')">
+                <i class="fa-solid fa-arrow-left"></i> Orqaga
+            </button>
+        </div>
+
         <div id="screen-dashboard" class="screen" style="padding: 0 !important;">
             <div class="app-header">
                 <h2>BOSH SAHIFA</h2>
@@ -1018,7 +1044,7 @@
                     <span id="notif-badge" class="notification-badge" style="display: none;">0</span>
                 </div>
             </div>
-            <div style="padding: 0 14px 30px 14px;">
+            <div style="padding: 0 14px 20px 14px; overflow-y: auto; flex: 1;">
                 <div class="user-card" style="margin-top: 14px;">
                     <div>
                         <h2 id="dash-user" style="font-size: 0.95rem; margin-bottom: 2px;">...</h2>
@@ -1062,7 +1088,6 @@
             </div>
         </div>
 
-        <!-- STATISTICS -->
         <div id="screen-stats" class="screen">
             <h3 style="margin-bottom:16px; text-align: center; font-size: 1.1rem;"><i class="fa-solid fa-chart-line" style="color:var(--primary)"></i> Statistika paneli</h3>
             
@@ -1110,14 +1135,12 @@
             <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
         </div>
 
-        <!-- MANAGE STUDENTS -->
         <div id="screen-manage" class="screen">
             <h3 style="margin-bottom:16px; text-align: center; font-size: 1.1rem;"><i class="fa-solid fa-users-gear" style="color:var(--warning)"></i> O'quvchilar boshqaruvi</h3>
-            <div id="students-list" style="flex-grow: 1;"><div style="text-align:center; color:var(--text-muted); padding:20px;">Yuklanmoqda...</div></div>
+            <div id="students-list" style="flex-grow: 1; overflow-y: auto;"><div style="text-align:center; color:var(--text-muted); padding:20px;">Yuklanmoqda...</div></div>
             <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
         </div>
 
-        <!-- SUBJECT SELECT -->
         <div id="screen-subject" class="screen">
             <div style="flex: 1; display: flex; flex-direction: column;">
                 <h3 style="margin-bottom:20px; text-align: center; font-size: 1.1rem;"><i class="fa-solid fa-book" style="color: var(--primary);"></i> Fanni tanlang</h3>
@@ -1141,7 +1164,6 @@
             <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')" style="margin-top: auto;"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
         </div>
 
-        <!-- DIFFICULTY -->
         <div id="screen-difficulty" class="screen">
             <div style="flex: 1; display: flex; flex-direction: column;">
                 <h3 style="margin-bottom:20px; text-align: center; font-size: 1.1rem;"><i class="fa-solid fa-sliders" style="color: var(--primary);"></i> Qiyinlik darajasi</h3>
@@ -1175,22 +1197,22 @@
             </div>
         </div>
 
-        <!-- FRIENDS -->
         <div id="screen-friends" class="screen">
-            <h3 style="margin-bottom:16px; text-align: center; font-size: 1.1rem;"><i class="fa-solid fa-user-friends" style="color:var(--primary)"></i> Do'stlar</h3>
-            <input type="text" id="friend-uid-input" placeholder="Do'st UID sini kiriting" />
-            <div id="friend-preview" style="display: none; background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 11px; border-radius: 10px; margin-bottom: 8px; border: 2px solid #bae6fd;">
-                <div style="font-weight: 600; font-size: 0.85rem;" id="preview-name">...</div>
-                <small style="color: var(--text-muted); font-weight: 500; font-size: 0.75rem;" id="preview-class">...</small>
+            <div style="flex: 1; display: flex; flex-direction: column; overflow-y: auto;">
+                <h3 style="margin-bottom:16px; text-align: center; font-size: 1.1rem;"><i class="fa-solid fa-user-friends" style="color:var(--primary)"></i> Do'stlar</h3>
+                <input type="text" id="friend-uid-input" placeholder="Do'st UID sini kiriting" />
+                <div id="friend-preview" style="display: none; background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 11px; border-radius: 10px; margin-bottom: 8px; border: 2px solid #bae6fd;">
+                    <div style="font-weight: 600; font-size: 0.85rem;" id="preview-name">...</div>
+                    <small style="color: var(--text-muted); font-weight: 500; font-size: 0.75rem;" id="preview-class">...</small>
+                </div>
+                <button class="btn btn-success" onclick="app.searchFriend()"><i class="fa-solid fa-search"></i> Qidirish</button>
+                <button class="btn btn-primary" id="btn-send-request" onclick="app.sendFriendRequest()" style="display: none;"><i class="fa-solid fa-user-plus"></i> Do'stlikka qo'shish</button>
+                <h4 style="margin: 16px 0 10px 0; color: var(--text-muted); font-weight: 600; font-size: 0.85rem;">Mening do'stlarim:</h4>
+                <div id="friends-list" style="flex: 1; overflow-y: auto;"></div>
             </div>
-            <button class="btn btn-success" onclick="app.searchFriend()"><i class="fa-solid fa-search"></i> Qidirish</button>
-            <button class="btn btn-primary" id="btn-send-request" onclick="app.sendFriendRequest()" style="display: none;"><i class="fa-solid fa-user-plus"></i> Do'stlikka qo'shish</button>
-            <h4 style="margin: 16px 0 10px 0; color: var(--text-muted); font-weight: 600; font-size: 0.85rem;">Mening do'stlarim:</h4>
-            <div id="friends-list"></div>
-            <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')" style="margin-top: 270px;"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
+            <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')" style="margin-top: auto;"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
         </div>
 
-        <!-- PRIVATE CHAT -->
         <div id="screen-private-chat" class="screen">
             <h3 style="margin-bottom:12px; text-align:center; font-size: 1.05rem; color:var(--primary)">
                 <i class="fa-solid fa-comment"></i> <span id="private-chat-name">Chat</span>
@@ -1205,7 +1227,6 @@
             <button class="btn btn-secondary" onclick="app.nav('screen-friends')" style="margin-top:12px;"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
         </div>
 
-        <!-- DUEL -->
         <div id="screen-duel" class="screen">
             <h3 style="text-align: center; margin-bottom: 16px; font-size: 1.1rem;"><i class="fa-solid fa-fire" style="color: var(--danger);"></i> DUEL</h3>
             <div class="duel-scores">
@@ -1228,7 +1249,6 @@
             <div class="options-grid" id="duel-q-options"></div>
         </div>
 
-        <!-- PROFILE -->
         <div id="screen-profile" class="screen">
             <h4 style="margin-bottom:20px; text-align:center; font-size: 1.1rem;"><i class="fa-solid fa-id-badge" style="color:var(--primary)"></i> PROFILIM</h4>
             <div class="user-card" style="display:block; padding: 20px;">
@@ -1243,30 +1263,30 @@
             <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')" style="margin-top: 140px;"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
         </div>
 
-        <!-- ACHIEVEMENTS -->
         <div id="screen-achievements" class="screen">
-            <h3 style="margin-bottom:20px; text-align: center; font-size: 1.1rem;"><i class="fa-solid fa-trophy" style="color: #f59e0b;"></i> YUTUQLAR</h3>
-            <div style="background: var(--card-bg); padding: 16px; border-radius: 14px; border: 2px solid var(--border); box-shadow: var(--shadow-md);">
-                <div style="margin-bottom: 16px; padding: 14px; background: linear-gradient(135deg, #eff6ff, #dbeafe); border-radius: 11px; border-left: 4px solid var(--primary);">
-                    <i class="fa-solid fa-medal" style="font-size: 1.9rem; color: var(--primary); margin-bottom: 8px; display: block;"></i>
-                    <h4 style="font-size: 0.95rem; margin-bottom: 5px;">Matematik</h4>
-                    <div id="ach-matematik" style="margin-top: 6px; font-weight: 500; font-size: 0.8rem;">...</div>
-                </div>
-                <div style="margin-bottom: 16px; padding: 14px; background: linear-gradient(135deg, #fef2f2, #fee2e2); border-radius: 11px; border-left: 4px solid var(--danger);">
-                    <i class="fa-solid fa-crown" style="font-size: 1.9rem; color: var(--danger); margin-bottom: 8px; display: block;"></i>
-                    <h4 style="font-size: 0.95rem; margin-bottom: 5px;">Professor</h4>
-                    <div id="ach-professor" style="margin-top: 6px; font-weight: 500; font-size: 0.8rem;">...</div>
-                </div>
-                <div style="padding: 14px; background: linear-gradient(135deg, #fffbeb, #fef3c7); border-radius: 11px; border-left: 4px solid var(--warning);">
-                    <i class="fa-solid fa-certificate" style="font-size: 1.9rem; color: var(--warning); margin-bottom: 8px; display: block;"></i>
-                    <h4 style="font-size: 0.95rem; margin-bottom: 5px;">Sertifikat</h4>
-                    <div id="ach-certificate" style="margin-top: 6px; font-weight: 500; font-size: 0.8rem;">...</div>
+            <div style="flex: 1; overflow-y: auto;">
+                <h3 style="margin-bottom:20px; text-align: center; font-size: 1.1rem;"><i class="fa-solid fa-trophy" style="color: #f59e0b;"></i> YUTUQLAR</h3>
+                <div style="background: var(--card-bg); padding: 16px; border-radius: 14px; border: 2px solid var(--border); box-shadow: var(--shadow-md);">
+                    <div style="margin-bottom: 16px; padding: 14px; background: linear-gradient(135deg, #eff6ff, #dbeafe); border-radius: 11px; border-left: 4px solid var(--primary);">
+                        <i class="fa-solid fa-medal" style="font-size: 1.9rem; color: var(--primary); margin-bottom: 8px; display: block;"></i>
+                        <h4 style="font-size: 0.95rem; margin-bottom: 5px;">Matematik</h4>
+                        <div id="ach-matematik" style="margin-top: 6px; font-weight: 500; font-size: 0.8rem;">...</div>
+                    </div>
+                    <div style="margin-bottom: 16px; padding: 14px; background: linear-gradient(135deg, #fef2f2, #fee2e2); border-radius: 11px; border-left: 4px solid var(--danger);">
+                        <i class="fa-solid fa-crown" style="font-size: 1.9rem; color: var(--danger); margin-bottom: 8px; display: block;"></i>
+                        <h4 style="font-size: 0.95rem; margin-bottom: 5px;">Professor</h4>
+                        <div id="ach-professor" style="margin-top: 6px; font-weight: 500; font-size: 0.8rem;">...</div>
+                    </div>
+                    <div style="padding: 14px; background: linear-gradient(135deg, #fffbeb, #fef3c7); border-radius: 11px; border-left: 4px solid var(--warning);">
+                        <i class="fa-solid fa-certificate" style="font-size: 1.9rem; color: var(--warning); margin-bottom: 8px; display: block;"></i>
+                        <h4 style="font-size: 0.95rem; margin-bottom: 5px;">Sertifikat</h4>
+                        <div id="ach-certificate" style="margin-top: 6px; font-weight: 500; font-size: 0.8rem;">...</div>
+                    </div>
                 </div>
             </div>
-            <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
+            <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')" style="margin-top: auto;"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
         </div>
 
-        <!-- GLOBAL CHAT -->
         <div id="screen-chat" class="screen">
             <h3 style="margin-bottom:12px; text-align:center; font-size: 1.05rem; color:var(--primary)"><i class="fa-solid fa-comments"></i> Global Chat</h3>
             <div id="chat-container"><div id="chat-messages"><div style="text-align:center; color:var(--text-muted); padding:20px;">Yuklanmoqda...</div></div></div>
@@ -1277,14 +1297,12 @@
             <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')" style="margin-top:12px;"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
         </div>
 
-        <!-- RANK -->
         <div id="screen-rank" class="screen">
             <h2 style="margin-bottom:20px; text-align: center; font-size: 1.2rem;"><i class="fa-solid fa-ranking-star" style="color: #f59e0b;"></i> REYTING</h2>
-            <div id="rank-list" style="flex-grow: 1;"><div style="text-align:center; color:var(--text-muted); padding:20px;">Yuklanmoqda...</div></div>
-            <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')" style="margin-top: 400px;"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
+            <div id="rank-list" style="flex-grow: 1; overflow-y: auto;"><div style="text-align:center; color:var(--text-muted); padding:20px;">Yuklanmoqda...</div></div>
+            <button class="btn btn-secondary" onclick="app.nav('screen-dashboard')" style="margin-top: 16px;"><i class="fa-solid fa-arrow-left"></i> Orqaga</button>
         </div>
 
-        <!-- AGENCY -->
         <div id="screen-agency" class="screen" style="padding-bottom: 16px;">
             <h3 style="margin-bottom:16px; text-align: center; font-size: 1.1rem;"><i class="fa-solid fa-paper-plane" style="color:var(--primary)"></i> Admin bilan aloqa</h3>
             <div class="agency-content">
@@ -1296,7 +1314,6 @@
             </div>
         </div>
 
-        <!-- GAME -->
         <div id="screen-game" class="screen">
             <div style="display:flex; justify-content:space-between; align-items: center; margin-bottom: 16px; background: linear-gradient(135deg, #f8fafc, #f1f5f9); padding: 11px; border-radius: 11px;">
                 <div style="display: flex; align-items: center; gap: 10px;">
@@ -1315,7 +1332,6 @@
             <div class="options-grid" id="q-options"></div>
         </div>
 
-        <!-- GAME OVER MODAL -->
         <div id="game-over-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10001; justify-content: center; align-items: center;">
             <div style="background: var(--card-bg); padding: 40px; border-radius: 20px; text-align: center; max-width: 400px; width: 90%; box-shadow: var(--shadow-lg);">
                 <div style="font-size: 2.5rem; font-weight: 900; color: var(--danger); margin-bottom: 20px;">GAME OVER</div>
@@ -1335,19 +1351,18 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
         import { 
-    getDatabase, 
-    ref, 
-    set, 
-    get, 
-    update, 
-    onValue, 
-    push, 
-    serverTimestamp, 
-    query, 
-    limitToLast, 
-    remove,
-    runTransaction  // ⬅️ ЖАҢА
-} from "https://www.gstatic.com/firebasejs/12.8.0/firebase-database.js";
+            getDatabase, 
+            ref, 
+            set, 
+            get, 
+            update, 
+            onValue, 
+            push, 
+            serverTimestamp, 
+            query, 
+            limitToLast, 
+            remove
+        } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyA7koBAvT-NoQLKUP2ZeJdSSUX8p-TfWEE",
@@ -1368,9 +1383,6 @@
         const fbApp = initializeApp(firebaseConfig);
         const db = getDatabase(fbApp);
 
-        // ========================
-        // WEATHER & RAIN SYSTEM
-        // ========================
         class WeatherSystem {
             constructor() {
                 this.rainSound = document.getElementById('rain-sound');
@@ -1381,7 +1393,7 @@
                 
                 this.initAudioOnFirstClick();
                 this.checkWeather();
-                setInterval(() => this.checkWeather(), 600000); // Әр 10 минутта тексеру
+                setInterval(() => this.checkWeather(), 600000);
             }
 
             initAudioOnFirstClick() {
@@ -1391,7 +1403,6 @@
                         this.rainSound.play().then(() => {
                             this.rainSound.pause();
                             this.audioInitialized = true;
-                            console.log('Audio initialized');
                         }).catch(e => console.log('Audio init failed:', e));
                         
                         document.removeEventListener('click', initAudio);
@@ -1414,11 +1425,10 @@
                         const weatherId = data.weather[0].id;
                         const weatherMain = data.weather[0].main.toLowerCase();
                         
-                        // 2xx, 3xx, 5xx = жаңбыр, дауыл
                         const isRainy = (
-                            (weatherId >= 200 && weatherId < 300) || // Дауыл
-                            (weatherId >= 300 && weatherId < 400) || // Ұсақ жаңбыр
-                            (weatherId >= 500 && weatherId < 600) || // Жаңбыр
+                            (weatherId >= 200 && weatherId < 300) ||
+                            (weatherId >= 300 && weatherId < 400) ||
+                            (weatherId >= 500 && weatherId < 600) ||
                             weatherMain.includes('rain') ||
                             weatherMain.includes('drizzle') ||
                             weatherMain.includes('thunderstorm')
@@ -1429,8 +1439,6 @@
                         } else if (!isRainy && this.isRaining) {
                             this.disableRainyMode();
                         }
-                        
-                        console.log('Weather:', data.weather[0].main, 'ID:', weatherId, 'Rainy:', isRainy);
                     }
                 } catch (error) {
                     console.error('Weather API error:', error);
@@ -1471,9 +1479,6 @@
             }
         }
 
-        // ========================
-        // ANSWER FEEDBACK SYSTEM
-        // ========================
         function showAnswerFeedback(isCorrect) {
             const feedback = document.createElement('div');
             feedback.className = `answer-feedback ${isCorrect ? 'correct' : 'wrong'}`;
@@ -1485,9 +1490,6 @@
             }, 600);
         }
 
-        // ========================
-        // MAIN APP
-        // ========================
         window.app = {
             user: null,
             selectedRole: 'student',
@@ -1502,15 +1504,14 @@
             rankingListener: null,
             energyTimer: null,
             weatherSystem: null,
+            pendingTeacherData: null,
 
-            // UUID генерациясы (түзетілген)
             generateUID: function() {
                 return 'xxxxxxxx'.replace(/[x]/g, () => {
                     return Math.floor(Math.random() * 10);
                 });
             },
 
-            // Energy refill (түзетілген - минут бойынша)
             startEnergyRefill: function() {
                 if(this.energyTimer) clearInterval(this.energyTimer);
                 
@@ -1521,7 +1522,6 @@
                     const lastUpdate = this.user.lastEnergyUpdate;
                     const minutesPassed = Math.floor((now - lastUpdate) / (60 * 1000));
                     
-                    // Әр сағат сайын 1 энергия қосу
                     const hoursEquivalent = Math.floor(minutesPassed / 60);
                     
                     if(hoursEquivalent >= 1 && this.user.energy < 50) {
@@ -1537,7 +1537,7 @@
                         
                         this.updateUI();
                     }
-                }, 60000); // Әр минутта тексеру
+                }, 60000);
             },
 
             nav: function(id) {
@@ -1611,7 +1611,6 @@
                 }
             },
 
-            // XSS қорғанысы
             escapeHtml: function(text) {
                 const div = document.createElement('div');
                 div.textContent = text;
@@ -1752,6 +1751,55 @@
                 document.querySelectorAll('.difficulty-card')[diff === 'easy' ? 0 : diff === 'medium' ? 1 : 2].classList.add('selected');
             },
 
+            submitTeacherVerification: async function() {
+                const verifyData = document.getElementById('teacher-verify-data').value.trim();
+                if (!verifyData) return alert("Iltimos, ma'lumotlarni to'ldiring!");
+
+                const n = document.getElementById('inp-name').value.trim();
+                const s = document.getElementById('inp-surname').value.trim();
+                const p1 = document.getElementById('inp-pass1').value;
+
+                const requestId = Date.now();
+                const dbLink = `https://console.firebase.google.com/project/zukkorlar/database/zukkorlar-default-rtdb/data/~2Fteacher_verifications~2F${requestId}`;
+
+                const message = `📋 <b>Yangi o'qituvchi tasdiqlash so'rovi:</b>\n\n<b>👤 F.I.Sh:</b> ${n} ${s}\n\n<b>📝 Ma'lumotlar:</b>\n${verifyData}\n\n<b>🔗 Database:</b>\n${dbLink}`;
+
+                try {
+                    await set(ref(db, `teacher_verifications/${requestId}`), {
+                        name: n,
+                        surname: s,
+                        password: p1,
+                        verificationData: verifyData,
+                        timestamp: serverTimestamp(),
+                        status: 'pending'
+                    });
+
+                    await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ 
+                            chat_id: TG_CHAT_ID, 
+                            text: message, 
+                            parse_mode: 'HTML' 
+                        })
+                    });
+
+                    this.pendingTeacherData = { name: n, surname: s, password: p1, requestId: requestId };
+                    
+                    alert("✅ Sizning tasdiqlash uchun yuborgan ma'lumotingiz administratorlar tomonidan tekshirilib 24 soat ichida qabul qilinadi!");
+                    
+                    document.getElementById('inp-name').value = '';
+                    document.getElementById('inp-surname').value = '';
+                    document.getElementById('inp-pass1').value = '';
+                    document.getElementById('inp-pass2').value = '';
+                    document.getElementById('teacher-verify-data').value = '';
+                    
+                    this.nav('screen-login');
+                } catch(e) {
+                    alert("Xatolik: " + e.message);
+                }
+            },
+
             register: async function() {
                 const n = document.getElementById('inp-name').value.trim();
                 const s = document.getElementById('inp-surname').value.trim();
@@ -1762,6 +1810,11 @@
                 if(!n || !s || !p1) return alert("Barcha maydonlarni to'ldiring");
                 if(this.selectedRole === 'student' && !c) return alert("Sinfingizni kiriting");
                 if(p1 !== p2) return alert("Parollar mos emas!");
+
+                if(this.selectedRole === 'teacher') {
+                    this.nav('screen-teacher-verify');
+                    return;
+                }
 
                 const userId = `${n}_${s}`.toLowerCase().replace(/\s/g, '');
                 const userRef = ref(db, 'users/' + userId);
@@ -1826,7 +1879,6 @@
             },
 
             startRankingListener: function() {
-                // Ескі listener-ді тазалау
                 if (this.rankingListener) {
                     this.rankingListener();
                 }
@@ -1952,7 +2004,6 @@
             listenNotifications: function() {
                 const myId = localStorage.getItem('mathRankUserId');
                 
-                // Ескі listener-ді тазалау
                 if (this.notificationListener) {
                     this.notificationListener();
                 }
@@ -2097,7 +2148,6 @@
                 const myId = localStorage.getItem('mathRankUserId');
                 const chatId = [myId, friendId].sort().join('_');
                 
-                // Ескі listener-ді тазалау
                 if (this.privateChatListener) {
                     this.privateChatListener();
                 }
@@ -2287,7 +2337,6 @@
             },
 
             listenChat: function() {
-                // Ескі listener-ді тазалау
                 if (this.chatListener) {
                     this.chatListener();
                 }
@@ -2482,8 +2531,26 @@
                 }, 600);
             },
 
-            endAnaTiliGame: function(message) {
+            endAnaTiliGame: async function(message) {
                 clearInterval(this.game.globalTimer);
+                
+                this.user.score = Math.max(0, (this.user.score || 0) + this.game.gameScore);
+                this.user.correctAnswers = (this.user.correctAnswers || 0) + this.game.correctCount;
+                this.user.wrongAnswers = (this.user.wrongAnswers || 0) + this.game.wrongCount;
+                
+                const userId = `${this.user.name}_${this.user.surname}`.toLowerCase().replace(/\s/g, '');
+                
+                try {
+                    await update(ref(db, 'users/' + userId), { 
+                        score: this.user.score, 
+                        correctAnswers: this.user.correctAnswers, 
+                        wrongAnswers: this.user.wrongAnswers 
+                    });
+                } catch(e) {
+                    console.error('Score update error:', e);
+                }
+                
+                this.updateUI();
                 
                 const finalScoreEl = document.getElementById('final-score');
                 const finalCorrectEl = document.getElementById('final-correct');
@@ -2560,7 +2627,6 @@
                 clearInterval(this.game.timer);
                 let isCorrect = (val === cor);
                 
-                // Жауап анимациясын көрсету
                 showAnswerFeedback(isCorrect);
                 
                 let p = isCorrect ? 5 : -1;
@@ -2623,7 +2689,6 @@
             },
 
             logout: function() { 
-                // Барлық listener-лерді тазалау
                 if (this.chatListener) this.chatListener();
                 if (this.privateChatListener) this.privateChatListener();
                 if (this.notificationListener) this.notificationListener();
@@ -2635,7 +2700,6 @@
             },
 
             init: async function() {
-                // Ауа райы жүйесін іске қосу
                 this.weatherSystem = new WeatherSystem();
                 
                 const savedUserId = localStorage.getItem('mathRankUserId');
@@ -2671,7 +2735,6 @@
             }
         };
 
-        // Қосымшаны іске қосу
         app.init();
     </script>
 </body>
